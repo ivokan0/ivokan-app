@@ -1,0 +1,61 @@
+{
+  "splash": {
+    "loading": "Chargement..."
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "signIn": "Se connecter",
+      "google": "Continuer avec Google",
+      "apple": "Continuer avec Apple",
+      "createAccount": "Créer un compte",
+      "forgot": "Mot de passe oublié ?"
+    },
+    "signup": {
+      "title": "Inscription",
+      "create": "Créer le compte",
+      "haveAccount": "Vous avez déjà un compte ? Connectez-vous"
+    },
+    "forgot": {
+      "title": "Mot de passe oublié",
+      "send": "Envoyer le lien de réinitialisation",
+      "back": "Retour à la connexion"
+    },
+    "reset": {
+      "title": "Réinitialiser le mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "update": "Mettre à jour le mot de passe",
+      "back": "Retour à la connexion"
+    }
+  },
+  "home": {
+    "title": "Accueil",
+    "welcome": "Bienvenue {{email}}",
+    "guest": "Invité",
+    "signOut": "Se déconnecter"
+  },
+  "profile": {
+    "title": "Profil",
+    "soon": "Les détails du profil arrivent bientôt."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": {
+      "label": "Langue",
+      "english": "Anglais",
+      "french": "Français"
+    },
+    "soon": "Les paramètres de l'application arrivent bientôt."
+  },
+  "alerts": {
+    "checkEmailTitle": "Vérifiez votre e-mail",
+    "checkEmailBody": "Veuillez confirmer votre adresse e-mail pour vous connecter."
+  },
+  "common": {
+    "loading": "..."
+  }
+}
+
+

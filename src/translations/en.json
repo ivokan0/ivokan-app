@@ -1,0 +1,61 @@
+{
+  "splash": {
+    "loading": "Loading..."
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "signIn": "Sign In",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "createAccount": "Create account",
+      "forgot": "Forgot password?"
+    },
+    "signup": {
+      "title": "Sign Up",
+      "create": "Create Account",
+      "haveAccount": "Already have an account? Sign in"
+    },
+    "forgot": {
+      "title": "Forgot Password",
+      "send": "Send reset link",
+      "back": "Back to Sign in"
+    },
+    "reset": {
+      "title": "Reset Password",
+      "newPassword": "New password",
+      "update": "Update password",
+      "back": "Back to Sign in"
+    }
+  },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome {{email}}",
+    "guest": "Guest",
+    "signOut": "Sign out"
+  },
+  "profile": {
+    "title": "Profile",
+    "soon": "Profile details coming soon."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": {
+      "label": "Language",
+      "english": "English",
+      "french": "French"
+    },
+    "soon": "App settings coming soon."
+  },
+  "alerts": {
+    "checkEmailTitle": "Check your email",
+    "checkEmailBody": "Please confirm your email address to sign in."
+  },
+  "common": {
+    "loading": "..."
+  }
+}
+
+
