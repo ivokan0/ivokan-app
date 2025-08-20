@@ -77,9 +77,9 @@
   },
   "welcome": {
     "slides": [
-      { "title": "Bienvenue", "desc": "Merci d'avoir installé notre application." },
-      { "title": "Rapide", "desc": "Rapide et fiable." },
-      { "title": "Sécurisé", "desc": "Vos données sont en sécurité avec nous." }
+      { "title": "Apprends les langues africaines avec des tuteurs natifs" },
+      { "title": "Parle, pratique, et progresse chaque jour" },
+      { "title": "Atteins tes objectifs avec un parcours sur mesure" }
     ],
     "getStarted": "Commencer"
   }

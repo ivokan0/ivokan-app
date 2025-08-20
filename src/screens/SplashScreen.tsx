@@ -1,14 +1,15 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { Text } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const SplashScreen: React.FC = () => {
-  const { t } = useTranslation();
+  const theme = useTheme();
   return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" />
-      <Text style={{ marginTop: 12 }}>{t('splash.loading')}</Text>
+    <View style={[styles.container, { backgroundColor: theme.colors.primary }]}>
+      <Image
+        source={require('../../assets/logo_white.png')}
+        style={styles.logo}
+      />
     </View>
   );
 };
@@ -18,6 +19,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain',
   },
 });
 

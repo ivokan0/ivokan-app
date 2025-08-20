@@ -72,8 +72,15 @@ const navTheme: Theme = {
 const RootNavigatorInner: React.FC = () => {
   const { isRestoring, user } = useAuth();
   const { showWelcome, setShowWelcome } = useApp();
+  const [minWaitOver, setMinWaitOver] = React.useState(false);
 
-  if (isRestoring) {
+  // Assure une durée minimale d'affichage du splash pour une transition fluide
+  React.useEffect(() => {
+    const timer = setTimeout(() => setMinWaitOver(true), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isRestoring || !minWaitOver) {
     return (
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         <RootStack.Screen name="Splash" component={SplashScreen} />
