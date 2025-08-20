@@ -51,10 +51,37 @@
   },
   "alerts": {
     "checkEmailTitle": "Check your email",
-    "checkEmailBody": "Please confirm your email address to sign in."
+    "checkEmailBody": "Please confirm your email address to sign in.",
+    "resetEmailSentTitle": "Email sent",
+    "resetEmailSentBody": "If that email exists, a reset link was sent.",
+    "passwordUpdatedTitle": "Password updated"
   },
   "common": {
-    "loading": "..."
+    "loading": "...",
+    "notifications": "Notifications"
+  },
+  "errors": {
+    "unknown": "An unexpected error occurred.",
+    "network": "Network error. Please check your connection.",
+    "auth": {
+      "invalidCredentials": "Invalid email or password.",
+      "emailNotConfirmed": "Please confirm your email before signing in.",
+      "alreadyRegistered": "User already registered.",
+      "rateLimited": "Too many requests. Please try again later.",
+      "passwordTooShort": "Password is too short.",
+      "userNotFound": "User not found."
+    }
+  },
+  "validation": {
+    "required": "{{field}} is required"
+  },
+  "welcome": {
+    "slides": [
+      { "title": "Welcome", "desc": "Thanks for installing our app." },
+      { "title": "Fast", "desc": "Fast and reliable." },
+      { "title": "Secure", "desc": "Your data is safe with us." }
+    ],
+    "getStarted": "Get Started"
   }
 }
 

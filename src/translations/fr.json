@@ -51,10 +51,37 @@
   },
   "alerts": {
     "checkEmailTitle": "Vérifiez votre e-mail",
-    "checkEmailBody": "Veuillez confirmer votre adresse e-mail pour vous connecter."
+    "checkEmailBody": "Veuillez confirmer votre adresse e-mail pour vous connecter.",
+    "resetEmailSentTitle": "E-mail envoyé",
+    "resetEmailSentBody": "Si cet e-mail existe, un lien de réinitialisation a été envoyé.",
+    "passwordUpdatedTitle": "Mot de passe mis à jour"
   },
   "common": {
-    "loading": "..."
+    "loading": "...",
+    "notifications": "Notifications"
+  },
+  "errors": {
+    "unknown": "Une erreur inattendue est survenue.",
+    "network": "Erreur réseau. Vérifiez votre connexion.",
+    "auth": {
+      "invalidCredentials": "E-mail ou mot de passe invalide.",
+      "emailNotConfirmed": "Veuillez confirmer votre e-mail avant de vous connecter.",
+      "alreadyRegistered": "Utilisateur déjà enregistré.",
+      "rateLimited": "Trop de tentatives de connexion. Réessayez plus tard.",
+      "passwordTooShort": "Mot de passe trop court.",
+      "userNotFound": "Utilisateur introuvable."
+    }
+  },
+  "validation": {
+    "required": "{{field}} est requis"
+  },
+  "welcome": {
+    "slides": [
+      { "title": "Bienvenue", "desc": "Merci d'avoir installé notre application." },
+      { "title": "Rapide", "desc": "Rapide et fiable." },
+      { "title": "Sécurisé", "desc": "Vos données sont en sécurité avec nous." }
+    ],
+    "getStarted": "Commencer"
   }
 }
 

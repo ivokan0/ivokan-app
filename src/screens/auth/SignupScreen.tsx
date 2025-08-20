@@ -3,6 +3,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/useAuth';
+import { translateSupabaseError } from '../../utils/i18nErrors';
 import AppTextInput from '../../components/ui/AppTextInput';
 import AppButton from '../../components/ui/AppButton';
 
@@ -20,9 +21,9 @@ const SignupScreen: React.FC = () => {
     setLoading(true);
     setError(null);
     const { error: err, needsEmailConfirmation } = await signUp({ email, password });
-    if (err) setError(err.message);
+    if (err) setError(translateSupabaseError(err, t));
     if (!err && needsEmailConfirmation) {
-      Alert.alert('Check your email', 'Please confirm your email address to sign in.');
+      Alert.alert(t('alerts.checkEmailTitle'), t('alerts.checkEmailBody'));
       // After sign up, go to home flow when email is confirmed by user on next login
       navigation.navigate('Login' as never);
     }
@@ -39,7 +40,7 @@ const SignupScreen: React.FC = () => {
         onChangeText={setEmail}
         onBlur={() => setTouched((s) => ({ ...s, email: true }))}
         keyboardType="email-address"
-        errorText={touched.email && !email ? t('auth.login.email') + ' required' : null}
+        errorText={touched.email && !email ? t('validation.required', { field: t('auth.login.email') }) : null}
       />
       <AppTextInput
         label={t('auth.login.password')}
@@ -47,7 +48,7 @@ const SignupScreen: React.FC = () => {
         onChangeText={setPassword}
         secureTextEntry
         onBlur={() => setTouched((s) => ({ ...s, password: true }))}
-        errorText={touched.password && !password ? t('auth.login.password') + ' required' : null}
+        errorText={touched.password && !password ? t('validation.required', { field: t('auth.login.password') }) : null}
       />
       <AppButton label={loading ? t('common.loading') : t('auth.signup.create')} onPress={onSubmit} loading={loading} />
       <View style={{ height: 24 }} />
@@ -60,17 +61,9 @@ const SignupScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  error: { color: 'red', marginBottom: 8 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 12,
-  },
-  link: { color: '#2563eb', fontWeight: '600', textAlign: 'center' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, fontFamily: 'Baloo2_600SemiBold' },
+  error: { marginBottom: 8 },
+  link: { color: '#f05728', fontWeight: '600', textAlign: 'center' },
 });
 
 export default SignupScreen;

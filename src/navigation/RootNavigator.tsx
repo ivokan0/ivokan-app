@@ -30,7 +30,7 @@ const AppTabs: React.FC = () => {
       screenOptions={{
         headerTitleAlign: 'left',
         headerRight: () => (
-          <IconButton icon="bell-outline" size={22} onPress={() => {}} accessibilityLabel="Notifications" />
+          <IconButton icon="bell-outline" size={22} onPress={() => {}} accessibilityLabel={t('common.notifications')} />
         ),
       }}
     >

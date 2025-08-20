@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, ViewStyle } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 
 type AppButtonProps = {
   label: string;
@@ -21,6 +21,8 @@ export const AppButton: React.FC<AppButtonProps> = ({
   mode = 'contained',
   icon,
 }) => {
+  const theme = useTheme();
+  const indicatorColor = mode === 'contained' ? theme.colors.onPrimary : theme.colors.primary;
   return (
     <Button
       mode={mode}
@@ -30,7 +32,7 @@ export const AppButton: React.FC<AppButtonProps> = ({
       style={[styles.button, style]}
       contentStyle={styles.content}
     >
-      {loading ? <ActivityIndicator color="#fff" /> : label}
+      {loading ? <ActivityIndicator color={indicatorColor} /> : label}
     </Button>
   );
 };

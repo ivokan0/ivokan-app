@@ -5,6 +5,7 @@ import AppTextInput from '../../components/ui/AppTextInput';
 import AppButton from '../../components/ui/AppButton';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/useAuth';
+import { translateSupabaseError } from '../../utils/i18nErrors';
 
 const LoginScreen: React.FC = () => {
   const { signIn, signInWithGoogle, signInWithApple } = useAuth();
@@ -20,7 +21,7 @@ const LoginScreen: React.FC = () => {
     setLoading(true);
     setError(null);
     const { error: err } = await signIn({ email, password });
-    if (err) setError(err.message);
+    if (err) setError(translateSupabaseError(err, t));
     setLoading(false);
   };
 
@@ -34,7 +35,7 @@ const LoginScreen: React.FC = () => {
         onChangeText={setEmail}
         onBlur={() => setTouched((s) => ({ ...s, email: true }))}
         keyboardType="email-address"
-        errorText={touched.email && !email ? t('auth.login.email') + ' required' : null}
+        errorText={touched.email && !email ? t('validation.required', { field: t('auth.login.email') }) : null}
       />
       <AppTextInput
         label={t('auth.login.password')}
@@ -42,7 +43,7 @@ const LoginScreen: React.FC = () => {
         onChangeText={setPassword}
         onBlur={() => setTouched((s) => ({ ...s, password: true }))}
         secureTextEntry
-        errorText={touched.password && !password ? t('auth.login.password') + ' required' : null}
+        errorText={touched.password && !password ? t('validation.required', { field: t('auth.login.password') }) : null}
       />
       <AppButton label={loading ? t('common.loading') : t('auth.login.signIn')} onPress={onSubmit} loading={loading} />
       <View style={{ height: 16 }} />
@@ -64,23 +65,15 @@ const LoginScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  error: { color: 'red', marginBottom: 8 },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 12,
-  },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, fontFamily: 'Baloo2_600SemiBold' },
+  error: { marginBottom: 8 },
   linksRow: {
     marginTop: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   link: {
-    color: '#2563eb',
+    color: '#f05728',
     fontWeight: '600',
   },
 });

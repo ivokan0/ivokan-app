@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 
 type AppTextInputProps = {
   label: string;
@@ -23,6 +23,7 @@ export const AppTextInput: React.FC<AppTextInputProps> = ({
   keyboardType,
   onBlur,
 }) => {
+  const theme = useTheme();
   return (
     <>
       <TextInput
@@ -37,14 +38,14 @@ export const AppTextInput: React.FC<AppTextInputProps> = ({
         style={styles.input}
         error={!!errorText}
       />
-      {!!errorText && <Text style={styles.error}>{errorText}</Text>}
+      {!!errorText && <Text style={[styles.error, { color: theme.colors.error }]}>{errorText}</Text>}
     </>
   );
 };
 
 const styles = StyleSheet.create({
   input: { marginBottom: 8 },
-  error: { color: 'red', marginBottom: 8 },
+  error: { marginBottom: 8 },
 });
 
 export default AppTextInput;

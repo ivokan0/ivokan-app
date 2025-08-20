@@ -11,11 +11,11 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
   const [index, setIndex] = useState(0);
   const slides = useMemo(
     () => [
-      { key: 's1', title: 'Welcome', desc: 'Thanks for installing our app.' },
-      { key: 's2', title: 'Fast', desc: 'Fast and reliable.' },
-      { key: 's3', title: 'Secure', desc: 'Your data is safe with us.' },
+      { key: 's1', title: t('welcome.slides.0.title'), desc: t('welcome.slides.0.desc') },
+      { key: 's2', title: t('welcome.slides.1.title'), desc: t('welcome.slides.1.desc') },
+      { key: 's3', title: t('welcome.slides.2.title'), desc: t('welcome.slides.2.desc') },
     ],
-    [],
+    [t],
   );
 
   const handleDone = async () => {
@@ -46,7 +46,7 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
           <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
         ))}
       </View>
-      <AppButton label={'Get Started'} onPress={handleDone} />
+      <AppButton label={t('welcome.getStarted')} onPress={handleDone} />
     </View>
   );
 };
@@ -54,11 +54,11 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   slide: { alignItems: 'center', justifyContent: 'center', padding: 24 },
-  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 8 },
+  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 8, fontFamily: 'Baloo2_600SemiBold' },
   desc: { fontSize: 16, opacity: 0.8 },
   dots: { flexDirection: 'row', marginVertical: 16 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#ddd', marginHorizontal: 4 },
-  dotActive: { backgroundColor: '#111' },
+  dot: { width: 8, height: 8, borderRadius: 4, marginHorizontal: 4, backgroundColor: 'rgba(0,0,0,0.12)' },
+  dotActive: { backgroundColor: 'rgba(0,0,0,0.6)' },
 });
 
 export default WelcomeScreen;
