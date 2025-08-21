@@ -1,6 +1,6 @@
-# Mobile Boilerplate (Expo + React Native + TypeScript + Supabase)
+# Mobile Boilerplate (Expo + React Native + TypeScript + Clerk + Supabase)
 
-A production-ready mobile starter built with Expo, React Native, TypeScript, Supabase Auth, React Navigation, react-i18next, AsyncStorage, and react-native-paper.
+A production-ready mobile starter built with Expo, React Native, TypeScript, Clerk Authentication, Supabase, React Navigation, react-i18next, AsyncStorage, and react-native-paper.
 
 ## Features
 - Expo SDK 53 + TypeScript (strict mode)
@@ -8,8 +8,9 @@ A production-ready mobile starter built with Expo, React Native, TypeScript, Sup
   - SplashScreen while restoring session
   - AuthStack: Login, Signup, ForgotPassword, ResetPassword
   - AppTabs: Home, Profile, Settings
-- Supabase Auth (email/password + Google/Apple OAuth)
-- Persisted sessions via AsyncStorage with auto-restore
+- **Clerk Authentication** (email/password + Google OAuth)
+- **User Profiles** with automatic timezone detection
+- Persisted sessions via SecureStore with auto-restore
 - i18n (English/French) with react-i18next + expo-localization
 - UI via react-native-paper (theming ready)
 - Welcome screen carousel shown before authentication
@@ -32,17 +33,21 @@ npm install
 """
 
 ### 2) Configure environment
-Create `.env` from the example and fill with your Supabase credentials:
+Create `.env` from the example and fill with your Clerk and Supabase credentials:
 
 """bash
-cp .env.example .env
+cp env.example .env
 """
 
 `.env`:
 
 """
-EXPO_PUBLIC_SUPABASE_URL=your_url
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your_key
+# Clerk Configuration
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_clerk_publishable_key_here
+
+# Supabase Configuration (pour la table Profiles)
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url_here
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 """
 
 ### 3) Run
@@ -96,12 +101,19 @@ src/
 
 ## Key Implementation Notes
 
-### Supabase
-- Client in `src/services/supabase.ts` uses EXPO_PUBLIC_* envs
+### Clerk Authentication
+- Configuration in `src/services/clerk.ts` uses EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
 - Auth context (`src/contexts/AuthContext.tsx`):
-  - Restores session from storage on launch
+  - Restores session from SecureStore on launch
   - Listens to auth state changes and persists session
   - Email/password, Google, Apple sign-in methods
+  - Automatic profile creation in Supabase
+
+### User Profiles
+- Profiles stored in Supabase table with automatic timezone detection
+- Service in `src/services/profiles.ts` handles CRUD operations
+- Hook `useProfile` provides easy access to profile data
+- Automatic first_name/last_name population from OAuth providers
 
 ### i18n
 - `src/translations/i18n.ts` initializes i18n immediately (English), then applies detected/stored language
@@ -139,6 +151,21 @@ npm run format
   - The app is wrapped with `GestureHandlerRootView`
   - Clear the Metro cache: `npx expo start -c`
 
+## Setup Instructions
+
+### 1. Clerk Configuration
+1. Create an account on [Clerk.com](https://clerk.com)
+2. Create a new application
+3. Configure OAuth providers (Google) in the dashboard
+4. Add your publishable key to `.env`
+
+### 2. Supabase Setup
+1. Create a Supabase project
+2. Run the SQL migration in `supabase/migrations/001_create_profiles_table.sql`
+3. Add your Supabase credentials to `.env`
+
+For detailed setup instructions, see [CLERK_SETUP.md](./CLERK_SETUP.md).
+
 ## Scripts
 - `npm run android` – Start on Android
 - `npm run ios` – Start on iOS (macOS only)
@@ -153,3 +180,9 @@ npm run format
 
 ## License
 MIT
+
+Avertissement Clerk: vous utilisez une clé de dev. En prod:
+Remplacez EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY par la clé “production” depuis le dashboard Clerk.
+Ajoutez les Redirect URLs côté Clerk:
+Dev (Expo Go): exp://localhost:8081/--/sso-callback et exp://YOUR_LAN_IP:8081/--/sso-callback
+Prod (builds): mobile-boilerplate://sso-callback (ou votre scheme personnalisé)

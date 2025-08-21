@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../../services/supabase';
@@ -27,23 +27,91 @@ const ForgotPasswordScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{t('auth.forgot.title')}</Text>
-      {!!error && <Text style={styles.error}>{error}</Text>}
-      <AppTextInput label={t('auth.login.email')} value={email} onChangeText={setEmail} />
-      <AppButton label={loading ? t('common.loading') : t('auth.forgot.send')} onPress={onSubmit} loading={loading} />
-      <View style={{ height: 24 }} />
-      <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
-        <Text style={styles.link}>{t('auth.forgot.back')}</Text>
-      </TouchableOpacity>
+      <View style={styles.logoContainer}>
+        <Image source={require('../../../assets/logo-orange.png')} style={styles.logo} />
+      </View>
+      
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>{t('auth.forgot.title')}</Text>
+        <Text style={styles.subtitle}>{t('auth.forgot.subtitle')}</Text>
+        
+        {!!error && <Text style={styles.error}>{error}</Text>}
+        
+        <AppTextInput 
+          label={t('auth.login.email')} 
+          value={email} 
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        
+        <AppButton 
+          label={loading ? t('common.loading') : t('auth.forgot.send')} 
+          onPress={onSubmit} 
+          loading={loading} 
+        />
+        
+        <View style={styles.linkContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
+            <Text style={styles.link}>{t('auth.forgot.back')}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, fontFamily: 'Baloo2_600SemiBold' },
-  error: { marginBottom: 8 },
-  link: { color: '#f05728', fontWeight: '600', textAlign: 'center' },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 24,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 80,
+    marginBottom: 40,
+  },
+  logo: {
+    width: 120,
+    height: 60,
+    resizeMode: 'contain',
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingBottom: 40,
+  },
+  title: { 
+    fontSize: 32, 
+    fontWeight: 'bold', 
+    marginBottom: 8, 
+    fontFamily: 'Baloo2_600SemiBold',
+    textAlign: 'center',
+    color: '#1a1a1a',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
+    marginBottom: 32,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  error: { 
+    marginBottom: 16,
+    color: '#e74c3c',
+    textAlign: 'center',
+    fontSize: 14,
+  },
+  linkContainer: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  link: { 
+    color: '#f05728', 
+    fontWeight: '600', 
+    textAlign: 'center',
+    fontSize: 16,
+  },
 });
 
 export default ForgotPasswordScreen;

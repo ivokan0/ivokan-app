@@ -34,12 +34,14 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
     [t],
   );
 
-  const handleDone = async () => {
-    onDone?.();
+  const handleGetStarted = () => {
+    // Ouvre directement l'écran d'inscription
+    navigation.navigate('Auth', { screen: 'Signup' });
   };
 
-  const handleSignIn = async () => {
-    navigation.navigate('Auth');
+  const handleSignIn = () => {
+    // Ouvre directement l'écran de connexion
+    navigation.navigate('Auth', { screen: 'Login' });
   };
 
   const toggleLanguage = async () => {
@@ -67,7 +69,7 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
         }}
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}> 
-            <View style={[styles.imageBox, { width: width * 0.8 }]}>
+            <View style={[styles.imageBox, { width: width * 0.8 }]}> 
               <Image source={item.image} style={styles.image} />
             </View>
             <Text style={styles.title}>{item.title}</Text>
@@ -79,7 +81,7 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
           <View key={i} style={[styles.dot, i === index && styles.dotActive]} />
         ))}
       </View>
-      <AppButton label={t('welcome.getStarted')} onPress={handleDone} style={styles.fullWidthButton} />
+      <AppButton label={t('welcome.getStarted')} onPress={handleGetStarted} style={styles.fullWidthButton} />
       <AppButton label={t('auth.login.signIn')} onPress={handleSignIn} mode="text" style={styles.signInButtonFull} />
     </SafeAreaView>
   );

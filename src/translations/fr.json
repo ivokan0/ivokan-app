@@ -5,26 +5,38 @@
   "auth": {
     "login": {
       "title": "Connexion",
+      "subtitle": "Connectez-vous à votre compte",
       "email": "E-mail",
       "password": "Mot de passe",
       "signIn": "Se connecter",
-      "google": "Continuer avec Google",
-      "apple": "Continuer avec Apple",
       "createAccount": "Créer un compte",
-      "forgot": "Mot de passe oublié ?"
+      "forgot": "Mot de passe oublié ?",
+      "or": "ou",
+      "googleSignIn": "Continuer avec Google"
     },
     "signup": {
       "title": "Inscription",
+      "subtitle": "Créez votre compte pour commencer",
+      "firstName": "Prénom",
+      "lastName": "Nom",
       "create": "Créer le compte",
-      "haveAccount": "Vous avez déjà un compte ? Connectez-vous"
+      "haveAccount": "Vous avez déjà un compte ? Connectez-vous",
+      "or": "ou",
+      "googleSignUp": "S'inscrire avec Google",
+      "acceptPrefix": "J'accepte les",
+      "terms": "conditions d'utilisation",
+      "and": "et la",
+      "privacy": "politique de confidentialité"
     },
     "forgot": {
       "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre e-mail pour recevoir un lien de réinitialisation",
       "send": "Envoyer le lien de réinitialisation",
       "back": "Retour à la connexion"
     },
     "reset": {
       "title": "Réinitialiser le mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe sécurisé",
       "newPassword": "Nouveau mot de passe",
       "update": "Mettre à jour le mot de passe",
       "back": "Retour à la connexion"
@@ -38,7 +50,18 @@
   },
   "profile": {
     "title": "Profil",
-    "soon": "Les détails du profil arrivent bientôt."
+    "soon": "Les détails du profil arrivent bientôt.",
+    "personalInfo": "Informations personnelles",
+    "accountInfo": "Informations du compte",
+    "actions": "Actions",
+    "email": "E-mail",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "timezone": "Fuseau horaire",
+    "userId": "ID utilisateur",
+    "createdAt": "Créé le",
+    "notAvailable": "Non disponible",
+    "signOut": "Se déconnecter"
   },
   "settings": {
     "title": "Paramètres",
@@ -73,7 +96,8 @@
     }
   },
   "validation": {
-    "required": "{{field}} est requis"
+    "required": "{{field}} est requis",
+    "acceptTerms": "Vous devez accepter les conditions d'utilisation et la politique de confidentialité"
   },
   "welcome": {
     "slides": [

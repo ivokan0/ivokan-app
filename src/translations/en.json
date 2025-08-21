@@ -5,26 +5,38 @@
   "auth": {
     "login": {
       "title": "Login",
+      "subtitle": "Sign in to your account",
       "email": "Email",
       "password": "Password",
       "signIn": "Sign In",
-      "google": "Continue with Google",
-      "apple": "Continue with Apple",
       "createAccount": "Create account",
-      "forgot": "Forgot password?"
+      "forgot": "Forgot password?",
+      "or": "or",
+      "googleSignIn": "Continue with Google"
     },
     "signup": {
       "title": "Sign Up",
+      "subtitle": "Create your account to get started",
+      "firstName": "First Name",
+      "lastName": "Last Name",
       "create": "Create Account",
-      "haveAccount": "Already have an account? Sign in"
+      "haveAccount": "Already have an account? Sign in",
+      "or": "or",
+      "googleSignUp": "Sign up with Google",
+      "acceptPrefix": "I accept the",
+      "terms": "Terms of Use",
+      "and": "and the",
+      "privacy": "Privacy Policy"
     },
     "forgot": {
       "title": "Forgot Password",
+      "subtitle": "Enter your email to receive a reset link",
       "send": "Send reset link",
       "back": "Back to Sign in"
     },
     "reset": {
       "title": "Reset Password",
+      "subtitle": "Choose a new secure password",
       "newPassword": "New password",
       "update": "Update password",
       "back": "Back to Sign in"
@@ -38,7 +50,18 @@
   },
   "profile": {
     "title": "Profile",
-    "soon": "Profile details coming soon."
+    "soon": "Profile details coming soon.",
+    "personalInfo": "Personal Information",
+    "accountInfo": "Account Information",
+    "actions": "Actions",
+    "email": "Email",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "timezone": "Timezone",
+    "userId": "User ID",
+    "createdAt": "Created At",
+    "notAvailable": "Not Available",
+    "signOut": "Sign Out"
   },
   "settings": {
     "title": "Settings",
@@ -73,7 +96,8 @@
     }
   },
   "validation": {
-    "required": "{{field}} is required"
+    "required": "{{field}} is required",
+    "acceptTerms": "You must accept the Terms of Use and the Privacy Policy"
   },
   "welcome": {
     "slides": [

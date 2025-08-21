@@ -1,143 +1,228 @@
-import React, { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Session, User } from '@supabase/supabase-js';
-import { supabase } from '../services/supabase';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import { useAuth as useClerkAuth, useUser, useSignIn, useSignUp, useOAuth } from '@clerk/clerk-expo';
+import { createProfile, getProfile, profileExists, type Profile } from '../services/profiles';
+import * as WebBrowser from 'expo-web-browser';
 
 type AuthContextValue = {
-  user: User | null;
-  session: Session | null;
-  isRestoring: boolean;
+  user: any | null;
+  profile: Profile | null;
+  isLoaded: boolean;
+  isSignedIn: boolean;
   signIn: (args: { email: string; password: string }) => Promise<{ error?: Error }>;
-  signUp: (args: { email: string; password: string }) => Promise<{
-    error?: Error;
-    needsEmailConfirmation?: boolean;
-  }>;
-  signOut: () => Promise<{ error?: Error }>;
+  signUp: (args: { 
+    email: string; 
+    password: string; 
+    firstName?: string; 
+    lastName?: string; 
+  }) => Promise<{ error?: Error; needsEmailConfirmation?: boolean }>;
   signInWithGoogle: () => Promise<{ error?: Error }>;
-  signInWithApple: () => Promise<{ error?: Error }>;
+  signOut: () => Promise<{ error?: Error }>;
+  refreshProfile: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const SESSION_KEY = 'supabase.session';
-
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [isRestoring, setIsRestoring] = useState<boolean>(true);
-  const isMountedRef = useRef(true);
+  const { isLoaded, isSignedIn } = useClerkAuth();
+  const { user } = useUser();
+  const { signIn: clerkSignIn } = useSignIn();
+  const { signUp: clerkSignUp } = useSignUp();
+  const { signOut: clerkSignOut } = useClerkAuth();
+  const { startOAuthFlow: startGoogleOAuth } = useOAuth({ strategy: 'oauth_google' });
+  const [profile, setProfile] = useState<Profile | null>(null);
 
-  // Restore session from AsyncStorage on app start
-  useEffect(() => {
-    const restoreSession = async () => {
-      try {
-        const raw = await AsyncStorage.getItem(SESSION_KEY);
-        if (raw) {
-          const saved: Session = JSON.parse(raw);
-          // Set the session to Supabase client
-          await supabase.auth.setSession({ access_token: saved.access_token, refresh_token: saved.refresh_token });
-          const {
-            data: { session: fresh },
-          } = await supabase.auth.getSession();
-          if (fresh) {
-            setSession(fresh);
-            setUser(fresh.user);
-          }
-        }
-      } catch (e) {
-        console.warn('Failed to restore session', e);
-      } finally {
-        if (isMountedRef.current) setIsRestoring(false);
+  // Récupérer les informations utilisateur depuis Clerk
+  const getUserInfoFromClerk = useCallback((clerkUser: any) => {
+    if (!clerkUser) return { firstName: undefined, lastName: undefined };
+
+    // Essayer de récupérer depuis les données OAuth
+    const oauthAccounts = clerkUser.externalAccounts || [];
+    const googleAccount = oauthAccounts.find((acc: any) => acc.provider === 'oauth_google');
+
+    let firstName = clerkUser.firstName;
+    let lastName = clerkUser.lastName;
+
+    // Si pas de noms dans les données principales, essayer depuis les comptes OAuth
+    if (!firstName && !lastName) {
+      if (googleAccount) {
+        firstName = googleAccount.firstName;
+        lastName = googleAccount.lastName;
       }
-    };
-    restoreSession();
-    return () => {
-      isMountedRef.current = false;
-    };
+    }
+
+    return { firstName, lastName };
   }, []);
 
-  // Listen to Supabase auth state changes and persist session
-  useEffect(() => {
-    const { data: listener } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-      setSession(newSession);
-      setUser(newSession?.user ?? null);
-      try {
-        if (newSession) {
-          await AsyncStorage.setItem(SESSION_KEY, JSON.stringify(newSession));
+  // Charger le profil utilisateur
+  const loadProfile = useCallback(async (userId: string) => {
+    try {
+      const { data: userProfile, error } = await getProfile(userId);
+      if (!error && userProfile) {
+        setProfile(userProfile);
+      }
+    } catch (error) {
+      console.warn('Erreur lors du chargement du profil:', error);
+    }
+  }, []);
+
+  // Créer un profil pour un nouvel utilisateur
+  const createUserProfile = useCallback(async (userId: string, firstName?: string, lastName?: string) => {
+    try {
+      const exists = await profileExists(userId);
+      if (!exists) {
+        const { data: newProfile, error } = await createProfile({
+          user_id: userId,
+          first_name: firstName,
+          last_name: lastName,
+        });
+        
+        if (!error && newProfile) {
+          setProfile(newProfile);
+          console.log('Profil créé avec succès:', newProfile);
         } else {
-          await AsyncStorage.removeItem(SESSION_KEY);
+          console.error('Erreur lors de la création du profil:', error);
         }
-      } catch (e) {
-        console.warn('Failed to persist session', e);
       }
-    });
-    return () => {
-      listener.subscription?.unsubscribe();
-    };
+    } catch (error) {
+      console.warn('Erreur lors de la création du profil:', error);
+    }
   }, []);
+
+  // Écouter les changements d'état d'authentification
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      // Charger le profil existant
+      loadProfile(user.id);
+      
+      // Vérifier si un profil existe, sinon le créer
+      const checkAndCreateProfile = async () => {
+        const exists = await profileExists(user.id);
+        if (!exists) {
+          const { firstName, lastName } = getUserInfoFromClerk(user);
+          await createUserProfile(user.id, firstName, lastName);
+        }
+      };
+      
+      checkAndCreateProfile();
+    } else {
+      setProfile(null);
+    }
+  }, [isLoaded, isSignedIn, user, loadProfile, createUserProfile, getUserInfoFromClerk]);
 
   const signIn = useCallback(async ({ email, password }: { email: string; password: string }) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      return { error: error ?? undefined };
-    } catch (e: unknown) {
-      return { error: e as Error };
+      if (!clerkSignIn) {
+        return { error: new Error('Service de connexion non disponible') };
+      }
+      
+      const result = await clerkSignIn.create({
+        identifier: email,
+        password,
+      });
+      
+      if (result.status === 'complete') {
+        return { error: undefined };
+      } else {
+        return { error: new Error('Échec de la connexion') };
+      }
+    } catch (error: any) {
+      return { error: error as Error };
     }
-  }, []);
+  }, [clerkSignIn]);
 
-  const signUp = useCallback(async ({ email, password }: { email: string; password: string }) => {
+  const signUp = useCallback(async ({ 
+    email, 
+    password, 
+    firstName, 
+    lastName 
+  }: { 
+    email: string; 
+    password: string; 
+    firstName?: string; 
+    lastName?: string; 
+  }) => {
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      // If session is null after sign up, email confirmation is required
-      const needsEmailConfirmation = !data?.session;
-      return { error: error ?? undefined, needsEmailConfirmation };
-    } catch (e: unknown) {
-      return { error: e as Error };
+      if (!clerkSignUp) {
+        return { error: new Error('Service d\'inscription non disponible') };
+      }
+      
+      const result = await clerkSignUp.create({
+        emailAddress: email,
+        password,
+        firstName,
+        lastName,
+      });
+      
+      if (result.status === 'complete' && result.createdUserId) {
+        // Créer le profil dans Supabase
+        await createUserProfile(result.createdUserId, firstName, lastName);
+        return { error: undefined, needsEmailConfirmation: false };
+      } else if (result.status === 'missing_requirements') {
+        return { error: undefined, needsEmailConfirmation: true };
+      } else {
+        return { error: new Error('Échec de l\'inscription') };
+      }
+    } catch (error: any) {
+      return { error: error as Error };
     }
-  }, []);
+  }, [clerkSignUp, createUserProfile]);
+
+  const signInWithGoogle = useCallback(async () => {
+    try {
+      if (!startGoogleOAuth) {
+        return { error: new Error('Service Google OAuth non disponible') };
+      }
+
+      const { createdSessionId, setActive, signIn, signUp } = await startGoogleOAuth();
+      
+      if (createdSessionId && setActive) {
+        setActive({ session: createdSessionId });
+        return { error: undefined };
+      } else if (signIn || signUp) {
+        // L'utilisateur doit compléter le processus d'authentification
+        return { error: undefined };
+      }
+      
+      return { error: new Error('Échec de la connexion Google') };
+    } catch (error: any) {
+      console.error('Erreur Google OAuth:', error);
+      return { error: error as Error };
+    }
+  }, [startGoogleOAuth]);
 
   const signOut = useCallback(async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      return { error: error ?? undefined };
-    } catch (e: unknown) {
-      return { error: e as Error };
+      if (!clerkSignOut) {
+        return { error: new Error('Service de déconnexion non disponible') };
+      }
+      
+      await clerkSignOut();
+      setProfile(null);
+      return { error: undefined };
+    } catch (error: any) {
+      return { error: error as Error };
     }
-  }, []);
+  }, [clerkSignOut]);
 
-  // OAuth using Supabase
-  const signInWithGoogle = useCallback(async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          // For Expo Go and native builds we use a deep link; configure scheme in app.json if needed.
-          skipBrowserRedirect: false,
-        },
-      });
-      return { error: error ?? undefined };
-    } catch (e: unknown) {
-      return { error: e as Error };
+  const refreshProfile = useCallback(async () => {
+    if (user) {
+      await loadProfile(user.id);
     }
-  }, []);
-
-  const signInWithApple = useCallback(async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'apple',
-        options: {
-          skipBrowserRedirect: false,
-        },
-      });
-      return { error: error ?? undefined };
-    } catch (e: unknown) {
-      return { error: e as Error };
-    }
-  }, []);
+  }, [user, loadProfile]);
 
   const value = useMemo(
-    () => ({ user, session, isRestoring, signIn, signUp, signOut, signInWithGoogle, signInWithApple }),
-    [user, session, isRestoring, signIn, signUp, signOut, signInWithGoogle, signInWithApple],
+    () => ({ 
+      user, 
+      profile, 
+      isLoaded, 
+      isSignedIn: isSignedIn ?? false, 
+      signIn, 
+      signUp, 
+      signInWithGoogle, 
+      signOut, 
+      refreshProfile 
+    }),
+    [user, profile, isLoaded, isSignedIn, signIn, signUp, signInWithGoogle, signOut, refreshProfile],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

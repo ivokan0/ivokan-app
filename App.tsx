@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ClerkProvider } from '@clerk/clerk-expo';
 import { AuthProvider } from './src/contexts/AuthContext';
 import RootNavigator from './src/navigation/RootNavigator';
 import { setupI18n } from './src/translations/i18n';
+import { ClerkConfig } from './src/services/clerk';
 import React from 'react';
 import { Text as RNText } from 'react-native';
 import { useFonts, Baloo2_400Regular, Baloo2_600SemiBold } from '@expo-google-fonts/baloo-2';
@@ -38,14 +40,16 @@ export default function App() {
   RNText.defaultProps.style = [RNText.defaultProps.style, { fontFamily: 'Baloo2_400Regular' }];
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PaperProvider theme={theme}>
-        <SafeAreaProvider>
-          <AuthProvider>
-            <RootNavigator />
-            <StatusBar style="auto" />
-          </AuthProvider>
-        </SafeAreaProvider>
-      </PaperProvider>
+      <ClerkProvider {...ClerkConfig}>
+        <PaperProvider theme={theme}>
+          <SafeAreaProvider>
+            <AuthProvider>
+              <RootNavigator />
+              <StatusBar style="auto" />
+            </AuthProvider>
+          </SafeAreaProvider>
+        </PaperProvider>
+      </ClerkProvider>
     </GestureHandlerRootView>
   );
 }

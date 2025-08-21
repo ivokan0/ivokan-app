@@ -12,6 +12,11 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import { AppProvider, useApp } from '../contexts/AppContext';
 import { IconButton } from 'react-native-paper';
 
+// Nouveau écran minimal d'attente profil
+const ProfileBootScreen: React.FC = () => {
+  return <SplashScreen />;
+};
+
 type RootStackParamList = {
   Splash: undefined;
   Auth: undefined;
@@ -70,17 +75,17 @@ const navTheme: Theme = {
 };
 
 const RootNavigatorInner: React.FC = () => {
-  const { isRestoring, user } = useAuth();
+  const { isLoaded, isSignedIn, user, profile } = useAuth();
   const { showWelcome, setShowWelcome } = useApp();
   const [minWaitOver, setMinWaitOver] = React.useState(false);
 
-  // Assure une durée minimale d'affichage du splash pour une transition fluide
   React.useEffect(() => {
     const timer = setTimeout(() => setMinWaitOver(true), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  if (isRestoring || !minWaitOver) {
+  // Unifie l'écran d'attente: pendant le boot OU pendant la création/chargement de profil
+  if (!isLoaded || !minWaitOver || (user && !profile)) {
     return (
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         <RootStack.Screen name="Splash" component={SplashScreen} />
@@ -88,7 +93,7 @@ const RootNavigatorInner: React.FC = () => {
     );
   }
 
-  // If not authenticated, show Welcome first every time. After Get Started -> Auth stack
+  // Non connecté → Welcome puis Auth
   if (!user && showWelcome) {
     return (
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
@@ -100,6 +105,7 @@ const RootNavigatorInner: React.FC = () => {
     );
   }
 
+  // App ou Auth
   return (
     <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {user ? (
