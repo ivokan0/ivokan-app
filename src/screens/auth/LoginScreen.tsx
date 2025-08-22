@@ -12,24 +12,25 @@ const LoginScreen: React.FC = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [touched, setTouched] = useState<{ email: boolean; password: boolean }>({ email: false, password: false });
 
   const onSubmit = async () => {
-    setLoading(true);
+    setSubmitLoading(true);
     setError(null);
     const { error: err } = await signIn({ email, password });
     if (err) setError(err.message);
-    setLoading(false);
+    setSubmitLoading(false);
   };
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
+    setGoogleLoading(true);
     setError(null);
     const { error: err } = await signInWithGoogle();
     if (err) setError(err.message);
-    setLoading(false);
+    setGoogleLoading(false);
   };
 
   return (
@@ -63,9 +64,9 @@ const LoginScreen: React.FC = () => {
         />
         
         <AppButton 
-          label={loading ? t('common.loading') : t('auth.login.signIn')} 
+          label={submitLoading ? t('common.loading') : t('auth.login.signIn')} 
           onPress={onSubmit} 
-          loading={loading} 
+          loading={submitLoading} 
         />
 
         <View style={styles.divider}>
@@ -74,13 +75,13 @@ const LoginScreen: React.FC = () => {
           <View style={styles.dividerLine} />
         </View>
 
-        <TouchableOpacity 
-          style={[styles.socialButton, styles.googleButton]} 
+        <AppButton 
+          label={t('auth.login.googleSignIn')}
           onPress={handleGoogleSignIn}
-          disabled={loading}
-        >
-          <Text style={styles.googleButtonText}>{t('auth.login.googleSignIn')}</Text>
-        </TouchableOpacity>
+          loading={googleLoading}
+          mode="outlined"
+          style={styles.socialButton}
+        />
         
         <View style={styles.linksRow}>
           <TouchableOpacity onPress={() => navigation.navigate('Signup' as never)}>
@@ -154,23 +155,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Baloo2_400Regular',
   },
   socialButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 24,
-  },
-  googleButton: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  googleButtonText: {
-    color: '#333333',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
   },
   linksRow: {
     marginTop: 24,

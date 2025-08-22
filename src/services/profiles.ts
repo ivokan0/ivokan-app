@@ -6,7 +6,9 @@ export interface Profile {
   user_id: string;
   first_name: string | null;
   last_name: string | null;
+  avatar_url: string | null;
   timezone: string;
+  profile_type: 'student' | 'tutor';
   created_at: string;
   updated_at: string;
 }
@@ -15,7 +17,9 @@ export interface CreateProfileData {
   user_id: string;
   first_name?: string;
   last_name?: string;
+  avatar_url?: string;
   timezone?: string;
+  profile_type?: 'student' | 'tutor';
 }
 
 // Détecter le fuseau horaire de l'utilisateur
@@ -23,7 +27,6 @@ export const detectTimezone = async (): Promise<string> => {
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      console.log('Permission de localisation non accordée, utilisation du fuseau horaire système');
       return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
     }
 
@@ -34,25 +37,19 @@ export const detectTimezone = async (): Promise<string> => {
     });
 
     if (timezone.length > 0 && timezone[0].timezone) {
-      console.log('Fuseau horaire détecté:', timezone[0].timezone);
       return timezone[0].timezone;
     }
   } catch (error) {
-    console.warn('Erreur lors de la détection du fuseau horaire:', error);
+    // Erreur silencieuse, utilisation du fallback
   }
 
   // Fallback vers le fuseau horaire du système
-  const systemTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-  console.log('Utilisation du fuseau horaire système:', systemTimezone);
-  return systemTimezone;
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
 };
 
 // Créer un nouveau profil
 export const createProfile = async (data: CreateProfileData): Promise<{ data: Profile | null; error: any }> => {
   try {
-    console.log('Création du profil pour user_id:', data.user_id);
-    console.log('Données du profil:', { first_name: data.first_name, last_name: data.last_name });
-    
     const timezone = data.timezone || await detectTimezone();
     
     const { data: profile, error } = await supabase
@@ -61,20 +58,19 @@ export const createProfile = async (data: CreateProfileData): Promise<{ data: Pr
         user_id: data.user_id,
         first_name: data.first_name || null,
         last_name: data.last_name || null,
+        avatar_url: data.avatar_url || null,
         timezone,
+        profile_type: data.profile_type ?? 'student',
       })
       .select()
       .single();
 
     if (error) {
-      console.error('Erreur Supabase lors de la création du profil:', error);
       return { data: null, error };
     }
 
-    console.log('Profil créé avec succès:', profile);
     return { data: profile, error: null };
   } catch (error) {
-    console.error('Erreur lors de la création du profil:', error);
     return { data: null, error };
   }
 };
@@ -82,8 +78,6 @@ export const createProfile = async (data: CreateProfileData): Promise<{ data: Pr
 // Récupérer un profil par user_id
 export const getProfile = async (userId: string): Promise<{ data: Profile | null; error: any }> => {
   try {
-    console.log('Récupération du profil pour user_id:', userId);
-    
     const { data: profile, error } = await supabase
       .from('profiles')
       .select('*')
@@ -91,7 +85,6 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
       .maybeSingle();
 
     if (error) {
-      console.error('Erreur Supabase lors de la récupération du profil:', error);
       return { data: null, error };
     }
 
@@ -100,10 +93,8 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
       return { data: null, error: null };
     }
 
-    console.log('Profil récupéré:', profile);
     return { data: profile, error: null };
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil:', error);
     return { data: null, error };
   }
 };
@@ -111,11 +102,9 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
 // Mettre à jour un profil
 export const updateProfile = async (
   userId: string, 
-  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'timezone'>>
+  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type'>>
 ): Promise<{ data: Profile | null; error: any }> => {
   try {
-    console.log('Mise à jour du profil pour user_id:', userId, 'avec:', updates);
-    
     const { data: profile, error } = await supabase
       .from('profiles')
       .update(updates)
@@ -124,14 +113,11 @@ export const updateProfile = async (
       .single();
 
     if (error) {
-      console.error('Erreur Supabase lors de la mise à jour du profil:', error);
       return { data: null, error };
     }
 
-    console.log('Profil mis à jour:', profile);
     return { data: profile, error: null };
   } catch (error) {
-    console.error('Erreur lors de la mise à jour du profil:', error);
     return { data: null, error };
   }
 };
@@ -139,8 +125,6 @@ export const updateProfile = async (
 // Vérifier si un profil existe
 export const profileExists = async (userId: string): Promise<boolean> => {
   try {
-    console.log('Vérification de l\'existence du profil pour user_id:', userId);
-    
     const { data, error } = await supabase
       .from('profiles')
       .select('id')
@@ -148,15 +132,11 @@ export const profileExists = async (userId: string): Promise<boolean> => {
       .maybeSingle();
 
     if (error) {
-      console.error('Erreur Supabase lors de la vérification du profil:', error);
       return false;
     }
 
-    const exists = !!data;
-    console.log('Profil existe:', exists);
-    return exists;
+    return !!data;
   } catch (error) {
-    console.log('Profil n\'existe pas (erreur attendue):', error);
     return false;
   }
 };

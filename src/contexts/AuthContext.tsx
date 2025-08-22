@@ -14,6 +14,7 @@ type AuthContextValue = {
     password: string; 
     firstName?: string; 
     lastName?: string; 
+    profileType?: 'student' | 'tutor';
   }) => Promise<{ error?: Error; needsEmailConfirmation?: boolean }>;
   signInWithGoogle: () => Promise<{ error?: Error }>;
   signOut: () => Promise<{ error?: Error }>;
@@ -61,12 +62,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         setProfile(userProfile);
       }
     } catch (error) {
-      console.warn('Erreur lors du chargement du profil:', error);
+      // Erreur silencieuse lors du chargement du profil
     }
   }, []);
 
   // Créer un profil pour un nouvel utilisateur
-  const createUserProfile = useCallback(async (userId: string, firstName?: string, lastName?: string) => {
+  const createUserProfile = useCallback(async (userId: string, firstName?: string, lastName?: string, profileType?: 'student' | 'tutor') => {
     try {
       const exists = await profileExists(userId);
       if (!exists) {
@@ -74,17 +75,15 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
           user_id: userId,
           first_name: firstName,
           last_name: lastName,
+          profile_type: profileType ?? 'student',
         });
         
         if (!error && newProfile) {
           setProfile(newProfile);
-          console.log('Profil créé avec succès:', newProfile);
-        } else {
-          console.error('Erreur lors de la création du profil:', error);
         }
       }
     } catch (error) {
-      console.warn('Erreur lors de la création du profil:', error);
+      // Erreur silencieuse lors de la création du profil
     }
   }, []);
 
@@ -134,12 +133,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     email, 
     password, 
     firstName, 
-    lastName 
+    lastName, 
+    profileType,
   }: { 
     email: string; 
     password: string; 
     firstName?: string; 
     lastName?: string; 
+    profileType?: 'student' | 'tutor';
   }) => {
     try {
       if (!clerkSignUp) {
@@ -155,7 +156,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       
       if (result.status === 'complete' && result.createdUserId) {
         // Créer le profil dans Supabase
-        await createUserProfile(result.createdUserId, firstName, lastName);
+        await createUserProfile(result.createdUserId, firstName, lastName, profileType);
         return { error: undefined, needsEmailConfirmation: false };
       } else if (result.status === 'missing_requirements') {
         return { error: undefined, needsEmailConfirmation: true };
@@ -185,7 +186,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       
       return { error: new Error('Échec de la connexion Google') };
     } catch (error: any) {
-      console.error('Erreur Google OAuth:', error);
       return { error: error as Error };
     }
   }, [startGoogleOAuth]);

@@ -42,6 +42,12 @@
       "back": "Retour à la connexion"
     }
   },
+  "signupRole": {
+    "title": "Que souhaitez-vous ?",
+    "subtitle": "Choisissez une option pour continuer",
+    "learn": "Apprendre une langue africaine",
+    "teach": "Enseigner une langue africaine"
+  },
   "home": {
     "title": "Accueil",
     "welcome": "Bienvenue {{email}}",
@@ -61,16 +67,60 @@
     "userId": "ID utilisateur",
     "createdAt": "Créé le",
     "notAvailable": "Non disponible",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "editProfile": "Modifier le profil",
+    "addPhoto": "Ajouter une photo",
+    "changePhoto": "Changer la photo",
+    "removePhoto": "Supprimer la photo",
+    "uploading": "Téléchargement en cours...",
+    "save": "Sauvegarder",
+    "saveSuccess": {
+      "title": "Profil mis à jour",
+      "message": "Vos informations ont été sauvegardées avec succès."
+    },
+    "permissions": {
+      "title": "Permission requise",
+      "gallery": "L'accès à la galerie est nécessaire pour choisir une photo de profil.",
+      "openSettings": "Ouvrir les paramètres"
+    }
+  },
+  "assistance": {
+    "title": "Assistance",
+    "faq": "FAQ",
+    "legalCenter": "Centre juridique"
   },
   "settings": {
     "title": "Paramètres",
     "language": {
-      "label": "Langue",
+      "label": "Langue de l'application",
       "english": "Anglais",
-      "french": "Français"
+      "french": "Français",
+      "selectLanguage": "Sélectionner la langue"
+    },
+    "timezone": {
+      "selectTimezone": "Sélectionner le fuseau horaire",
+      "search": "Rechercher un fuseau horaire...",
+      "current": "Actuel"
+    },
+    "currency": {
+      "label": "Devise",
+      "selectCurrency": "Sélectionner la devise",
+      "fcfa": "Franc CFA",
+      "euro": "Euro"
     },
     "soon": "Les paramètres de l'application arrivent bientôt."
+  },
+  "student": {
+    "search": "Rechercher",
+    "messages": "Messages",
+    "schedule": "Agenda",
+    "subscriptions": "Abonnements"
+  },
+  "tutor": {
+    "home": "Accueil",
+    "messages": "Messages",
+    "schedule": "Agenda",
+    "earnings": "Revenus"
   },
   "alerts": {
     "checkEmailTitle": "Vérifiez votre e-mail",
@@ -81,11 +131,21 @@
   },
   "common": {
     "loading": "...",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "cancel": "Annuler",
+    "back": "Retour"
   },
   "errors": {
     "unknown": "Une erreur inattendue est survenue.",
     "network": "Erreur réseau. Vérifiez votre connexion.",
+    "upload": {
+      "title": "Erreur de téléchargement",
+      "message": "Impossible de télécharger l'image. Veuillez réessayer."
+    },
+    "save": {
+      "title": "Erreur de sauvegarde",
+      "message": "Impossible de sauvegarder les modifications. Veuillez réessayer."
+    },
     "auth": {
       "invalidCredentials": "E-mail ou mot de passe invalide.",
       "emailNotConfirmed": "Veuillez confirmer votre e-mail avant de vous connecter.",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../hooks/useAuth';
 import AppTextInput from '../../components/ui/AppTextInput';
 import AppButton from '../../components/ui/AppButton';
@@ -10,15 +10,20 @@ import * as WebBrowser from 'expo-web-browser';
 const TERMS_URL = 'https://example.com/terms';
 const PRIVACY_URL = 'https://example.com/privacy';
 
+type RouteParams = { profileType?: 'student' | 'tutor' };
+
 const SignupScreen: React.FC = () => {
   const { signUp, signInWithGoogle } = useAuth();
   const navigation = useNavigation();
+  const route = useRoute();
+  const { profileType } = (route.params || {}) as RouteParams;
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [touched, setTouched] = useState<{ 
     email: boolean; 
@@ -36,29 +41,30 @@ const SignupScreen: React.FC = () => {
   };
 
   const onSubmit = async () => {
-    setLoading(true);
+    setSubmitLoading(true);
     setError(null);
 
     const { error: err, needsEmailConfirmation } = await signUp({ 
       email, 
       password, 
       firstName: firstName.trim() || undefined,
-      lastName: lastName.trim() || undefined
+      lastName: lastName.trim() || undefined,
+      profileType: profileType ?? 'student',
     });
     if (err) setError(err.message);
     if (!err && needsEmailConfirmation) {
       Alert.alert(t('alerts.checkEmailTitle'), t('alerts.checkEmailBody'));
       navigation.navigate('Login' as never);
     }
-    setLoading(false);
+    setSubmitLoading(false);
   };
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
+    setGoogleLoading(true);
     setError(null);
     const { error: err } = await signInWithGoogle();
     if (err) setError(err.message);
-    setLoading(false);
+    setGoogleLoading(false);
   };
 
   return (
@@ -117,9 +123,9 @@ const SignupScreen: React.FC = () => {
         </View>
         
         <AppButton 
-          label={loading ? t('common.loading') : t('auth.signup.create')} 
+          label={submitLoading ? t('common.loading') : t('auth.signup.create')} 
           onPress={onSubmit} 
-          loading={loading} 
+          loading={submitLoading} 
         />
 
         <View style={styles.divider}>
@@ -128,13 +134,13 @@ const SignupScreen: React.FC = () => {
           <View style={styles.dividerLine} />
         </View>
 
-        <TouchableOpacity 
-          style={[styles.socialButton, styles.googleButton]} 
+        <AppButton 
+          label={t('auth.signup.googleSignUp')}
           onPress={handleGoogleSignIn}
-          disabled={loading}
-        >
-          <Text style={styles.googleButtonText}>{t('auth.signup.googleSignUp')}</Text>
-        </TouchableOpacity>
+          loading={googleLoading}
+          mode="outlined"
+          style={styles.socialButton}
+        />
         
         <View style={styles.linkContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
@@ -218,23 +224,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Baloo2_400Regular',
   },
   socialButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
     marginBottom: 24,
-  },
-  googleButton: {
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  googleButtonText: {
-    color: '#333333',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
   },
   linkContainer: {
     marginTop: 24,

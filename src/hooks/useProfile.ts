@@ -6,7 +6,7 @@ export const useProfile = () => {
   const { user, profile, refreshProfile } = useAuth();
 
   const updateUserProfile = useCallback(async (
-    updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'timezone'>>
+    updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone'>>
   ) => {
     if (!user) {
       throw new Error('Utilisateur non connecté');
@@ -23,7 +23,6 @@ export const useProfile = () => {
       
       return updatedProfile;
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du profil:', error);
       throw error;
     }
   }, [user, refreshProfile]);
@@ -36,12 +35,10 @@ export const useProfile = () => {
     try {
       const { data: userProfile, error } = await getProfile(user.id);
       if (error) {
-        console.error('Erreur lors du chargement du profil:', error);
         return null;
       }
       return userProfile;
     } catch (error) {
-      console.error('Erreur lors du chargement du profil:', error);
       return null;
     }
   }, [user]);

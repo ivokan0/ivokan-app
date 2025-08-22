@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, configureFonts } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ClerkProvider } from '@clerk/clerk-expo';
@@ -17,20 +17,30 @@ export default function App() {
     // Initialize i18n once on app startup
     setupI18n();
   }, []);
-  const theme = React.useMemo(() => ({
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      primary: '#f05728',
-    },
-    fonts: {
-      ...DefaultTheme.fonts,
-      titleLarge: { ...DefaultTheme.fonts.titleLarge, fontFamily: 'Baloo2_600SemiBold' },
-      bodyLarge: { ...DefaultTheme.fonts.bodyLarge, fontFamily: 'Baloo2_400Regular' },
-      bodyMedium: { ...DefaultTheme.fonts.bodyMedium, fontFamily: 'Baloo2_400Regular' },
-      labelLarge: { ...DefaultTheme.fonts.labelLarge, fontFamily: 'Baloo2_600SemiBold' },
-    },
-  }), []);
+
+  const theme = React.useMemo(() => {
+    const fontConfig = {
+      bodyLarge: { fontFamily: 'Baloo2_400Regular' },
+      bodyMedium: { fontFamily: 'Baloo2_400Regular' },
+      bodySmall: { fontFamily: 'Baloo2_400Regular' },
+      titleLarge: { fontFamily: 'Baloo2_600SemiBold' },
+      titleMedium: { fontFamily: 'Baloo2_600SemiBold' },
+      titleSmall: { fontFamily: 'Baloo2_600SemiBold' },
+      labelLarge: { fontFamily: 'Baloo2_600SemiBold' },
+      labelMedium: { fontFamily: 'Baloo2_600SemiBold' },
+      labelSmall: { fontFamily: 'Baloo2_600SemiBold' },
+      headlineSmall: { fontFamily: 'Baloo2_600SemiBold' },
+    } as const;
+
+    return {
+      ...DefaultTheme,
+      colors: {
+        ...DefaultTheme.colors,
+        primary: '#f05728',
+      },
+      fonts: configureFonts({ config: fontConfig }),
+    };
+  }, []);
 
   if (!fontsLoaded) {
     return null;

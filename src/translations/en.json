@@ -42,6 +42,12 @@
       "back": "Back to Sign in"
     }
   },
+  "signupRole": {
+    "title": "What would you like ?",
+    "subtitle": "Choose an option to continue",
+    "learn": "Learn an African language",
+    "teach": "Teach an African language"
+  },
   "home": {
     "title": "Home",
     "welcome": "Welcome {{email}}",
@@ -61,16 +67,60 @@
     "userId": "User ID",
     "createdAt": "Created At",
     "notAvailable": "Not Available",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "editProfile": "Edit Profile",
+    "addPhoto": "Add Photo",
+    "changePhoto": "Change Photo",
+    "removePhoto": "Remove Photo",
+    "uploading": "Uploading...",
+    "save": "Save",
+    "saveSuccess": {
+      "title": "Profile Updated",
+      "message": "Your information has been saved successfully."
+    },
+    "permissions": {
+      "title": "Permission Required",
+      "gallery": "Gallery access is required to choose a profile photo.",
+      "openSettings": "Open Settings"
+    }
+  },
+  "assistance": {
+    "title": "Support",
+    "faq": "FAQ",
+    "legalCenter": "Legal Center"
   },
   "settings": {
     "title": "Settings",
     "language": {
-      "label": "Language",
+      "label": "App language",
       "english": "English",
-      "french": "French"
+      "french": "French",
+      "selectLanguage": "Select Language"
+    },
+    "timezone": {
+      "selectTimezone": "Select Timezone",
+      "search": "Search timezone...",
+      "current": "Current"
+    },
+    "currency": {
+      "label": "Currency",
+      "selectCurrency": "Select Currency",
+      "fcfa": "CFA Franc",
+      "euro": "Euro"
     },
     "soon": "App settings coming soon."
+  },
+  "student": {
+    "search": "Search",
+    "messages": "Messages",
+    "schedule": "Schedule",
+    "subscriptions": "Subscriptions"
+  },
+  "tutor": {
+    "home": "Home",
+    "messages": "Messages",
+    "schedule": "Schedule",
+    "earnings": "Earnings"
   },
   "alerts": {
     "checkEmailTitle": "Check your email",
@@ -81,11 +131,21 @@
   },
   "common": {
     "loading": "...",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "cancel": "Cancel",
+    "back": "Back"
   },
   "errors": {
     "unknown": "An unexpected error occurred.",
     "network": "Network error. Please check your connection.",
+    "upload": {
+      "title": "Upload Error",
+      "message": "Unable to upload image. Please try again."
+    },
+    "save": {
+      "title": "Save Error",
+      "message": "Unable to save changes. Please try again."
+    },
     "auth": {
       "invalidCredentials": "Invalid email or password.",
       "emailNotConfirmed": "Please confirm your email before signing in.",

@@ -1,82 +1,179 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useTheme, Card, Divider } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
-import { useProfile } from '../../hooks/useProfile';
+import Avatar from '../../components/ui/Avatar';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen: React.FC = () => {
   const { t } = useTranslation();
-  const { user, signOut } = useAuth();
-  const { profile, isLoading } = useProfile();
+  const theme = useTheme();
+  const { user, profile, signOut } = useAuth();
+  const navigation = useNavigation();
 
-  const handleSignOut = async () => {
-    await signOut();
+  const navigateToEditProfile = () => {
+    // @ts-ignore
+    navigation.navigate('EditProfile');
   };
 
-  if (isLoading) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>{t('common.loading')}</Text>
+  const navigateToLanguageSettings = () => {
+    // @ts-ignore
+    navigation.navigate('LanguageSettings');
+  };
+
+  const navigateToTimezoneSettings = () => {
+    // @ts-ignore
+    navigation.navigate('TimezoneSettings');
+  };
+
+  const navigateToCurrencySettings = () => {
+    // @ts-ignore
+    navigation.navigate('CurrencySettings');
+  };
+
+  const openFAQ = () => {
+    // @ts-ignore
+    navigation.navigate('WebView', {
+      url: 'https://www.ivokan.com/faq',
+      title: t('assistance.faq')
+    });
+  };
+
+  const openLegalCenter = () => {
+    // @ts-ignore
+    navigation.navigate('WebView', {
+      url: 'https://www.ivokan.com/usage',
+      title: t('assistance.legalCenter')
+    });
+  };
+
+
+
+  const MenuRow = ({ icon, title, onPress, showArrow = true }: {
+    icon: string;
+    title: string;
+    onPress: () => void;
+    showArrow?: boolean;
+  }) => (
+    <TouchableOpacity style={styles.menuRow} onPress={onPress}>
+      <View style={styles.menuRowContent}>
+        <MaterialCommunityIcons
+          name={icon as any}
+          size={24}
+          color={theme.colors.onSurface}
+          style={styles.menuIcon}
+        />
+        <Text style={[styles.menuTitle, { color: theme.colors.onSurface }]}>
+          {title}
+        </Text>
       </View>
-    );
-  }
+      {showArrow && (
+        <MaterialCommunityIcons
+          name="chevron-right"
+          size={24}
+          color={theme.colors.onSurfaceVariant}
+        />
+      )}
+    </TouchableOpacity>
+  );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>{t('profile.title')}</Text>
-        
-        <View style={styles.profileSection}>
-          <Text style={styles.sectionTitle}>{t('profile.personalInfo')}</Text>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.email')}:</Text>
-            <Text style={styles.value}>{user?.emailAddresses?.[0]?.emailAddress || t('profile.notAvailable')}</Text>
-          </View>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.firstName')}:</Text>
-            <Text style={styles.value}>{profile?.first_name || t('profile.notAvailable')}</Text>
-          </View>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.lastName')}:</Text>
-            <Text style={styles.value}>{profile?.last_name || t('profile.notAvailable')}</Text>
-          </View>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.timezone')}:</Text>
-            <Text style={styles.value}>{profile?.timezone || t('profile.notAvailable')}</Text>
-          </View>
-        </View>
-
-        <View style={styles.accountSection}>
-          <Text style={styles.sectionTitle}>{t('profile.accountInfo')}</Text>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.userId')}:</Text>
-            <Text style={styles.value}>{user?.id || t('profile.notAvailable')}</Text>
-          </View>
-          
-          <View style={styles.infoRow}>
-            <Text style={styles.label}>{t('profile.createdAt')}:</Text>
-            <Text style={styles.value}>
-              {profile?.created_at 
-                ? new Date(profile.created_at).toLocaleDateString('fr-FR')
-                : t('profile.notAvailable')
-              }
+    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      {/* Section Informations utilisateur */}
+      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <View style={styles.userSection}>
+          <Avatar
+            size={80}
+            firstName={profile?.first_name}
+            lastName={profile?.last_name}
+            avatarUrl={profile?.avatar_url}
+          />
+          <View style={styles.userInfo}>
+            <Text style={[styles.userName, { color: theme.colors.onSurface }]}>
+              {profile?.first_name && profile?.last_name
+                ? `${profile.first_name} ${profile.last_name}`
+                : user?.email || t('profile.notAvailable')}
+            </Text>
+            <Text style={[styles.userEmail, { color: theme.colors.onSurfaceVariant }]}>
+              {user?.emailAddresses?.[0]?.emailAddress || user?.email || t('profile.notAvailable')}
             </Text>
           </View>
         </View>
 
-        <View style={styles.actionsSection}>
-          <Text style={styles.sectionTitle}>{t('profile.actions')}</Text>
-          
-          <Text style={styles.signOutText} onPress={handleSignOut}>
+        <Divider style={styles.divider} />
+
+        <MenuRow
+          icon="account-edit"
+          title={t('profile.editProfile')}
+          onPress={navigateToEditProfile}
+        />
+      </Card>
+
+      {/* Section Paramètres */}
+      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
+          {t('settings.title')}
+        </Text>
+
+        <MenuRow
+          icon="translate"
+          title={t('settings.language.label')}
+          onPress={navigateToLanguageSettings}
+        />
+
+        <MenuRow
+          icon="clock-outline"
+          title={t('profile.timezone')}
+          onPress={navigateToTimezoneSettings}
+        />
+
+        <MenuRow
+          icon="currency-eur"
+          title={t('settings.currency.label')}
+          onPress={navigateToCurrencySettings}
+        />
+      </Card>
+
+      {/* Section Assistance */}
+      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
+          {t('assistance.title')}
+        </Text>
+
+        <MenuRow
+          icon="help-circle-outline"
+          title={t('assistance.faq')}
+          onPress={openFAQ}
+        />
+
+        <Divider style={styles.divider} />
+
+        <MenuRow
+          icon="file-document-outline"
+          title={t('assistance.legalCenter')}
+          onPress={openLegalCenter}
+        />
+      </Card>
+
+      {/* Bouton Se déconnecter */}
+      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <TouchableOpacity
+          style={styles.signOutButton}
+          onPress={signOut}
+        >
+          <MaterialCommunityIcons
+            name="logout"
+            size={24}
+            color={theme.colors.error}
+            style={styles.signOutIcon}
+          />
+          <Text style={[styles.signOutText, { color: theme.colors.error }]}>
             {t('profile.signOut')}
           </Text>
-        </View>
-      </View>
+        </TouchableOpacity>
+      </Card>
     </ScrollView>
   );
 };
@@ -84,95 +181,73 @@ const ProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    padding: 16,
   },
-  content: {
-    padding: 20,
+  card: {
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 12,
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 24,
+  userSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  userInfo: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  userName: {
+    fontSize: 20,
+    fontWeight: '600',
     fontFamily: 'Baloo2_600SemiBold',
-    color: '#1a1a1a',
-    textAlign: 'center',
+    marginBottom: 4,
   },
-  loadingText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#666666',
+  userEmail: {
+    fontSize: 14,
     fontFamily: 'Baloo2_400Regular',
-  },
-  profileSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  accountSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  actionsSection: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    marginBottom: 12,
     fontFamily: 'Baloo2_600SemiBold',
-    color: '#1a1a1a',
+    marginBottom: 16,
   },
-  infoRow: {
+  menuRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
   },
-  label: {
-    fontSize: 14,
-    color: '#666666',
-    fontFamily: 'Baloo2_400Regular',
+  menuRowContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
   },
-  value: {
-    fontSize: 14,
-    color: '#1a1a1a',
-    fontFamily: 'Baloo2_600SemiBold',
-    flex: 2,
-    textAlign: 'right',
+  menuIcon: {
+    marginRight: 16,
+  },
+  menuTitle: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  divider: {
+    marginVertical: 8,
+  },
+  signOutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+  },
+  signOutIcon: {
+    marginRight: 12,
   },
   signOutText: {
     fontSize: 16,
-    color: '#e74c3c',
+    fontWeight: '600',
     fontFamily: 'Baloo2_600SemiBold',
-    textAlign: 'center',
-    paddingVertical: 12,
   },
 });
 
 export default ProfileScreen;
-
-

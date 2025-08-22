@@ -35,12 +35,10 @@ const WelcomeScreen: React.FC<{ onDone?: () => void }> = ({ onDone }) => {
   );
 
   const handleGetStarted = () => {
-    // Ouvre directement l'écran d'inscription
-    navigation.navigate('Auth', { screen: 'Signup' });
+    navigation.navigate('Auth', { screen: 'SignupRole' });
   };
 
   const handleSignIn = () => {
-    // Ouvre directement l'écran de connexion
     navigation.navigate('Auth', { screen: 'Login' });
   };
 
