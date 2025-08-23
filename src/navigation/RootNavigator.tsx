@@ -26,6 +26,33 @@ import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
 import EarningsScreen from '../screens/tutor/EarningsScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileMenu from '../components/ProfileMenu';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+const CustomBackButton: React.FC = () => {
+  const theme = useTheme();
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={{
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: theme.colors.surfaceVariant,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 8,
+      }}
+    >
+      <MaterialCommunityIcons
+        name="arrow-left"
+        size={24}
+        color={theme.colors.onSurfaceVariant}
+      />
+    </TouchableOpacity>
+  );
+};
 
 // Nouveau écran minimal d'attente profil
 const ProfileBootScreen: React.FC = () => {
@@ -233,8 +260,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
           },
-          headerBackTitle: t('common.back'),
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -249,9 +278,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -266,9 +296,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -283,9 +314,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -300,9 +332,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -317,9 +350,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <AppStack.Screen
@@ -334,9 +368,10 @@ const AppStackNavigator: React.FC = () => {
           headerTintColor: theme.colors.primary,
           headerTitleStyle: { 
             fontFamily: 'Baloo2_600SemiBold',
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: '600'
           },
+          headerLeft: () => <CustomBackButton />,
         })}
       />
     </AppStack.Navigator>

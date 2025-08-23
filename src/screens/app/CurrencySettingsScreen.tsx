@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme, Card, RadioButton } from 'react-native-paper';
+import { useTheme, RadioButton, Divider } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useCurrency } from '../../hooks/useCurrency';
 
@@ -23,52 +23,59 @@ const CurrencySettingsScreen: React.FC = () => {
     }
   };
 
-  const CurrencyOption = ({ currencyOption }: { currencyOption: typeof currencies[0] }) => (
-    <TouchableOpacity
-      style={[styles.currencyOption, { borderColor: theme.colors.outline }]}
-      onPress={() => handleCurrencyChange(currencyOption.code)}
-    >
-      <View style={styles.currencyInfo}>
-        <Text style={[styles.currencySymbol, { color: theme.colors.primary }]}>
-          {currencyOption.symbol}
-        </Text>
-        <Text style={[styles.currencyName, { color: theme.colors.onSurface }]}>
-          {currencyOption.name}
-        </Text>
-      </View>
-      <RadioButton
-        value={currencyOption.code}
-        status={currency === currencyOption.code ? 'checked' : 'unchecked'}
+  const CurrencyOption = ({ currencyOption, isLast }: { currencyOption: typeof currencies[0]; isLast: boolean }) => (
+    <>
+      <TouchableOpacity
+        style={styles.currencyOption}
         onPress={() => handleCurrencyChange(currencyOption.code)}
-      />
-    </TouchableOpacity>
+      >
+        <View style={styles.currencyInfo}>
+          <Text style={[styles.currencySymbol, { color: theme.colors.primary }]}>
+            {currencyOption.symbol}
+          </Text>
+          <Text style={[styles.currencyName, { color: theme.colors.onSurface }]}>
+            {currencyOption.name}
+          </Text>
+        </View>
+        <RadioButton
+          value={currencyOption.code}
+          status={currency === currencyOption.code ? 'checked' : 'unchecked'}
+          onPress={() => handleCurrencyChange(currencyOption.code)}
+        />
+      </TouchableOpacity>
+      {!isLast && <Divider style={styles.divider} />}
+    </>
   );
 
   if (isLoading) {
     return (
       <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+        <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
           <Text style={[styles.title, { color: theme.colors.onSurface }]}>
             {t('common.loading')}
           </Text>
-        </Card>
+        </View>
       </View>
     );
   }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.title, { color: theme.colors.onSurface }]}>
           {t('settings.currency.selectCurrency')}
         </Text>
         
         <View style={styles.currencyList}>
-          {currencies.map((currencyOption) => (
-            <CurrencyOption key={currencyOption.code} currencyOption={currencyOption} />
+          {currencies.map((currencyOption, index) => (
+            <CurrencyOption 
+              key={currencyOption.code} 
+              currencyOption={currencyOption} 
+              isLast={index === currencies.length - 1}
+            />
           ))}
         </View>
-      </Card>
+      </View>
     </View>
   );
 };
@@ -78,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  card: {
+  content: {
     padding: 16,
     borderRadius: 12,
   },
@@ -89,15 +96,14 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   currencyList: {
-    gap: 12,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
   currencyOption: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
-    borderRadius: 8,
-    borderWidth: 1,
   },
   currencyInfo: {
     flexDirection: 'row',
@@ -112,6 +118,9 @@ const styles = StyleSheet.create({
   currencyName: {
     fontSize: 16,
     fontFamily: 'Baloo2_400Regular',
+  },
+  divider: {
+    marginHorizontal: 16,
   },
 });
 

@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { View, StyleSheet, Text, Alert, TextInput } from 'react-native';
-import { useTheme, Card } from 'react-native-paper';
+import { View, StyleSheet, Text, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { useTheme, Divider } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
-import { Picker } from '@react-native-picker/picker';
 import AppButton from '../../components/ui/AppButton';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
@@ -625,10 +624,13 @@ const TimezoneSettingsScreen: React.FC = () => {
   const [query, setQuery] = useState('');
 
   const timezones = useMemo(() => {
-    if (IANA_TIMEZONES.includes(initialTimezone)) {
-      return IANA_TIMEZONES;
+    // Dédupliquer la liste des fuseaux horaires
+    const uniqueTimezones = [...new Set(IANA_TIMEZONES)];
+    
+    if (uniqueTimezones.includes(initialTimezone)) {
+      return uniqueTimezones;
     }
-    return [initialTimezone, ...IANA_TIMEZONES];
+    return [initialTimezone, ...uniqueTimezones];
   }, [initialTimezone]);
 
   const filteredTimezones = useMemo(() => {
@@ -651,7 +653,7 @@ const TimezoneSettingsScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.title, { color: theme.colors.onSurface }]}>
           {t('settings.timezone.selectTimezone')}
         </Text>
@@ -668,13 +670,29 @@ const TimezoneSettingsScreen: React.FC = () => {
           style={[styles.searchInput, { borderColor: theme.colors.outline, color: theme.colors.onSurface }]}
         />
 
-        <View style={[styles.pickerWrapper, { borderColor: theme.colors.outline }]}>
-          <Picker selectedValue={selectedTimezone} onValueChange={(v) => setSelectedTimezone(v)}>
-            {filteredTimezones.map((tz) => (
-              <Picker.Item key={tz} label={tz} value={tz} />
-            ))}
-          </Picker>
-        </View>
+        <ScrollView style={styles.timezoneList} showsVerticalScrollIndicator={false}>
+          {filteredTimezones.map((tz, index) => (
+            <React.Fragment key={tz}>
+              <TouchableOpacity
+                style={[
+                  styles.timezoneOption,
+                  { 
+                    backgroundColor: selectedTimezone === tz ? theme.colors.primaryContainer : theme.colors.surface
+                  }
+                ]}
+                onPress={() => setSelectedTimezone(tz)}
+              >
+                <Text style={[
+                  styles.timezoneText,
+                  { color: selectedTimezone === tz ? theme.colors.onPrimaryContainer : theme.colors.onSurface }
+                ]}>
+                  {tz}
+                </Text>
+              </TouchableOpacity>
+              {index < filteredTimezones.length - 1 && <Divider style={styles.divider} />}
+            </React.Fragment>
+          ))}
+        </ScrollView>
 
         <AppButton
           label={t('profile.save')}
@@ -682,19 +700,59 @@ const TimezoneSettingsScreen: React.FC = () => {
           loading={isSaving}
           style={styles.saveButton}
         />
-      </Card>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  card: { padding: 16, borderRadius: 12 },
-  title: { fontSize: 18, fontWeight: '600', fontFamily: 'Baloo2_600SemiBold', marginBottom: 12 },
-  label: { fontSize: 14, fontFamily: 'Baloo2_400Regular', marginBottom: 8 },
-  searchInput: { borderWidth: 1, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10, marginBottom: 12, fontFamily: 'Baloo2_400Regular' },
-  pickerWrapper: { borderWidth: 1, borderRadius: 8, marginBottom: 16 },
-  saveButton: { marginTop: 8 },
+  container: { 
+    flex: 1, 
+    padding: 16 
+  },
+  content: { 
+    padding: 16, 
+    borderRadius: 12,
+    flex: 1
+  },
+  title: { 
+    fontSize: 18, 
+    fontWeight: '600', 
+    fontFamily: 'Baloo2_600SemiBold', 
+    marginBottom: 12 
+  },
+  label: { 
+    fontSize: 14, 
+    fontFamily: 'Baloo2_400Regular', 
+    marginBottom: 8 
+  },
+  searchInput: { 
+    borderWidth: 1, 
+    borderRadius: 8, 
+    paddingHorizontal: 12, 
+    paddingVertical: 10, 
+    marginBottom: 12, 
+    fontFamily: 'Baloo2_400Regular' 
+  },
+  timezoneList: {
+    flex: 1,
+    marginBottom: 16,
+    borderRadius: 8,
+    overflow: 'hidden'
+  },
+  timezoneOption: {
+    padding: 16,
+  },
+  timezoneText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_400Regular'
+  },
+  divider: {
+    marginHorizontal: 16,
+  },
+  saveButton: { 
+    marginTop: 8 
+  },
 });
 
 export default TimezoneSettingsScreen;

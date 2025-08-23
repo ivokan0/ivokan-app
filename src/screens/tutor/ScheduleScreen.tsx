@@ -15,7 +15,7 @@ const TutorScheduleScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 20, fontWeight: '600', fontFamily: 'Baloo2_600SemiBold' },
+  title: { fontSize: 24, fontWeight: '600', fontFamily: 'Baloo2_600SemiBold' },
 });
 
 export default TutorScheduleScreen;

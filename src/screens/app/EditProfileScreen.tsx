@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme, Card, Button } from 'react-native-paper';
+import { useTheme, Button } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
 import Avatar from '../../components/ui/Avatar';
@@ -138,7 +138,7 @@ const EditProfileScreen: React.FC = () => {
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
         {/* Section Photo de profil */}
         <View style={styles.avatarSection}>
           <Avatar
@@ -203,7 +203,7 @@ const EditProfileScreen: React.FC = () => {
           loading={isLoading}
           style={styles.saveButton}
         />
-      </Card>
+      </View>
     </ScrollView>
   );
 };
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  card: {
+  content: {
     padding: 16,
     borderRadius: 12,
   },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useTheme, Card, Divider } from 'react-native-paper';
+import { useTheme, Divider } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
 import Avatar from '../../components/ui/Avatar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -63,7 +63,7 @@ const ProfileScreen: React.FC = () => {
           name={icon as any}
           size={24}
           color={theme.colors.onSurface}
-          style={styles.menuIcon}
+          style={[styles.menuIcon, { opacity: 0.5 }]}
         />
         <Text style={[styles.menuTitle, { color: theme.colors.onSurface }]}>
           {title}
@@ -74,6 +74,7 @@ const ProfileScreen: React.FC = () => {
           name="chevron-right"
           size={24}
           color={theme.colors.onSurfaceVariant}
+          style={{ opacity: 0.7 }}
         />
       )}
     </TouchableOpacity>
@@ -82,7 +83,7 @@ const ProfileScreen: React.FC = () => {
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {/* Section Informations utilisateur */}
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
         <View style={styles.userSection}>
           <Avatar
             size={80}
@@ -102,17 +103,17 @@ const ProfileScreen: React.FC = () => {
           </View>
         </View>
 
-        <Divider style={styles.divider} />
-
         <MenuRow
           icon="account-edit"
           title={t('profile.editProfile')}
           onPress={navigateToEditProfile}
         />
-      </Card>
+        
+        <Divider style={styles.divider} />
+      </View>
 
       {/* Section Paramètres */}
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
           {t('settings.title')}
         </Text>
@@ -134,10 +135,12 @@ const ProfileScreen: React.FC = () => {
           title={t('settings.currency.label')}
           onPress={navigateToCurrencySettings}
         />
-      </Card>
+        
+        <Divider style={styles.divider} />
+      </View>
 
       {/* Section Assistance */}
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
           {t('assistance.title')}
         </Text>
@@ -148,17 +151,17 @@ const ProfileScreen: React.FC = () => {
           onPress={openFAQ}
         />
 
-        <Divider style={styles.divider} />
-
         <MenuRow
           icon="file-document-outline"
           title={t('assistance.legalCenter')}
           onPress={openLegalCenter}
         />
-      </Card>
+        
+        <Divider style={styles.divider} />
+      </View>
 
       {/* Bouton Se déconnecter */}
-      <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+      <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
         <TouchableOpacity
           style={styles.signOutButton}
           onPress={signOut}
@@ -173,7 +176,7 @@ const ProfileScreen: React.FC = () => {
             {t('profile.signOut')}
           </Text>
         </TouchableOpacity>
-      </Card>
+      </View>
     </ScrollView>
   );
 };
@@ -183,7 +186,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  card: {
+  section: {
     marginBottom: 16,
     padding: 16,
     borderRadius: 12,
