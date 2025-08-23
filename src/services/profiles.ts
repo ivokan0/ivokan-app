@@ -9,6 +9,7 @@ export interface Profile {
   avatar_url: string | null;
   timezone: string;
   profile_type: 'student' | 'tutor';
+  minimum_time_notice: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -20,6 +21,7 @@ export interface CreateProfileData {
   avatar_url?: string;
   timezone?: string;
   profile_type?: 'student' | 'tutor';
+  minimum_time_notice?: number;
 }
 
 // Détecter le fuseau horaire de l'utilisateur
@@ -61,6 +63,7 @@ export const createProfile = async (data: CreateProfileData): Promise<{ data: Pr
         avatar_url: data.avatar_url || null,
         timezone,
         profile_type: data.profile_type ?? 'student',
+        minimum_time_notice: data.minimum_time_notice || 120,
       })
       .select()
       .single();
@@ -102,7 +105,7 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
 // Mettre à jour un profil
 export const updateProfile = async (
   userId: string, 
-  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type'>>
+  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type' | 'minimum_time_notice'>>
 ): Promise<{ data: Profile | null; error: any }> => {
   try {
     const { data: profile, error } = await supabase

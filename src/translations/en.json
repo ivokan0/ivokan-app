@@ -108,6 +108,26 @@
       "fcfa": "CFA Franc",
       "euro": "Euro"
     },
+    "availability": {
+      "title": "Availability",
+      "minimumTimeNotice": "Minimum booking notice",
+      "minimumTimeNoticeDescription": "Minimum time (in minutes) before a student can book a slot",
+      "mySlots": "My available slots",
+      "addSlot": "Add a slot",
+      "editSlot": "Edit slot",
+      "noSlots": "No slots defined",
+      "day": "Day",
+      "startTime": "Start",
+      "endTime": "End",
+      "add": "Add",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "deleteConfirmation": "Confirm deletion",
+      "deleteMessage": "Are you sure you want to delete this slot?",
+      "overlapError": "This slot overlaps with an existing slot",
+      "timeError": "End time must be after start time"
+    },
     "soon": "App settings coming soon."
   },
   "student": {

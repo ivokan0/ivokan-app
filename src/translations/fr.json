@@ -108,6 +108,26 @@
       "fcfa": "Franc CFA",
       "euro": "Euro"
     },
+    "availability": {
+      "title": "Disponibilités",
+      "minimumTimeNotice": "Délai minimum de réservation",
+      "minimumTimeNoticeDescription": "Délai minimum (en minutes) avant qu'un étudiant puisse réserver un créneau",
+      "mySlots": "Mes créneaux disponibles",
+      "addSlot": "Ajouter un créneau",
+      "editSlot": "Modifier le créneau",
+      "noSlots": "Aucun créneau défini",
+      "day": "Jour",
+      "startTime": "Début",
+      "endTime": "Fin",
+      "add": "Ajouter",
+      "edit": "Modifier",
+      "cancel": "Annuler",
+      "delete": "Supprimer",
+      "deleteConfirmation": "Confirmer la suppression",
+      "deleteMessage": "Êtes-vous sûr de vouloir supprimer ce créneau ?",
+      "overlapError": "Ce créneau chevauche un créneau existant",
+      "timeError": "L'heure de fin doit être après l'heure de début"
+    },
     "soon": "Les paramètres de l'application arrivent bientôt."
   },
   "student": {

@@ -33,6 +33,11 @@ const ProfileScreen: React.FC = () => {
     navigation.navigate('CurrencySettings');
   };
 
+  const navigateToAvailabilitySettings = () => {
+    // @ts-ignore
+    navigation.navigate('AvailabilitySettings');
+  };
+
   const openFAQ = () => {
     // @ts-ignore
     navigation.navigate('WebView', {
@@ -135,6 +140,14 @@ const ProfileScreen: React.FC = () => {
           title={t('settings.currency.label')}
           onPress={navigateToCurrencySettings}
         />
+
+        {profile?.profile_type === 'tutor' && (
+          <MenuRow
+            icon="calendar-clock"
+            title={t('settings.availability.title')}
+            onPress={navigateToAvailabilitySettings}
+          />
+        )}
         
         <Divider style={styles.divider} />
       </View>

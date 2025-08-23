@@ -66,10 +66,6 @@ CREATE TRIGGER update_tutor_availabilities_updated_at
 -- ============================================
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
--- Supprimer les anciennes politiques si elles existent
-DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
-DROP POLICY IF EXISTS "Users can insert own profile" ON profiles;
-DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 
 -- Créer les politiques permissives pour Clerk + Supabase
 CREATE POLICY "Allow all operations on profiles" ON profiles

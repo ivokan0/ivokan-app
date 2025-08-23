@@ -10,6 +10,7 @@ import EditProfileScreen from '../screens/app/EditProfileScreen';
 import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
 import CurrencySettingsScreen from '../screens/app/CurrencySettingsScreen';
+import AvailabilitySettingsScreen from '../screens/app/AvailabilitySettingsScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -74,6 +75,7 @@ type AppStackParamList = {
   TimezoneSettings: undefined;
   CurrencySettings: undefined;
   EditProfile: undefined;
+  AvailabilitySettings: undefined;
   WebView: { url: string; title: string };
 };
 
@@ -343,6 +345,24 @@ const AppStackNavigator: React.FC = () => {
         component={CurrencySettingsScreen}
         options={{
           title: t('settings.currency.selectCurrency'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="AvailabilitySettings"
+        component={AvailabilitySettingsScreen}
+        options={{
+          title: t('settings.availability.title'),
           headerStyle: { 
             backgroundColor: theme.colors.background,
           },
