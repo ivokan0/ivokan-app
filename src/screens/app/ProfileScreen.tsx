@@ -43,6 +43,11 @@ const ProfileScreen: React.FC = () => {
     navigation.navigate('PaymentMethods');
   };
 
+  const navigateToMyLanguages = () => {
+    // @ts-ignore
+    navigation.navigate('MyLanguages');
+  };
+
   const openFAQ = () => {
     // @ts-ignore
     navigation.navigate('WebView', {
@@ -159,6 +164,14 @@ const ProfileScreen: React.FC = () => {
             icon="credit-card-multiple"
             title={t('settings.paymentMethods.title')}
             onPress={navigateToPaymentMethods}
+          />
+        )}
+
+        {profile?.profile_type === 'tutor' && (
+          <MenuRow
+            icon="translate"
+            title={t('languages.myLanguages')}
+            onPress={navigateToMyLanguages}
           />
         )}
         

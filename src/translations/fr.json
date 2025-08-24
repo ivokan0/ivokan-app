@@ -169,6 +169,32 @@
     "schedule": "Agenda",
     "earnings": "Revenus"
   },
+  "languages": {
+    "myLanguages": "Mes Langues",
+    "editLanguages": "Modifier les Langues",
+    "spokenLanguages": "Langues Parlées",
+    "taughtLanguages": "Langues Enseignées",
+    "proficiency": "Niveau",
+    "addLanguage": "Ajouter une Langue",
+    "editLanguage": "Modifier la Langue",
+    "removeLanguage": "Supprimer la Langue",
+    "noSpokenLanguages": "Aucune langue parlée ajoutée",
+    "noTaughtLanguages": "Aucune langue enseignée ajoutée",
+    "addFirstSpoken": "Ajoutez votre première langue parlée",
+    "addFirstTaught": "Ajoutez votre première langue enseignée",
+    "selectLanguage": "Sélectionner une Langue",
+    "selectProficiency": "Sélectionner le Niveau",
+    "save": "Sauvegarder",
+    "delete": "Supprimer",
+    "deleteConfirmation": "Supprimer la Langue",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette langue ?",
+    "levels": {
+      "beginner": "Débutant",
+      "intermediate": "Intermédiaire",
+      "advanced": "Avancé",
+      "native": "Natif"
+    }
+  },
   "alerts": {
     "checkEmailTitle": "Vérifiez votre e-mail",
     "checkEmailBody": "Veuillez confirmer votre adresse e-mail pour vous connecter.",

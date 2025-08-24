@@ -14,6 +14,8 @@ import AvailabilitySettingsScreen from '../screens/app/AvailabilitySettingsScree
 import PaymentMethodsScreen from '../screens/app/PaymentMethodsScreen';
 import AddPaymentMethodScreen from '../screens/app/AddPaymentMethodScreen';
 import EditPaymentMethodScreen from '../screens/app/EditPaymentMethodScreen';
+import MyLanguagesScreen from '../screens/app/MyLanguagesScreen';
+import EditMyLanguagesScreen from '../screens/app/EditMyLanguagesScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -82,6 +84,8 @@ type AppStackParamList = {
   PaymentMethods: undefined;
   AddPaymentMethod: undefined;
   EditPaymentMethod: { paymentMethod: any };
+  MyLanguages: undefined;
+  EditMyLanguages: { type: 'spoken' | 'taught' };
   WebView: { url: string; title: string };
 };
 
@@ -423,6 +427,42 @@ const AppStackNavigator: React.FC = () => {
         component={EditPaymentMethodScreen}
         options={{
           title: t('settings.paymentMethods.editPaymentMethod'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="MyLanguages"
+        component={MyLanguagesScreen}
+        options={{
+          title: t('languages.myLanguages'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="EditMyLanguages"
+        component={EditMyLanguagesScreen}
+        options={{
+          title: t('languages.editLanguages'),
           headerStyle: { 
             backgroundColor: theme.colors.background,
           },

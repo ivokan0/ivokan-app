@@ -169,6 +169,32 @@
     "schedule": "Schedule",
     "earnings": "Earnings"
   },
+  "languages": {
+    "myLanguages": "My Languages",
+    "editLanguages": "Edit Languages",
+    "spokenLanguages": "Spoken Languages",
+    "taughtLanguages": "Taught Languages",
+    "proficiency": "Proficiency",
+    "addLanguage": "Add Language",
+    "editLanguage": "Edit Language",
+    "removeLanguage": "Remove Language",
+    "noSpokenLanguages": "No spoken languages added yet",
+    "noTaughtLanguages": "No taught languages added yet",
+    "addFirstSpoken": "Add your first spoken language",
+    "addFirstTaught": "Add your first taught language",
+    "selectLanguage": "Select Language",
+    "selectProficiency": "Select Proficiency",
+    "save": "Save",
+    "delete": "Delete",
+    "deleteConfirmation": "Delete Language",
+    "deleteMessage": "Are you sure you want to delete this language?",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate", 
+      "advanced": "Advanced",
+      "native": "Native"
+    }
+  },
   "alerts": {
     "checkEmailTitle": "Check your email",
     "checkEmailBody": "Please confirm your email address to sign in.",
