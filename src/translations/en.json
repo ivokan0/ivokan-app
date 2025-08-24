@@ -167,6 +167,11 @@
     "schedule": "Schedule",
     "subscriptions": "Subscriptions"
   },
+  "search": {
+    "allLanguages": "All Languages",
+    "selectLanguage": "What would you like to learn?",
+    "noTutorsFound": "No tutors found"
+  },
   "tutor": {
     "home": "Home",
     "messages": "Messages",

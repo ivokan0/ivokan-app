@@ -3,28 +3,49 @@ import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
 import TutorCard from '../../components/TutorCard';
+import LanguageFilter from '../../components/LanguageFilter';
 import { TutorWithStats } from '../../types/database';
-import { getTutorsWithStats } from '../../services/tutors';
+import { getTutorsWithFilters, getAvailableTaughtLanguages } from '../../services/tutors';
 
 const SearchScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const [tutors, setTutors] = useState<TutorWithStats[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 
-  const loadTutors = useCallback(async () => {
+  const loadAvailableLanguages = useCallback(async () => {
+    const { data } = await getAvailableTaughtLanguages();
+    setAvailableLanguages(data || []);
+  }, []);
+
+  const loadTutors = useCallback(async (language?: string | null) => {
     setLoading(true);
-    const { data } = await getTutorsWithStats();
+    const { data } = await getTutorsWithFilters({
+      language: language || undefined
+    });
     setTutors(data || []);
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    loadTutors();
+  const handleLanguageSelect = useCallback((language: string | null) => {
+    setSelectedLanguage(language);
+    loadTutors(language);
   }, [loadTutors]);
+
+  useEffect(() => {
+    loadAvailableLanguages();
+    loadTutors();
+  }, [loadAvailableLanguages, loadTutors]);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }] }>
+      <LanguageFilter
+        availableLanguages={availableLanguages}
+        selectedLanguage={selectedLanguage}
+        onLanguageSelect={handleLanguageSelect}
+      />
       <FlatList
         data={tutors}
         keyExtractor={(item) => item.id}
@@ -33,13 +54,16 @@ const SearchScreen: React.FC = () => {
           <TutorCard tutor={item} />
         )}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={loadTutors} />
+          <RefreshControl 
+            refreshing={loading} 
+            onRefresh={() => loadTutors(selectedLanguage)} 
+          />
         }
         ListEmptyComponent={
           !loading ? (
             <View style={styles.emptyWrap}>
               <Text style={[styles.emptyText, { color: theme.colors.onBackground }]}>
-                {t('common.no_results') || 'No tutors found'}
+                {t('search.noTutorsFound') || 'No tutors found'}
               </Text>
             </View>
           ) : null

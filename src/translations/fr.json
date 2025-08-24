@@ -167,6 +167,11 @@
     "schedule": "Agenda",
     "subscriptions": "Abonnements"
   },
+  "search": {
+    "allLanguages": "Toutes les Langues",
+    "selectLanguage": "Que voulez-vous apprendre ?",
+    "noTutorsFound": "Aucun tuteur trouvé"
+  },
   "tutor": {
     "home": "Accueil",
     "messages": "Messages",

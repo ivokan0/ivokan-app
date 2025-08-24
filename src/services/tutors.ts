@@ -99,3 +99,26 @@ export const getTutorsWithFilters = async (filters?: {
     return { data: null, error };
   }
 };
+
+// Get all available taught languages from tutors
+export const getAvailableTaughtLanguages = async (): Promise<ApiResponse<string[]>> => {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('taught_languages')
+      .eq('profile_type', 'tutor')
+      .not('taught_languages', 'is', null);
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    // Extract unique languages
+    const allLanguages = data?.flatMap(profile => profile.taught_languages || []) || [];
+    const uniqueLanguages = [...new Set(allLanguages)].sort();
+
+    return { data: uniqueLanguages, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};

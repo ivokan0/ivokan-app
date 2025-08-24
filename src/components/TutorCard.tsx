@@ -36,7 +36,7 @@ const TutorCard: React.FC<TutorCardProps> = ({ tutor, onPress }) => {
 
   const languages = (tutor.spoken_languages || []).map((lang) => {
     const prof = (tutor.languages_proficiency as any)?.[lang]?.level;
-    const langName = t(`languages.${lang.toLowerCase()}`) || capitalize(lang);
+    const langName = capitalize(lang); // Don't use i18n for taught_languages
     const profName = prof ? t(`languages.levels.${prof}`) : '';
     return profName ? `${langName} (${profName})` : langName;
   }).join(', ');
