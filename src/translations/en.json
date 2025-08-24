@@ -128,6 +128,31 @@
       "overlapError": "This slot overlaps with an existing slot",
       "timeError": "End time must be after start time"
     },
+    "paymentMethods": {
+      "title": "Payment Methods",
+      "addPaymentMethod": "Add Payment Method",
+      "editPaymentMethod": "Edit Payment Method",
+      "noPaymentMethods": "No payment methods added yet",
+      "addFirst": "Add your first payment method to receive payments",
+      "paymentType": "Payment Type",
+      "accountNumber": "Account Number",
+      "accountName": "Account Name",
+      "bankName": "Bank Name",
+      "country": "Country",
+      "setAsDefault": "Set as default",
+      "default": "Default",
+      "save": "Save",
+      "delete": "Delete",
+      "deleteConfirmation": "Delete Payment Method",
+      "deleteMessage": "Are you sure you want to delete this payment method?",
+      "types": {
+        "orange_money": "Orange Money",
+        "wave": "Wave",
+        "mtn_money": "MTN Money",
+        "moov_money": "Moov Money",
+        "bank_transfer": "Bank Transfer"
+      }
+    },
     "soon": "App settings coming soon."
   },
   "student": {

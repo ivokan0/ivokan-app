@@ -128,6 +128,31 @@
       "overlapError": "Ce créneau chevauche un créneau existant",
       "timeError": "L'heure de fin doit être après l'heure de début"
     },
+    "paymentMethods": {
+      "title": "Méthodes de paiement",
+      "addPaymentMethod": "Ajouter une méthode de paiement",
+      "editPaymentMethod": "Modifier la méthode de paiement",
+      "noPaymentMethods": "Aucune méthode de paiement ajoutée",
+      "addFirst": "Ajoutez votre première méthode de paiement pour recevoir des paiements",
+      "paymentType": "Type de paiement",
+      "accountNumber": "Numéro de compte",
+      "accountName": "Nom du compte",
+      "bankName": "Nom de la banque",
+      "country": "Pays",
+      "setAsDefault": "Définir par défaut",
+      "default": "Par défaut",
+      "save": "Sauvegarder",
+      "delete": "Supprimer",
+      "deleteConfirmation": "Supprimer la méthode de paiement",
+      "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette méthode de paiement ?",
+      "types": {
+        "orange_money": "Orange Money",
+        "wave": "Wave",
+        "mtn_money": "MTN Money",
+        "moov_money": "Moov Money",
+        "bank_transfer": "Virement bancaire"
+      }
+    },
     "soon": "Les paramètres de l'application arrivent bientôt."
   },
   "student": {

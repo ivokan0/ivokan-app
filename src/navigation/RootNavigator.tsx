@@ -11,6 +11,9 @@ import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
 import CurrencySettingsScreen from '../screens/app/CurrencySettingsScreen';
 import AvailabilitySettingsScreen from '../screens/app/AvailabilitySettingsScreen';
+import PaymentMethodsScreen from '../screens/app/PaymentMethodsScreen';
+import AddPaymentMethodScreen from '../screens/app/AddPaymentMethodScreen';
+import EditPaymentMethodScreen from '../screens/app/EditPaymentMethodScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -76,6 +79,9 @@ type AppStackParamList = {
   CurrencySettings: undefined;
   EditProfile: undefined;
   AvailabilitySettings: undefined;
+  PaymentMethods: undefined;
+  AddPaymentMethod: undefined;
+  EditPaymentMethod: { paymentMethod: any };
   WebView: { url: string; title: string };
 };
 
@@ -363,6 +369,60 @@ const AppStackNavigator: React.FC = () => {
         component={AvailabilitySettingsScreen}
         options={{
           title: t('settings.availability.title'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="PaymentMethods"
+        component={PaymentMethodsScreen}
+        options={{
+          title: t('settings.paymentMethods.title'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="AddPaymentMethod"
+        component={AddPaymentMethodScreen}
+        options={{
+          title: t('settings.paymentMethods.addPaymentMethod'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="EditPaymentMethod"
+        component={EditPaymentMethodScreen}
+        options={{
+          title: t('settings.paymentMethods.editPaymentMethod'),
           headerStyle: { 
             backgroundColor: theme.colors.background,
           },

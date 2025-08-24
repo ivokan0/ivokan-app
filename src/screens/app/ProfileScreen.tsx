@@ -38,6 +38,11 @@ const ProfileScreen: React.FC = () => {
     navigation.navigate('AvailabilitySettings');
   };
 
+  const navigateToPaymentMethods = () => {
+    // @ts-ignore
+    navigation.navigate('PaymentMethods');
+  };
+
   const openFAQ = () => {
     // @ts-ignore
     navigation.navigate('WebView', {
@@ -146,6 +151,14 @@ const ProfileScreen: React.FC = () => {
             icon="calendar-clock"
             title={t('settings.availability.title')}
             onPress={navigateToAvailabilitySettings}
+          />
+        )}
+
+        {profile?.profile_type === 'tutor' && (
+          <MenuRow
+            icon="credit-card-multiple"
+            title={t('settings.paymentMethods.title')}
+            onPress={navigateToPaymentMethods}
           />
         )}
         
