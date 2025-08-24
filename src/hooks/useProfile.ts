@@ -6,7 +6,7 @@ export const useProfile = () => {
   const { user, profile, refreshProfile } = useAuth();
 
   const updateUserProfile = useCallback(async (
-    updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'minimum_time_notice'>>
+    updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'minimum_time_notice' | 'biography' | 'country_birth'>>
   ) => {
     if (!user) {
       throw new Error('Utilisateur non connecté');

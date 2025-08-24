@@ -26,6 +26,7 @@ export interface Profile extends BaseEntityWithUpdate {
   languages_proficiency: Record<string, any>;
   taught_languages: string[];
   proficiency_taught_lan: Record<string, any>;
+  country_birth: string | null;
 }
 
 // Tutor Stats
@@ -134,6 +135,7 @@ export interface CreateProfileData {
   languages_proficiency?: Record<string, any>;
   taught_languages?: string[];
   proficiency_taught_lan?: Record<string, any>;
+  country_birth?: string;
 }
 
 export interface CreateReviewData {

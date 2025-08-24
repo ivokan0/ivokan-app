@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, Button } from 'react-native-paper';
@@ -7,9 +7,11 @@ import { useProfile } from '../../hooks/useProfile';
 import Avatar from '../../components/ui/Avatar';
 import AppTextInput from '../../components/ui/AppTextInput';
 import AppButton from '../../components/ui/AppButton';
+import CountryPickerModal from '../../components/ui/CountryPickerModal';
 import * as ImagePicker from 'expo-image-picker';
 import { uploadAvatar, deleteAvatar } from '../../services/storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Country, getCountryByCode, getLocalizedCountries } from '../../utils/countries';
 
 const EditProfileScreen: React.FC = () => {
   const { t } = useTranslation();
@@ -21,8 +23,27 @@ const EditProfileScreen: React.FC = () => {
   const [lastName, setLastName] = useState(profile?.last_name || '');
   const [biography, setBiography] = useState(profile?.biography || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
+  // Get localized countries for initial state
+  const localizedCountries = getLocalizedCountries(t);
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(
+    profile?.country_birth ? 
+      localizedCountries.find(c => c.code === profile.country_birth) || null : 
+      null
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [showCountryModal, setShowCountryModal] = useState(false);
+
+  // Update selected country when language changes
+  useEffect(() => {
+    if (profile?.country_birth) {
+      const updatedLocalizedCountries = getLocalizedCountries(t);
+      const updatedCountry = updatedLocalizedCountries.find(c => c.code === profile.country_birth);
+      if (updatedCountry) {
+        setSelectedCountry(updatedCountry);
+      }
+    }
+  }, [t, profile?.country_birth]);
 
   const pickImage = async () => {
     try {
@@ -120,6 +141,7 @@ const EditProfileScreen: React.FC = () => {
         last_name: lastName.trim() || null,
         biography: biography.trim() || null,
         avatar_url: avatarUrl || null,
+        country_birth: selectedCountry?.code || null,
       });
 
       Alert.alert(
@@ -201,6 +223,29 @@ const EditProfileScreen: React.FC = () => {
             onChangeText={setLastName}
           />
           
+          {/* Country of Birth Section */}
+          <View style={styles.countrySection}>
+            <Text style={[styles.countryLabel, { color: theme.colors.onSurface }]}>
+              {t('profile.countryOfBirth')}
+            </Text>
+                         <TouchableOpacity
+               style={[styles.countrySelector, { backgroundColor: '#FFFFFF' }]}
+               onPress={() => setShowCountryModal(true)}
+             >
+              <Text style={[
+                styles.countryText,
+                { color: selectedCountry ? theme.colors.onSurface : theme.colors.onSurfaceVariant }
+              ]}>
+                {selectedCountry ? selectedCountry.name : t('profile.selectCountry')}
+              </Text>
+              <MaterialCommunityIcons
+                name="chevron-down"
+                size={20}
+                color={theme.colors.onSurfaceVariant}
+              />
+            </TouchableOpacity>
+          </View>
+          
           {/* Biography Section */}
           <View style={styles.biographySection}>
             <Text style={[styles.biographyLabel, { color: theme.colors.onSurface }]}>
@@ -232,6 +277,14 @@ const EditProfileScreen: React.FC = () => {
         />
       </View>
       </ScrollView>
+
+      {/* Country Picker Modal */}
+      <CountryPickerModal
+        visible={showCountryModal}
+        onClose={() => setShowCountryModal(false)}
+        onSelectCountry={setSelectedCountry}
+        selectedCountry={selectedCountry}
+      />
     </KeyboardAvoidingView>
   );
 };
@@ -296,6 +349,29 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     marginTop: 4,
     color: '#666666',
+  },
+  countrySection: {
+    marginTop: 16,
+  },
+  countryLabel: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
+    marginBottom: 8,
+  },
+  countrySelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  countryText: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
+    flex: 1,
   },
 });
 
