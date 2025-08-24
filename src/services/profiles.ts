@@ -10,6 +10,12 @@ export interface Profile {
   timezone: string;
   profile_type: 'student' | 'tutor';
   minimum_time_notice: number | null;
+  biography: string | null;
+  super_tutor: boolean;
+  spoken_languages: string[];
+  languages_proficiency: Record<string, any>;
+  taught_languages: string[];
+  proficiency_taught_lan: Record<string, any>;
   created_at: string;
   updated_at: string;
 }
@@ -22,6 +28,12 @@ export interface CreateProfileData {
   timezone?: string;
   profile_type?: 'student' | 'tutor';
   minimum_time_notice?: number;
+  biography?: string;
+  super_tutor?: boolean;
+  spoken_languages?: string[];
+  languages_proficiency?: Record<string, any>;
+  taught_languages?: string[];
+  proficiency_taught_lan?: Record<string, any>;
 }
 
 // Détecter le fuseau horaire de l'utilisateur
@@ -105,7 +117,7 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
 // Mettre à jour un profil
 export const updateProfile = async (
   userId: string, 
-  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type' | 'minimum_time_notice'>>
+  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type' | 'minimum_time_notice' | 'biography' | 'super_tutor' | 'spoken_languages' | 'languages_proficiency' | 'taught_languages' | 'proficiency_taught_lan'>>
 ): Promise<{ data: Profile | null; error: any }> => {
   try {
     const { data: profile, error } = await supabase

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, TextInput, Switch } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
@@ -115,8 +115,16 @@ const AddPaymentMethodScreen: React.FC = () => {
   );
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <View style={[styles.form, { backgroundColor: theme.colors.surface }]}>
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <ScrollView 
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={[styles.form, { backgroundColor: theme.colors.surface }]}>
         {/* Payment Type */}
         <View style={styles.fieldContainer}>
           <Text style={[styles.fieldLabel, { color: theme.colors.onSurface }]}>
@@ -222,7 +230,8 @@ const AddPaymentMethodScreen: React.FC = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

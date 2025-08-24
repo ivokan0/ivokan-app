@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAuth } from '../../hooks/useAuth';
@@ -68,12 +68,22 @@ const SignupScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image source={require('../../../assets/logo-orange.png')} style={styles.logo} />
-      </View>
-      
-      <View style={styles.formContainer}>
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <ScrollView 
+        style={styles.container}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.logoContainer}>
+          <Image source={require('../../../assets/logo-orange.png')} style={styles.logo} />
+        </View>
+        
+        <View style={styles.formContainer}>
         <Text style={styles.title}>{t('auth.signup.title')}</Text>
         <Text style={styles.subtitle}>{t('auth.signup.subtitle')}</Text>
         
@@ -148,7 +158,8 @@ const SignupScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -156,7 +167,10 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: '#ffffff',
+  },
+  scrollContent: {
     paddingHorizontal: 24,
+    flexGrow: 1,
   },
   logoContainer: {
     alignItems: 'center',

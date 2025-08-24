@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, Button } from 'react-native-paper';
 import { useAuth } from '../../hooks/useAuth';
@@ -19,6 +19,7 @@ const EditProfileScreen: React.FC = () => {
   
   const [firstName, setFirstName] = useState(profile?.first_name || '');
   const [lastName, setLastName] = useState(profile?.last_name || '');
+  const [biography, setBiography] = useState(profile?.biography || '');
   const [avatarUrl, setAvatarUrl] = useState(profile?.avatar_url || '');
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -117,6 +118,7 @@ const EditProfileScreen: React.FC = () => {
       await updateUserProfile({
         first_name: firstName.trim() || null,
         last_name: lastName.trim() || null,
+        biography: biography.trim() || null,
         avatar_url: avatarUrl || null,
       });
 
@@ -137,8 +139,13 @@ const EditProfileScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
         {/* Section Photo de profil */}
         <View style={styles.avatarSection}>
           <Avatar
@@ -194,6 +201,26 @@ const EditProfileScreen: React.FC = () => {
             onChangeText={setLastName}
           />
           
+          {/* Biography Section */}
+          <View style={styles.biographySection}>
+            <Text style={[styles.biographyLabel, { color: theme.colors.onSurface }]}>
+              {t('profile.biography')}
+            </Text>
+            <TextInput
+              style={styles.biographyInput}
+              value={biography}
+              onChangeText={setBiography}
+              placeholder={t('profile.biographyPlaceholder')}
+              placeholderTextColor="#666"
+              multiline
+              textAlignVertical="top"
+              numberOfLines={8}
+              maxLength={1000}
+            />
+            <Text style={styles.characterCount}>
+              {biography.length}/1000
+            </Text>
+          </View>
         </View>
 
         {/* Bouton Sauvegarder */}
@@ -204,7 +231,8 @@ const EditProfileScreen: React.FC = () => {
           style={styles.saveButton}
         />
       </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -241,6 +269,33 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     marginTop: 16,
+  },
+  biographySection: {
+    marginTop: 16,
+  },
+  biographyLabel: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
+    marginBottom: 8,
+  },
+  biographyInput: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
+    minHeight: 120,
+    maxHeight: 200,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#E0E0E0',
+    color: '#000000',
+  },
+  characterCount: {
+    fontSize: 12,
+    fontFamily: 'Baloo2_400Regular',
+    textAlign: 'right',
+    marginTop: 4,
+    color: '#666666',
   },
 });
 

@@ -78,6 +78,8 @@
       "title": "Profil mis à jour",
       "message": "Vos informations ont été sauvegardées avec succès."
     },
+    "biography": "Biographie",
+    "biographyPlaceholder": "Parlez-nous de vous, de votre expérience d'enseignement et de ce qui fait de vous un excellent tuteur...",
     "permissions": {
       "title": "Permission requise",
       "gallery": "L'accès à la galerie est nécessaire pour choisir une photo de profil.",

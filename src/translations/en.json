@@ -78,6 +78,8 @@
       "title": "Profile Updated",
       "message": "Your information has been saved successfully."
     },
+    "biography": "Biography",
+    "biographyPlaceholder": "Tell us about yourself, your teaching experience, and what makes you a great tutor...",
     "permissions": {
       "title": "Permission Required",
       "gallery": "Gallery access is required to choose a profile photo.",
