@@ -171,7 +171,11 @@
     "home": "Home",
     "messages": "Messages",
     "schedule": "Schedule",
-    "earnings": "Earnings"
+    "earnings": "Earnings",
+    "super_tutor": "Super Tutor",
+    "reviews": "{{count}} reviews",
+    "stats": "{{students}} students • {{lessons}} lessons",
+    "speaks": "Speaks {{languages}}"
   },
   "languages": {
     "myLanguages": "My Languages",
@@ -197,7 +201,25 @@
       "intermediate": "Intermediate", 
       "advanced": "Advanced",
       "native": "Native"
-    }
+    },
+    "french": "French",
+    "english": "English",
+    "swahili": "Swahili",
+    "yoruba": "Yoruba",
+    "igbo": "Igbo",
+    "hausa": "Hausa",
+    "zulu": "Zulu",
+    "xhosa": "Xhosa",
+    "amharic": "Amharic",
+    "somali": "Somali",
+    "wolof": "Wolof",
+    "mandinka": "Mandinka",
+    "bambara": "Bambara",
+    "fula": "Fula",
+    "twi": "Twi",
+    "ewe": "Ewe",
+    "ga": "Ga",
+    "akan": "Akan"
   },
   "alerts": {
     "checkEmailTitle": "Check your email",
