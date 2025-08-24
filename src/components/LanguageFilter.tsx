@@ -170,6 +170,7 @@ const styles = StyleSheet.create({
   flagText: {
     fontSize: 18,
     marginRight: 8,
+    fontFamily: 'Baloo2_400Regular',
   },
   filterText: {
     fontSize: 16,
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
   arrow: {
     fontSize: 12,
     marginLeft: 8,
+    fontFamily: 'Baloo2_400Regular',
   },
   modalContainer: {
     flex: 1,

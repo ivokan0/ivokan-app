@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   header: { width: '100%', paddingHorizontal: 16, paddingTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   brand: { width: 96, height: 28, resizeMode: 'contain' },
   langButton: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 16, backgroundColor: 'rgba(0,0,0,0.06)' },
-  langText: { fontSize: 12, fontWeight: '600' },
+  langText: { fontSize: 12, fontWeight: '600', fontFamily: 'Baloo2_600SemiBold' },
   slide: { alignItems: 'center', justifyContent: 'center', padding: 24 },
   imageBox: { aspectRatio: 1, borderRadius: 16, overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.04)', marginVertical: 12, marginBottom: 28, alignItems: 'center', justifyContent: 'center' },
   image: { width: '100%', height: '100%', resizeMode: 'cover' },

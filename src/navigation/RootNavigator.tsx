@@ -17,6 +17,7 @@ import EditPaymentMethodScreen from '../screens/app/EditPaymentMethodScreen';
 import MyLanguagesScreen from '../screens/app/MyLanguagesScreen';
 import EditMyLanguagesScreen from '../screens/app/EditMyLanguagesScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
+import PresentationVideoScreen from '../screens/app/PresentationVideoScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
  
@@ -87,6 +88,7 @@ type AppStackParamList = {
   MyLanguages: undefined;
   EditMyLanguages: { type: 'spoken' | 'taught' };
   WebView: { url: string; title: string };
+  PresentationVideo: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -493,6 +495,24 @@ const AppStackNavigator: React.FC = () => {
           },
           headerLeft: () => <CustomBackButton />,
         })}
+      />
+      <AppStack.Screen
+        name="PresentationVideo"
+        component={PresentationVideoScreen}
+        options={{
+          title: t('profile.presentationVideo'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
       />
     </AppStack.Navigator>
   );

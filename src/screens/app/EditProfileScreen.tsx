@@ -12,12 +12,14 @@ import * as ImagePicker from 'expo-image-picker';
 import { uploadAvatar, deleteAvatar } from '../../services/storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Country, getCountryByCode, getLocalizedCountries } from '../../utils/countries';
+import { useNavigation } from '@react-navigation/native';
 
 const EditProfileScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { user, profile } = useAuth();
   const { updateUserProfile } = useProfile();
+  const navigation = useNavigation();
   
   const [firstName, setFirstName] = useState(profile?.first_name || '');
   const [lastName, setLastName] = useState(profile?.last_name || '');
@@ -33,6 +35,8 @@ const EditProfileScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [showCountryModal, setShowCountryModal] = useState(false);
+
+
 
   // Update selected country when language changes
   useEffect(() => {
@@ -223,49 +227,89 @@ const EditProfileScreen: React.FC = () => {
             onChangeText={setLastName}
           />
           
-          {/* Country of Birth Section */}
-          <View style={styles.countrySection}>
-            <Text style={[styles.countryLabel, { color: theme.colors.onSurface }]}>
-              {t('profile.countryOfBirth')}
-            </Text>
-                         <TouchableOpacity
-               style={[styles.countrySelector, { backgroundColor: '#FFFFFF' }]}
-               onPress={() => setShowCountryModal(true)}
-             >
-              <Text style={[
-                styles.countryText,
-                { color: selectedCountry ? theme.colors.onSurface : theme.colors.onSurfaceVariant }
-              ]}>
-                {selectedCountry ? selectedCountry.name : t('profile.selectCountry')}
+          {/* Country of Birth Section - Only for Tutors */}
+          {profile?.profile_type === 'tutor' && (
+            <View style={styles.countrySection}>
+              <Text style={[styles.countryLabel, { color: theme.colors.onSurface }]}>
+                {t('profile.countryOfBirth')}
               </Text>
-              <MaterialCommunityIcons
-                name="chevron-down"
-                size={20}
-                color={theme.colors.onSurfaceVariant}
-              />
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={[styles.countrySelector, { backgroundColor: '#FFFFFF' }]}
+                onPress={() => setShowCountryModal(true)}
+              >
+                <Text style={[
+                  styles.countryText,
+                  { color: selectedCountry ? theme.colors.onSurface : theme.colors.onSurfaceVariant }
+                ]}>
+                  {selectedCountry ? selectedCountry.name : t('profile.selectCountry')}
+                </Text>
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  size={20}
+                  color={theme.colors.onSurfaceVariant}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
           
-          {/* Biography Section */}
-          <View style={styles.biographySection}>
-            <Text style={[styles.biographyLabel, { color: theme.colors.onSurface }]}>
-              {t('profile.biography')}
-            </Text>
-            <TextInput
-              style={styles.biographyInput}
-              value={biography}
-              onChangeText={setBiography}
-              placeholder={t('profile.biographyPlaceholder')}
-              placeholderTextColor="#666"
-              multiline
-              textAlignVertical="top"
-              numberOfLines={8}
-              maxLength={1000}
-            />
-            <Text style={styles.characterCount}>
-              {biography.length}/1000
-            </Text>
-          </View>
+          {/* Biography Section - Only for Tutors */}
+          {profile?.profile_type === 'tutor' && (
+            <View style={styles.biographySection}>
+              <Text style={[styles.biographyLabel, { color: theme.colors.onSurface }]}>
+                {t('profile.biography')}
+              </Text>
+              <TextInput
+                style={styles.biographyInput}
+                value={biography}
+                onChangeText={setBiography}
+                placeholder={t('profile.biographyPlaceholder')}
+                placeholderTextColor="#666"
+                multiline
+                textAlignVertical="top"
+                numberOfLines={8}
+                maxLength={1000}
+              />
+              <Text style={styles.characterCount}>
+                {biography.length}/1000
+              </Text>
+            </View>
+          )}
+
+          {/* Presentation Video Section - Only for Tutors */}
+          {profile?.profile_type === 'tutor' && (
+            <View style={styles.presentationVideoSection}>
+              <Text style={[styles.sectionLabel, { color: theme.colors.onSurface }]}>
+                {t('profile.presentationVideo')}
+              </Text>
+              <TouchableOpacity
+                style={[styles.presentationVideoButton, { backgroundColor: '#FFFFFF' }]}
+                onPress={() => navigation.navigate('PresentationVideo' as never)}
+              >
+                <View style={styles.presentationVideoContent}>
+                  <View style={styles.presentationVideoInfo}>
+                    <Text style={[
+                      styles.presentationVideoText,
+                      { color: profile?.presentation_video_url ? theme.colors.onSurface : theme.colors.onSurfaceVariant }
+                    ]}>
+                      {profile?.presentation_video_url ? t('profile.presentationVideoEdit') : t('profile.presentationVideoAdd')}
+                    </Text>
+                    {profile?.presentation_video_url && (
+                      <Text style={[styles.presentationVideoUrl, { color: theme.colors.onSurfaceVariant }]}>
+                        {profile.presentation_video_url}
+                      </Text>
+                    )}
+                  </View>
+                  <MaterialCommunityIcons
+                    name="chevron-right"
+                    size={20}
+                    color={theme.colors.onSurfaceVariant}
+                  />
+                </View>
+              </TouchableOpacity>
+              
+
+            </View>
+          )}
         </View>
 
         {/* Bouton Sauvegarder */}
@@ -373,6 +417,39 @@ const styles = StyleSheet.create({
     fontFamily: 'Baloo2_400Regular',
     flex: 1,
   },
+  presentationVideoSection: {
+    marginTop: 16,
+  },
+  sectionLabel: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
+    marginBottom: 8,
+  },
+  presentationVideoButton: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  presentationVideoContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+  },
+  presentationVideoInfo: {
+    flex: 1,
+  },
+  presentationVideoText: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  presentationVideoUrl: {
+    fontSize: 12,
+    fontFamily: 'Baloo2_400Regular',
+    marginTop: 4,
+  },
+
 });
 
 export default EditProfileScreen;

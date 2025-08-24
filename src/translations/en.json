@@ -84,6 +84,12 @@
     "selectCountry": "Select a country",
     "searchCountries": "Search countries...",
     "noCountriesFound": "No countries found",
+    "presentationVideo": "Presentation Video",
+    "presentationVideoPlaceholder": "Enter the URL of your presentation video",
+    "presentationVideoDescription": "Add a YouTube video to introduce yourself to potential students. This helps them get to know you better before booking a lesson.",
+    "presentationVideoAdd": "Add presentation video",
+    "presentationVideoEdit": "Edit presentation video",
+    "presentationVideoPreview": "Video Preview",
     "permissions": {
       "title": "Permission Required",
       "gallery": "Gallery access is required to choose a profile photo.",
@@ -261,6 +267,10 @@
     "save": {
       "title": "Save Error",
       "message": "Unable to save changes. Please try again."
+    },
+    "invalidUrl": {
+      "title": "Invalid URL",
+      "youtube": "Please enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=VIDEO_ID)"
     },
     "auth": {
       "invalidCredentials": "Invalid email or password.",

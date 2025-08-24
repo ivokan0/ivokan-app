@@ -350,6 +350,7 @@ const styles = StyleSheet.create({
   },
   arrow: {
     fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
   },
   modalContainer: {
     flex: 1,
@@ -402,6 +403,7 @@ const styles = StyleSheet.create({
   countryFlag: {
     fontSize: 16,
     marginRight: 6,
+    fontFamily: 'Baloo2_400Regular',
   },
   countryText: {
     fontSize: 14,

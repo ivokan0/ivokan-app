@@ -9,10 +9,10 @@ import { setupI18n } from './src/translations/i18n';
 import { ClerkConfig } from './src/services/clerk';
 import React from 'react';
 import { Text as RNText } from 'react-native';
-import { useFonts, Baloo2_400Regular, Baloo2_600SemiBold } from '@expo-google-fonts/baloo-2';
+import { useFonts, Baloo2_400Regular, Baloo2_500Medium, Baloo2_600SemiBold, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ Baloo2_400Regular, Baloo2_600SemiBold });
+  const [fontsLoaded] = useFonts({ Baloo2_400Regular, Baloo2_500Medium, Baloo2_600SemiBold, Baloo2_700Bold });
   React.useEffect(() => {
     // Initialize i18n once on app startup
     setupI18n();

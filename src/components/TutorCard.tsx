@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   flag: {
     fontSize: 16,
     marginRight: 6,
+    fontFamily: 'Baloo2_400Regular',
   },
   verified: {
     width: 18,

@@ -207,6 +207,7 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     textAlign: 'center',
     fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
   },
   termsRowNoCheckbox: {
     marginTop: 8,
@@ -216,10 +217,12 @@ const styles = StyleSheet.create({
     color: '#444',
     fontSize: 13,
     lineHeight: 18,
+    fontFamily: 'Baloo2_400Regular',
   },
   link: {
     color: '#f05728',
     fontWeight: '600',
+    fontFamily: 'Baloo2_600SemiBold',
   },
   divider: {
     flexDirection: 'row',
@@ -249,6 +252,7 @@ const styles = StyleSheet.create({
     fontWeight: '600', 
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
   },
 });
 

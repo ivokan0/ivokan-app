@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     textAlign: 'center',
     fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
   },
   linkContainer: {
     marginTop: 24,
@@ -125,6 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: '600', 
     textAlign: 'center',
     fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
   },
 });
 

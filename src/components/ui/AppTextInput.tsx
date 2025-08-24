@@ -45,7 +45,7 @@ export const AppTextInput: React.FC<AppTextInputProps> = ({
 
 const styles = StyleSheet.create({
   input: { marginBottom: 8 },
-  error: { marginBottom: 8 },
+  error: { marginBottom: 8, fontFamily: 'Baloo2_400Regular' },
 });
 
 export default AppTextInput;

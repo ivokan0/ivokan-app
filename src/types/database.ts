@@ -27,6 +27,7 @@ export interface Profile extends BaseEntityWithUpdate {
   taught_languages: string[];
   proficiency_taught_lan: Record<string, any>;
   country_birth: string | null;
+  presentation_video_url: string | null;
 }
 
 // Tutor Stats

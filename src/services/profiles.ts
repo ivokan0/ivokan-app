@@ -17,6 +17,7 @@ export interface Profile {
   taught_languages: string[];
   proficiency_taught_lan: Record<string, any>;
   country_birth: string | null;
+  presentation_video_url: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -36,6 +37,7 @@ export interface CreateProfileData {
   taught_languages?: string[];
   proficiency_taught_lan?: Record<string, any>;
   country_birth?: string;
+  presentation_video_url?: string;
 }
 
 // Détecter le fuseau horaire de l'utilisateur
@@ -119,7 +121,7 @@ export const getProfile = async (userId: string): Promise<{ data: Profile | null
 // Mettre à jour un profil
 export const updateProfile = async (
   userId: string, 
-  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type' | 'minimum_time_notice' | 'biography' | 'super_tutor' | 'spoken_languages' | 'languages_proficiency' | 'taught_languages' | 'proficiency_taught_lan' | 'country_birth'>>
+  updates: Partial<Pick<Profile, 'first_name' | 'last_name' | 'avatar_url' | 'timezone' | 'profile_type' | 'minimum_time_notice' | 'biography' | 'super_tutor' | 'spoken_languages' | 'languages_proficiency' | 'taught_languages' | 'proficiency_taught_lan' | 'country_birth' | 'presentation_video_url'>>
 ): Promise<{ data: Profile | null; error: any }> => {
   try {
     const { data: profile, error } = await supabase

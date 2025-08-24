@@ -84,6 +84,12 @@
     "selectCountry": "Sélectionner un pays",
     "searchCountries": "Rechercher des pays...",
     "noCountriesFound": "Aucun pays trouvé",
+    "presentationVideo": "Vidéo de présentation",
+    "presentationVideoPlaceholder": "Entrez l'URL de votre vidéo de présentation",
+    "presentationVideoDescription": "Ajoutez une vidéo YouTube pour vous présenter aux étudiants potentiels. Cela les aide à mieux vous connaître avant de réserver un cours.",
+    "presentationVideoAdd": "Ajouter une vidéo de présentation",
+    "presentationVideoEdit": "Modifier la vidéo de présentation",
+    "presentationVideoPreview": "Aperçu de la vidéo",
     "permissions": {
       "title": "Permission requise",
       "gallery": "L'accès à la galerie est nécessaire pour choisir une photo de profil.",
@@ -262,6 +268,10 @@
     "save": {
       "title": "Erreur de sauvegarde",
       "message": "Impossible de sauvegarder les modifications. Veuillez réessayer."
+    },
+    "invalidUrl": {
+      "title": "URL invalide",
+      "youtube": "Veuillez entrer une URL YouTube valide (ex: https://www.youtube.com/watch?v=VIDEO_ID)"
     },
     "auth": {
       "invalidCredentials": "E-mail ou mot de passe invalide.",

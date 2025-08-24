@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     textAlign: 'center',
     fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
   },
   divider: {
     flexDirection: 'row',
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
     color: '#f05728',
     fontWeight: '600',
     fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
   },
 });
 
