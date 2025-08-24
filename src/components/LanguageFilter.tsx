@@ -28,12 +28,6 @@ const LanguageFilter: React.FC<LanguageFilterProps> = ({
     const languageToCountry: Record<string, string> = {
       'french': 'FR',
       'english': 'GB',
-      'spanish': 'ES',
-      'german': 'DE',
-      'italian': 'IT',
-      'portuguese': 'PT',
-      'arabic': 'SA',
-      'chinese': 'CN',
       'swahili': 'KE',
       'yoruba': 'NG',
       'igbo': 'NG',

@@ -170,7 +170,19 @@
   "search": {
     "allLanguages": "All Languages",
     "selectLanguage": "What would you like to learn?",
-    "noTutorsFound": "No tutors found"
+    "noTutorsFound": "No tutors found",
+    "filters": "Filters",
+    "tutorFilters": "Tutor Filters",
+    "superTutor": "Super Tutor",
+    "countryOfBirth": "Country of Birth",
+    "spokenLanguages": "Spoken Languages",
+    "allCountries": "All Countries",
+    "clearFilters": "Clear All",
+    "applyFilters": "Apply Filters",
+    "sortBy": "Sort By",
+    "defaultSort": "Default",
+    "sortByRating": "By Rating",
+    "sortByReviews": "By Reviews"
   },
   "tutor": {
     "home": "Home",

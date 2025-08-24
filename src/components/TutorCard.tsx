@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: '700',
+    fontFamily: 'Baloo2_700Bold',
     marginRight: 6,
   },
   flag: {
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: '700',
+    fontFamily: 'Baloo2_700Bold',
   },
   badge: {
     alignSelf: 'flex-start',
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
   badgeText: {
     fontSize: 12,
     fontWeight: '600',
+    fontFamily: 'Baloo2_600SemiBold',
   },
   metricsRow: {
     flexDirection: 'row',
@@ -168,14 +171,17 @@ const styles = StyleSheet.create({
   priceLike: {
     fontSize: 16,
     fontWeight: '700',
+    fontFamily: 'Baloo2_700Bold',
     marginRight: 12,
   },
   bio: {
     fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
     marginBottom: 8,
   },
   muted: {
     fontSize: 13,
+    fontFamily: 'Baloo2_400Regular',
   },
 });
 
