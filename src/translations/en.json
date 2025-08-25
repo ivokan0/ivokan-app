@@ -217,7 +217,19 @@
     "search": "Search",
     "messages": "Messages",
     "schedule": "Schedule",
-    "subscriptions": "Subscriptions"
+    "subscriptions": "Subscriptions",
+    "noConversations": "No conversations yet",
+    "startConversation": "Start a conversation with a tutor to begin messaging",
+    "startConversationTitle": "Start the conversation",
+    "startConversationSubtitle": "Send a message to this tutor to let them know your objectives and learn more about their teaching methods.",
+    "startConversationShort": "Start conversation",
+    "book": "Book",
+    "findTutor": "Find a Tutor",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "unreadMessages": "{{count}} unread",
+    "lastMessage": "Last message",
+    "newMessage": "New message"
   },
   "search": {
     "allLanguages": "All Languages",
@@ -244,7 +256,16 @@
     "super_tutor": "Super Tutor",
     "reviews": "{{count}} reviews",
     "stats": "{{students}} students • {{lessons}} lessons",
-    "speaks": "Speaks {{languages}}"
+    "speaks": "Speaks {{languages}}",
+    "noConversations": "No conversations yet",
+    "startConversation": "Students will appear here when they start conversations with you",
+    "startConversationTitle": "Start the conversation",
+    "startConversationSubtitle": "Send your first message to begin chatting with this student.",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "unreadMessages": "{{count}} unread",
+    "lastMessage": "Last message",
+    "newMessage": "New message"
   },
   "tutorProfile": {
     "title": "Tutor Profile",
@@ -263,6 +284,9 @@
     "taughtLanguages": "Taught Languages",
     "shareMessage": "Check out {{name}}'s profile on Ivokan: {{url}}",
     "shareError": "Unable to share profile",
+    "shareProfile": "Share Profile",
+    "openProfile": "Open Profile",
+    "bookTrialLesson": "Book Trial Lesson",
     "superTutorDescription": "{{name}} is a highly rated and reliable tutor.",
     "learnMore": "Learn more",
     "reviewsSection": "Reviews",

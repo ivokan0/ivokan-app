@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from '../screens/SplashScreen';
 import { LoginScreen, SignupScreen, ForgotPasswordScreen, ResetPasswordScreen, SignupRoleScreen } from '../screens/auth';
-import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen, MyResumeScreen, AddEditResumeScreen } from '../screens/app';
+import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen, MyResumeScreen, AddEditResumeScreen, TutorResumeProfileScreen, ChatScreen } from '../screens/app';
 import EditProfileScreen from '../screens/app/EditProfileScreen';
 import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
@@ -96,6 +96,8 @@ type AppStackParamList = {
   ReviewScreen: { tutorId: string; tutorName: string; reviews: import('../types/database').ReviewWithProfiles[] };
   MyResume: undefined;
   AddEditResume: { item?: import('../types/database').TutorResume };
+  TutorResumeProfile: { tutorId: string; tutorName?: string };
+  Chat: { conversationId: string };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -556,6 +558,19 @@ const AppStackNavigator: React.FC = () => {
         }}
       />
       <AppStack.Screen
+        name="TutorResumeProfile"
+        component={TutorResumeProfileScreen}
+        options={{
+          title: t('resume.title'),
+          headerTitleStyle: {
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 20,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
         name="AddEditResume"
         component={AddEditResumeScreen}
         options={{
@@ -566,6 +581,13 @@ const AppStackNavigator: React.FC = () => {
             fontWeight: '600'
           },
           headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </AppStack.Navigator>

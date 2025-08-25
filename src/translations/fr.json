@@ -217,7 +217,19 @@
     "search": "Rechercher",
     "messages": "Messages",
     "schedule": "Agenda",
-    "subscriptions": "Abonnements"
+    "subscriptions": "Abonnements",
+    "noConversations": "Aucune conversation pour le moment",
+    "startConversation": "Commencez une conversation avec un tuteur pour commencer à échanger des messages",
+    "startConversationTitle": "Démarrez la conversation",
+    "startConversationSubtitle": "Envoyez un message à ce professeur pour lui faire part de vos objectifs et en savoir plus sur ses méthodes d'enseignement.",
+    "startConversationShort": "Démarrer la conversation",
+    "book": "Réserver",
+    "findTutor": "Trouver un Tuteur",
+    "typeMessage": "Tapez un message...",
+    "send": "Envoyer",
+    "unreadMessages": "{{count}} non lu",
+    "lastMessage": "Dernier message",
+    "newMessage": "Nouveau message"
   },
   "search": {
     "allLanguages": "Toutes les Langues",
@@ -244,7 +256,16 @@
     "super_tutor": "Super Tuteur",
     "reviews": "{{count}} avis",
     "stats": "{{students}} étudiants • {{lessons}} leçons",
-    "speaks": "Parle {{languages}}"
+    "speaks": "Parle {{languages}}",
+    "noConversations": "Aucune conversation pour le moment",
+    "startConversation": "Les étudiants apparaîtront ici quand ils commenceront des conversations avec vous",
+    "startConversationTitle": "Commencer la conversation",
+    "startConversationSubtitle": "Envoyez votre premier message pour commencer à discuter avec cet étudiant.",
+    "typeMessage": "Tapez un message...",
+    "send": "Envoyer",
+    "unreadMessages": "{{count}} non lu",
+    "lastMessage": "Dernier message",
+    "newMessage": "Nouveau message"
   },
   "tutorProfile": {
     "title": "Profil du Tuteur",
@@ -263,6 +284,9 @@
     "taughtLanguages": "Langues Enseignées",
     "shareMessage": "Découvrez le profil de {{name}} sur Ivokan : {{url}}",
     "shareError": "Impossible de partager le profil",
+    "shareProfile": "Partager le Profil",
+    "openProfile": "Ouvrir le Profil",
+    "bookTrialLesson": "Réserver un Cours d'Essai",
     "superTutorDescription": "{{name}} est un tuteur très bien noté et fiable.",
     "learnMore": "En savoir plus",
     "reviewsSection": "Avis",

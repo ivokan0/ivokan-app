@@ -296,3 +296,48 @@ export type SubscriptionStatus = typeof SUBSCRIPTION_STATUS[number];
 // Profile types
 export const PROFILE_TYPES = ['student', 'tutor'] as const;
 export type ProfileType = typeof PROFILE_TYPES[number];
+
+// Conversation and Message types
+export interface Conversation extends BaseEntityWithUpdate {
+  tutor_id: string;
+  student_id: string;
+  last_message: string | null;
+  last_message_at: string | null;
+}
+
+export interface Message extends BaseEntity {
+  conversation_id: string;
+  sender_id: string;
+  receiver_id: string;
+  content: string;
+  read_at: string | null;
+}
+
+export interface ConversationWithProfiles extends Conversation {
+  tutor: Profile;
+  student: Profile;
+  messages: Message[];
+  unread_count: number;
+}
+
+export interface MessageWithProfiles extends Message {
+  sender: Profile;
+  receiver: Profile;
+}
+
+// Create/Update types for conversations and messages
+export interface CreateConversationData {
+  tutor_id: string;
+  student_id: string;
+}
+
+export interface CreateMessageData {
+  conversation_id: string;
+  sender_id: string;
+  receiver_id: string;
+  content: string;
+}
+
+export interface UpdateMessageData {
+  read_at?: string;
+}

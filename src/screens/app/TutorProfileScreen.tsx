@@ -18,6 +18,8 @@ import YouTubePlayer from '../../components/ui/YouTubePlayer';
 import ReviewCard from '../../components/ReviewCard';
 import BottomActionBar from '../../components/ui/BottomActionBar';
 import { getReviewsWithProfiles } from '../../services/reviews';
+import { getOrCreateConversation } from '../../services/messaging';
+import { useAuth } from '../../hooks/useAuth';
 
 type TutorProfileScreenProps = {
   route: RouteProp<{ TutorProfile: { tutor: TutorWithStats } }, 'TutorProfile'>;
@@ -40,6 +42,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { user } = useAuth();
   const [showFullBio, setShowFullBio] = React.useState(false);
   const [reviews, setReviews] = React.useState<ReviewWithProfiles[]>([]);
   const [loadingReviews, setLoadingReviews] = React.useState(true);
@@ -71,9 +74,35 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
     }
   };
 
-  const handleChatPress = () => {
-    // TODO: Navigate to chat screen
-    console.log('Navigate to chat with tutor:', tutor.user_id);
+  const handleChatPress = async () => {
+    if (!user?.id) {
+      // Handle not logged in case
+      return;
+    }
+
+    try {
+      // Get or create conversation
+      const { data: conversation, error } = await getOrCreateConversation(
+        tutor.user_id,
+        user.id,
+        user.id
+      );
+
+      if (error) {
+        console.error('Error creating conversation:', error);
+        return;
+      }
+
+      if (conversation) {
+        // Navigate to Messages tab and open the conversation
+        (navigation as any).navigate('Main', { 
+          screen: 'Messages',
+          params: { conversationId: conversation.id }
+        });
+      }
+    } catch (error) {
+      console.error('Error starting chat:', error);
+    }
   };
 
   const handleBuyTrialPress = () => {
@@ -305,7 +334,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
         )}
 
         {/* Separator */}
-        {tutor.spoken_languages?.length > 0 && tutor.super_tutor && (
+        {tutor.spoken_languages?.length > 0 && (
           <View style={[styles.separator, { backgroundColor: '#E0E0E0' }]} />
         )}
 
@@ -335,6 +364,28 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
             </View>
           </View>
         )}
+
+        {/* Separator */}
+        {tutor.super_tutor && (
+          <View style={[styles.separator, { backgroundColor: '#E0E0E0' }]} />
+        )}
+
+        {/* Resume entry - visible as a row to open full resume */}
+        <View style={styles.section}>
+          <TouchableOpacity
+            onPress={() => (navigation as any).navigate('TutorResumeProfile', { tutorId: tutor.id, tutorName: displayName })}
+            style={styles.resumeRow}
+          >
+            <Text style={[styles.resumeTitle, { color: theme.colors.onSurface }]}>
+              {t('resume.title')}
+            </Text>
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={20}
+              color={theme.colors.onSurfaceVariant}
+            />
+          </TouchableOpacity>
+        </View>
 
         {/* Separator */}
         {(tutor.super_tutor || tutor.spoken_languages?.length > 0 || tutor.biography) && (
@@ -571,6 +622,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Baloo2_600SemiBold',
     fontWeight: '600',
+  },
+  resumeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+  },
+  resumeTitle: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
   },
   spokenLanguagesContainer: {
     gap: 12,

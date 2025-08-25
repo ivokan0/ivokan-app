@@ -11,3 +11,5 @@ export { default as TutorProfileScreen } from './TutorProfileScreen';
 export { default as SuperTutorInfoScreen } from './SuperTutorInfoScreen';
 export { default as MyResumeScreen } from './MyResumeScreen';
 export { default as AddEditResumeScreen } from './AddEditResumeScreen';
+export { default as TutorResumeProfileScreen } from './TutorResumeProfileScreen';
+export { default as ChatScreen } from './ChatScreen';

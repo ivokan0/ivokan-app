@@ -1,0 +1,71 @@
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { RouteProp, useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../hooks/useAuth';
+import StudentChatScreen from '../../components/StudentChatScreen';
+import { ConversationWithProfiles } from '../../types/database';
+import { getConversation } from '../../services/messaging';
+
+type ChatScreenProps = {
+  route: RouteProp<{ Chat: { conversationId: string } }, 'Chat'>;
+};
+
+const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
+  const { conversationId } = route.params;
+  const theme = useTheme();
+  const navigation = useNavigation();
+  const { user } = useAuth();
+  const [conversation, setConversation] = useState<ConversationWithProfiles | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadConversation();
+  }, [conversationId]);
+
+  const loadConversation = async () => {
+    if (!conversationId) return;
+
+    setLoading(true);
+    try {
+      const { data, error } = await getConversation(conversationId, user?.id);
+      if (error) {
+        console.error('Error loading conversation:', error);
+        return;
+      }
+      setConversation(data);
+    } catch (error) {
+      console.error('Error loading conversation:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  if (loading || !conversation) {
+    return (
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+        {/* Loading state handled by ChatScreenComponent */}
+      </View>
+    );
+  }
+
+  return (
+    <StudentChatScreen
+      conversation={conversation}
+      currentUserId={user?.id || ''}
+      onBack={handleBack}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
+export default ChatScreen;
