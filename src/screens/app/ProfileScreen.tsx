@@ -48,6 +48,11 @@ const ProfileScreen: React.FC = () => {
     navigation.navigate('MyLanguages');
   };
 
+  const navigateToMyResume = () => {
+    // @ts-ignore
+    navigation.navigate('MyResume');
+  };
+
   const navigateToPresentationVideo = () => {
     // @ts-ignore
     navigation.navigate('PresentationVideo');
@@ -131,62 +136,6 @@ const ProfileScreen: React.FC = () => {
           onPress={navigateToEditProfile}
         />
         
-        {/* Presentation Video Section - Only for Tutors */}
-        {profile?.profile_type === 'tutor' && (
-          <>
-            <Divider style={styles.divider} />
-            <View style={styles.presentationVideoSection}>
-              <Text style={[styles.presentationVideoTitle, { color: theme.colors.onSurface }]}>
-                {t('profile.presentationVideo')}
-              </Text>
-              
-                             {profile?.presentation_video_url ? (
-                 <View style={styles.videoContainer}>
-                   <Text style={[styles.videoUrlText, { color: theme.colors.onSurfaceVariant }]}>
-                     {profile.presentation_video_url}
-                   </Text>
-                 </View>
-               ) : (
-                <TouchableOpacity
-                  style={[
-                    styles.addVideoButton,
-                    { 
-                      borderColor: theme.colors.primary,
-                      backgroundColor: theme.colors.surfaceVariant 
-                    }
-                  ]}
-                  onPress={navigateToPresentationVideo}
-                >
-                  <MaterialCommunityIcons
-                    name="video-plus"
-                    size={24}
-                    color={theme.colors.primary}
-                  />
-                  <Text style={[styles.addVideoText, { color: theme.colors.primary }]}>
-                    {t('profile.presentationVideoAdd')}
-                  </Text>
-                </TouchableOpacity>
-              )}
-              
-              {profile?.presentation_video_url && (
-                <TouchableOpacity
-                  style={styles.editVideoButton}
-                  onPress={navigateToPresentationVideo}
-                >
-                  <MaterialCommunityIcons
-                    name="pencil"
-                    size={16}
-                    color={theme.colors.onSurfaceVariant}
-                  />
-                  <Text style={[styles.editVideoText, { color: theme.colors.onSurfaceVariant }]}>
-                    {t('profile.presentationVideoEdit')}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          </>
-        )}
-        
         <Divider style={styles.divider} />
       </View>
 
@@ -235,6 +184,14 @@ const ProfileScreen: React.FC = () => {
             icon="translate"
             title={t('languages.myLanguages')}
             onPress={navigateToMyLanguages}
+          />
+        )}
+
+        {profile?.profile_type === 'tutor' && (
+          <MenuRow
+            icon="file-document-outline"
+            title={t('resume.title')}
+            onPress={navigateToMyResume}
           />
         )}
         
@@ -352,48 +309,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     fontFamily: 'Baloo2_600SemiBold',
-  },
-  presentationVideoSection: {
-    marginVertical: 16,
-  },
-  presentationVideoTitle: {
-    fontSize: 16,
-    fontFamily: 'Baloo2_600SemiBold',
-    marginBottom: 12,
-  },
-  videoContainer: {
-    marginBottom: 12,
-  },
-  videoUrlText: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
-    fontStyle: 'italic',
-  },
-  addVideoButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderRadius: 8,
-  },
-  addVideoText: {
-    fontSize: 16,
-    fontFamily: 'Baloo2_400Regular',
-    marginLeft: 8,
-  },
-  editVideoButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 8,
-  },
-  editVideoText: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
-    marginLeft: 4,
   },
 });
 

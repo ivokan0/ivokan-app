@@ -9,5 +9,5 @@ export { default as MyLanguagesScreen } from './MyLanguagesScreen';
 export { default as EditMyLanguagesScreen } from './EditMyLanguagesScreen';
 export { default as TutorProfileScreen } from './TutorProfileScreen';
 export { default as SuperTutorInfoScreen } from './SuperTutorInfoScreen';
-
-
+export { default as MyResumeScreen } from './MyResumeScreen';
+export { default as AddEditResumeScreen } from './AddEditResumeScreen';

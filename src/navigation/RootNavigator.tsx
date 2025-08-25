@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from '../screens/SplashScreen';
 import { LoginScreen, SignupScreen, ForgotPasswordScreen, ResetPasswordScreen, SignupRoleScreen } from '../screens/auth';
-import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen } from '../screens/app';
+import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen, MyResumeScreen, AddEditResumeScreen } from '../screens/app';
 import EditProfileScreen from '../screens/app/EditProfileScreen';
 import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
@@ -94,6 +94,8 @@ type AppStackParamList = {
   TutorProfile: { tutor: import('../types/database').TutorWithStats };
   SuperTutorInfo: undefined;
   ReviewScreen: { tutorId: string; tutorName: string; reviews: import('../types/database').ReviewWithProfiles[] };
+  MyResume: undefined;
+  AddEditResume: { item?: import('../types/database').TutorResume };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -538,6 +540,32 @@ const AppStackNavigator: React.FC = () => {
         component={ReviewScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="MyResume"
+        component={MyResumeScreen}
+        options={{
+          title: t('resume.title'),
+          headerTitleStyle: {
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 20,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="AddEditResume"
+        component={AddEditResumeScreen}
+        options={{
+          title: t('resume.add'),
+          headerTitleStyle: {
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 20,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
     </AppStack.Navigator>

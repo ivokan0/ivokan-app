@@ -96,6 +96,52 @@
       "openSettings": "Ouvrir les paramètres"
     }
   },
+  "resume": {
+    "title": "Mon CV",
+    "add": "Ajouter un élément CV",
+    "edit": "Modifier l'élément CV",
+    "delete": "Supprimer",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "education": "Formation",
+    "workExperience": "Expérience professionnelle",
+    "certification": "Certification",
+    "noItems": "Aucun élément CV pour le moment",
+    "addFirstItem": "Ajoutez votre premier élément CV",
+    "fields": {
+      "type": "Type",
+      "institutionName": "Nom de l'institution",
+      "fieldOfStudy": "Domaine d'étude",
+      "degreeLevel": "Niveau de diplôme",
+      "companyName": "Nom de l'entreprise",
+      "position": "Poste",
+      "certificateName": "Nom du certificat",
+      "issuingOrganization": "Organisme émetteur",
+      "startYear": "Année de début",
+      "endYear": "Année de fin",
+      "addEndYear": "Ajouter une année de fin",
+      "description": "Description",
+      "current": "En cours"
+    },
+    "placeholders": {
+      "institutionName": "Entrez le nom de l'institution",
+      "fieldOfStudy": "Entrez le domaine d'étude",
+      "degreeLevel": "Entrez le niveau de diplôme",
+      "companyName": "Entrez le nom de l'entreprise",
+      "position": "Entrez le poste",
+      "certificateName": "Entrez le nom du certificat",
+      "issuingOrganization": "Entrez l'organisme émetteur",
+      "description": "Entrez la description"
+    },
+    "errors": {
+      "required": "Ce champ est requis",
+      "invalidYear": "Veuillez entrer une année valide",
+      "endYearBeforeStart": "L'année de fin doit être après l'année de début",
+      "saveFailed": "Échec de la sauvegarde de l'élément CV",
+      "deleteFailed": "Échec de la suppression de l'élément CV"
+    }
+  },
   "assistance": {
     "title": "Assistance",
     "faq": "FAQ",
@@ -310,7 +356,7 @@
     "passwordUpdatedTitle": "Mot de passe mis à jour"
   },
   "common": {
-    "loading": "...",
+    "loading": "Chargement...",
     "notifications": "Notifications",
     "cancel": "Annuler",
     "back": "Retour",
@@ -318,6 +364,7 @@
     "error": "Erreur"
   },
   "errors": {
+    "title": "Erreur",
     "unknown": "Une erreur inattendue est survenue.",
     "network": "Erreur réseau. Vérifiez votre connexion.",
     "upload": {

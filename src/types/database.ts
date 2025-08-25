@@ -96,6 +96,30 @@ export interface TutorPaymentMethod extends BaseEntityWithUpdate {
   country: string;
 }
 
+// Tutor Resume
+export interface TutorResume extends BaseEntityWithUpdate {
+  tutor_id: string;
+  type: 'education' | 'work_experience' | 'certification';
+  
+  // Education fields
+  institution_name?: string;
+  field_of_study?: string;
+  degree_level?: string;
+  
+  // Work experience fields
+  company_name?: string;
+  position?: string;
+  
+  // Certification fields
+  certificate_name?: string;
+  issuing_organization?: string;
+  
+  // Common fields
+  start_year: number;
+  end_year?: number;
+  description?: string;
+}
+
 // Extended types with relationships
 export interface ProfileWithStats extends Profile {
   tutor_stats?: TutorStats;
@@ -167,6 +191,51 @@ export interface CreateTutorPaymentMethodData {
   is_default?: boolean;
   bank_name?: string;
   country: string;
+}
+
+export interface CreateTutorResumeData {
+  tutor_id: string;
+  type: 'education' | 'work_experience' | 'certification';
+  
+  // Education fields
+  institution_name?: string;
+  field_of_study?: string;
+  degree_level?: string;
+  
+  // Work experience fields
+  company_name?: string;
+  position?: string;
+  
+  // Certification fields
+  certificate_name?: string;
+  issuing_organization?: string;
+  
+  // Common fields
+  start_year: number;
+  end_year?: number;
+  description?: string;
+}
+
+export interface UpdateTutorResumeData {
+  type?: 'education' | 'work_experience' | 'certification';
+  
+  // Education fields
+  institution_name?: string;
+  field_of_study?: string;
+  degree_level?: string;
+  
+  // Work experience fields
+  company_name?: string;
+  position?: string;
+  
+  // Certification fields
+  certificate_name?: string;
+  issuing_organization?: string;
+  
+  // Common fields
+  start_year?: number;
+  end_year?: number;
+  description?: string;
 }
 
 // Filter and query types
