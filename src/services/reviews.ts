@@ -51,8 +51,8 @@ export const getReviewsWithProfiles = async (tutorId: string): Promise<ApiRespon
       .from('reviews')
       .select(`
         *,
-        tutor:profiles!reviews_tutor_id_fkey(*),
-        student:profiles!reviews_student_id_fkey(*)
+        tutor:profiles!fk_reviews_tutor_id(*),
+        student:profiles!fk_reviews_student_id(*)
       `)
       .eq('tutor_id', tutorId)
       .order('created_at', { ascending: false });

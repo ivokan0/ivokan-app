@@ -1,10 +1,13 @@
 export { default as HomeScreen } from './HomeScreen';
 export { default as ProfileScreen } from './ProfileScreen';
 export { default as SettingsScreen } from './SettingsScreen';
+export { default as ReviewScreen } from './ReviewScreen';
 export { default as PaymentMethodsScreen } from './PaymentMethodsScreen';
 export { default as AddPaymentMethodScreen } from './AddPaymentMethodScreen';
 export { default as EditPaymentMethodScreen } from './EditPaymentMethodScreen';
 export { default as MyLanguagesScreen } from './MyLanguagesScreen';
 export { default as EditMyLanguagesScreen } from './EditMyLanguagesScreen';
+export { default as TutorProfileScreen } from './TutorProfileScreen';
+export { default as SuperTutorInfoScreen } from './SuperTutorInfoScreen';
 
 

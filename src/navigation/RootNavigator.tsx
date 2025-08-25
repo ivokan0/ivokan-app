@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SplashScreen from '../screens/SplashScreen';
 import { LoginScreen, SignupScreen, ForgotPasswordScreen, ResetPasswordScreen, SignupRoleScreen } from '../screens/auth';
-import { HomeScreen, ProfileScreen, SettingsScreen } from '../screens/app';
+import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen } from '../screens/app';
 import EditProfileScreen from '../screens/app/EditProfileScreen';
 import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
@@ -18,6 +18,8 @@ import MyLanguagesScreen from '../screens/app/MyLanguagesScreen';
 import EditMyLanguagesScreen from '../screens/app/EditMyLanguagesScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
 import PresentationVideoScreen from '../screens/app/PresentationVideoScreen';
+import TutorProfileScreen from '../screens/app/TutorProfileScreen';
+import SuperTutorInfoScreen from '../screens/app/SuperTutorInfoScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
  
@@ -89,6 +91,9 @@ type AppStackParamList = {
   EditMyLanguages: { type: 'spoken' | 'taught' };
   WebView: { url: string; title: string };
   PresentationVideo: undefined;
+  TutorProfile: { tutor: import('../types/database').TutorWithStats };
+  SuperTutorInfo: undefined;
+  ReviewScreen: { tutorId: string; tutorName: string; reviews: import('../types/database').ReviewWithProfiles[] };
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -512,6 +517,27 @@ const AppStackNavigator: React.FC = () => {
             fontWeight: '600'
           },
           headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="TutorProfile"
+        component={TutorProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="SuperTutorInfo"
+        component={SuperTutorInfoScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="ReviewScreen"
+        component={ReviewScreen}
+        options={{
+          headerShown: false,
         }}
       />
     </AppStack.Navigator>

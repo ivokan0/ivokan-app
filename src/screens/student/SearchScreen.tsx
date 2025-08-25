@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import TutorCard from '../../components/TutorCard';
 import LanguageFilter from '../../components/LanguageFilter';
 import TutorFilter from '../../components/TutorFilter';
@@ -11,6 +12,7 @@ import { getTutorsWithFilters, getAvailableTaughtLanguages, getAvailableCountrie
 const SearchScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigation = useNavigation();
   const [tutors, setTutors] = useState<TutorWithStats[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
@@ -84,7 +86,10 @@ const SearchScreen: React.FC = () => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
-          <TutorCard tutor={item} />
+          <TutorCard 
+            tutor={item} 
+            onPress={() => navigation.navigate('TutorProfile' as never, { tutor: item } as never)}
+          />
         )}
         refreshControl={
           <RefreshControl 
