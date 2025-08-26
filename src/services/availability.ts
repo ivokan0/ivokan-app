@@ -208,117 +208,16 @@ export const getEffectiveAvailability = async (
   }
 };
 
-// Calculate effective availability by subtracting unavailability from weekly availability
+// Calculate effective availability using Supabase function (deprecated - use getEffectiveAvailability instead)
 export const calculateEffectiveAvailability = async (
   tutorId: string,
   startDate?: string,
   endDate?: string
 ): Promise<ApiResponse<EffectiveAvailability[]>> => {
-  try {
-    // Get both weekly availability and unavailability
-    const { data: weeklyData, error: weeklyError } = await getWeeklyAvailability(tutorId);
-    if (weeklyError) throw weeklyError;
-
-    const { data: unavailabilityData, error: unavailabilityError } = await getUnavailabilityPeriods(tutorId);
-    if (unavailabilityError) throw unavailabilityError;
-
-    // Calculate date range
-    const start = startDate ? new Date(startDate) : new Date();
-    const end = endDate ? new Date(endDate) : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-    
-    const result: EffectiveAvailability[] = [];
-    const currentDate = new Date(start);
-
-    while (currentDate <= end) {
-      const dateString = currentDate.toISOString().split('T')[0];
-      const dayOfWeek = currentDate.getDay();
-
-      // Get weekly availability for this day
-      const dayWeeklySlots = weeklyData?.filter(slot => slot.day_of_week === dayOfWeek) || [];
-
-      // Get unavailability for this specific date
-      const dayUnavailability = unavailabilityData?.filter(period => {
-        const periodStart = new Date(period.start_date!);
-        const periodEnd = new Date(period.end_date!);
-        return currentDate >= periodStart && currentDate <= periodEnd;
-      }) || [];
-
-      // Check if full day unavailable
-      const isFullDayUnavailable = dayUnavailability.some(period => period.is_full_day);
-
-      let availableSlots: { start_time: string; end_time: string }[] = [];
-
-      if (!isFullDayUnavailable && dayWeeklySlots.length > 0) {
-        // Calculate available slots by properly subtracting partial unavailability
-        availableSlots = [];
-        
-        for (const weeklySlot of dayWeeklySlots) {
-          let currentSlots = [{
-            start_time: weeklySlot.start_time!,
-            end_time: weeklySlot.end_time!,
-          }];
-          
-          // Apply each unavailability period to split the slots
-          for (const unavail of dayUnavailability) {
-            if (unavail.is_full_day) {
-              currentSlots = []; // Full day unavailable, no slots left
-              break;
-            }
-            
-            const unavailStart = unavail.start_time!;
-            const unavailEnd = unavail.end_time!;
-            const newSlots: { start_time: string; end_time: string }[] = [];
-            
-            for (const slot of currentSlots) {
-              // Check if unavailability overlaps with this slot
-              if (unavailEnd <= slot.start_time || unavailStart >= slot.end_time) {
-                // No overlap, keep the slot as is
-                newSlots.push(slot);
-              } else {
-                // There is overlap, split the slot
-                
-                // Add part before unavailability (if any)
-                if (slot.start_time < unavailStart) {
-                  newSlots.push({
-                    start_time: slot.start_time,
-                    end_time: unavailStart,
-                  });
-                }
-                
-                // Add part after unavailability (if any)
-                if (slot.end_time > unavailEnd) {
-                  newSlots.push({
-                    start_time: unavailEnd,
-                    end_time: slot.end_time,
-                  });
-                }
-              }
-            }
-            
-            currentSlots = newSlots;
-          }
-          
-          availableSlots.push(...currentSlots);
-        }
-        
-        // Sort slots by start time
-        availableSlots.sort((a, b) => a.start_time.localeCompare(b.start_time));
-        
-
-      }
-
-      result.push({
-        date_actual: dateString,
-        available_slots: availableSlots,
-      });
-
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-
-    return { data: result, error: null };
-  } catch (error) {
-    return { data: null, error };
-  }
+  // This function is deprecated. Use getEffectiveAvailability instead which handles
+  // slot subtraction directly in Supabase for better performance and consistency.
+  console.warn('calculateEffectiveAvailability is deprecated. Use getEffectiveAvailability instead.');
+  return getEffectiveAvailability(tutorId, startDate, endDate);
 };
 
 // Bulk create/update availability (useful for saving multiple slots at once)

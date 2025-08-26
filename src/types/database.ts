@@ -386,6 +386,7 @@ export interface TutorAvailabilityView {
   is_full_day?: boolean;
   availability_id: string;
   status: 'available' | 'unavailable_full_day' | 'unavailable_partial' | 'unknown';
+  available_slots?: { start_time: string; end_time: string }[];
 }
 
 export interface EffectiveAvailability {

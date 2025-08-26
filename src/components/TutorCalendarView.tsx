@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TutorAvailabilityView, EffectiveAvailability } from '../types/database';
-import { getTutorAvailabilityView, calculateEffectiveAvailability } from '../services/availability';
+import { getTutorAvailabilityView, getEffectiveAvailability } from '../services/availability';
 
 interface TutorCalendarViewProps {
   tutorId: string;
@@ -43,8 +43,8 @@ const TutorCalendarView: React.FC<TutorCalendarViewProps> = ({ tutorId, onClose 
       const startDateString = startDate.toISOString().split('T')[0];
       const endDateString = endDate.toISOString().split('T')[0];
       
-      // Get effective availability data with automatic subtraction
-      const { data: effectiveData, error } = await calculateEffectiveAvailability(
+      // Get effective availability data with automatic subtraction from Supabase
+      const { data: effectiveData, error } = await getEffectiveAvailability(
         tutorId,
         startDateString,
         endDateString
