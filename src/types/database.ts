@@ -433,6 +433,7 @@ export interface TrialBooking extends BaseEntityWithUpdate {
   student_id: string;
   tutor_id: string;
   trial_lesson_id: string;
+  language_id?: string;
   booking_date: string;
   start_time: string;
   end_time: string;
@@ -449,6 +450,7 @@ export interface CreateTrialBookingData {
   student_id: string;
   tutor_id: string;
   trial_lesson_id: string;
+  language_id?: string;
   booking_date: string;
   start_time: string;
   end_time: string;

@@ -34,12 +34,7 @@ const TutorCard: React.FC<TutorCardProps> = ({ tutor, onPress }) => {
   const biography = tutor.biography || '';
   const truncatedBio = biography.length > 120 ? `${biography.slice(0, 120)}...` : biography;
 
-  const languages = (tutor.spoken_languages || []).map((lang) => {
-    const prof = (tutor.languages_proficiency as any)?.[lang]?.level;
-    const langName = capitalize(lang); // Don't use i18n for taught_languages
-    const profName = prof ? t(`languages.levels.${prof}`) : '';
-    return profName ? `${langName} (${profName})` : langName;
-  }).join(', ');
+  const taughtLanguages = tutor.taught_languages || [];
 
   return (
     <TouchableOpacity style={[styles.container, { backgroundColor: theme.colors.surface }]} onPress={onPress} activeOpacity={0.8}>
@@ -89,10 +84,41 @@ const TutorCard: React.FC<TutorCardProps> = ({ tutor, onPress }) => {
           })}
         </Text>
 
-        {!!languages && (
-          <Text style={[styles.muted, { color: theme.colors.onSurfaceVariant }]} numberOfLines={1}>
-            {t('tutor.speaks', { languages })}
-          </Text>
+        {taughtLanguages.length > 0 && (
+          <View style={styles.languageBadgesContainer}>
+            {taughtLanguages.slice(0, 3).map((lang, index) => {
+              const proficiency = (tutor.proficiency_taught_lan as any)?.[lang]?.level;
+              const langName = capitalize(lang);
+              
+              return (
+                <View 
+                  key={index} 
+                  style={[
+                    styles.languageBadge, 
+                    { 
+                      backgroundColor: proficiency === 'native' ? '#E8F5E8' : theme.colors.primaryContainer 
+                    }
+                  ]}
+                >
+                  <Text style={[
+                    styles.languageBadgeText, 
+                    { 
+                      color: proficiency === 'native' ? '#2E7D32' : theme.colors.primary 
+                    }
+                  ]}>
+                    {langName}
+                  </Text>
+                </View>
+              );
+            })}
+            {taughtLanguages.length > 3 && (
+              <View style={[styles.languageBadge, { backgroundColor: theme.colors.surfaceVariant }]}>
+                <Text style={[styles.languageBadgeText, { color: theme.colors.onSurfaceVariant }]}>
+                  +{taughtLanguages.length - 3}
+                </Text>
+              </View>
+            )}
+          </View>
         )}
       </View>
     </TouchableOpacity>
@@ -183,6 +209,23 @@ const styles = StyleSheet.create({
   muted: {
     fontSize: 13,
     fontFamily: 'Baloo2_400Regular',
+  },
+  languageBadgesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 6,
+  },
+  languageBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+  },
+  languageBadgeText: {
+    fontSize: 12,
+    fontFamily: 'Baloo2_600SemiBold',
+    textTransform: 'capitalize',
   },
 });
 

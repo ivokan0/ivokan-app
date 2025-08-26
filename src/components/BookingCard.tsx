@@ -122,6 +122,11 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvat
             </Text>
             <Text style={[styles.lessonType, { color: theme.colors.onSurfaceVariant }]}>
               {t('booking.trialLesson')}
+              {booking.language_id && (
+                <Text style={[styles.languageText, { color: theme.colors.primary }]}>
+                  {' • '}{booking.language_id.charAt(0).toUpperCase() + booking.language_id.slice(1)}
+                </Text>
+              )}
             </Text>
           </View>
         </View>
@@ -236,6 +241,10 @@ const styles = StyleSheet.create({
   lessonType: {
     fontSize: 14,
     fontFamily: 'Baloo2_400Regular',
+  },
+  languageText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_600SemiBold',
   },
   statusContainer: {
     flexDirection: 'row',

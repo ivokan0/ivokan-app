@@ -51,6 +51,7 @@ const TrialBookingScreen: React.FC = () => {
   const [availableSlots, setAvailableSlots] = useState<AvailableTrialSlot[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<TimeSlot | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [studentNotes, setStudentNotes] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [tutorProfile, setTutorProfile] = useState<any>(null);
@@ -91,6 +92,10 @@ const TrialBookingScreen: React.FC = () => {
         console.error('Error loading tutor profile:', tutorError);
       } else {
         setTutorProfile(tutorData);
+        // Set default language if tutor has taught languages
+        if (tutorData?.taught_languages && tutorData.taught_languages.length > 0) {
+          setSelectedLanguage(tutorData.taught_languages[0]);
+        }
       }
     } catch (error) {
       console.error('Error loading initial data:', error);
@@ -133,7 +138,7 @@ const TrialBookingScreen: React.FC = () => {
   };
 
   const handleCreateBooking = async () => {
-    if (!selectedTrialLesson || !selectedDate || !selectedTimeSlot || !profile) {
+    if (!selectedTrialLesson || !selectedDate || !selectedTimeSlot || !selectedLanguage || !profile) {
       Alert.alert(t('errors.validation.title'), t('errors.validation.selectAllFields'));
       return;
     }
@@ -150,6 +155,7 @@ const TrialBookingScreen: React.FC = () => {
         student_id: profile.user_id,
         tutor_id: tutorId,
         trial_lesson_id: selectedTrialLesson.id,
+        language_id: selectedLanguage,
         booking_date: selectedDate,
         start_time: selectedTimeSlot.start_time,
         end_time: endTimeString,
@@ -174,6 +180,7 @@ const TrialBookingScreen: React.FC = () => {
           duration_minutes: selectedTrialLesson.duration_minutes,
           price_eur: selectedTrialLesson.price_eur,
           price_fcfa: selectedTrialLesson.price_fcfa,
+          language_id: selectedLanguage,
         },
         bookingData: bookingData, // Passer les données de réservation
       });
@@ -298,6 +305,58 @@ const TrialBookingScreen: React.FC = () => {
       ))}
     </View>
   );
+
+  const renderLanguageSelection = () => {
+    if (!tutorProfile?.taught_languages || tutorProfile.taught_languages.length === 0) {
+      return null;
+    }
+
+    return (
+      <View style={styles.languageContainer}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
+          {t('booking.selectLanguage')}
+        </Text>
+        
+        <View style={styles.languageTabs}>
+          {tutorProfile.taught_languages.map((lang: string, index: number) => {
+            const proficiency = (tutorProfile.proficiency_taught_lan as any)?.[lang]?.level;
+            const languageName = lang.charAt(0).toUpperCase() + lang.slice(1);
+            
+            return (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.languageTab,
+                  selectedLanguage === lang && [styles.languageTabActive, { backgroundColor: theme.colors.primary }],
+                  selectedLanguage !== lang && { backgroundColor: '#f5f5f5' }
+                ]}
+                onPress={() => setSelectedLanguage(lang)}
+              >
+                <Text style={[
+                  styles.languageTabText,
+                  selectedLanguage === lang 
+                    ? { color: '#fff', fontFamily: 'Baloo2_600SemiBold' }
+                    : { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }
+                ]}>
+                  {languageName}
+                </Text>
+                {proficiency && (
+                  <Text style={[
+                    styles.languageProficiency,
+                    selectedLanguage === lang 
+                      ? { color: '#fff', fontFamily: 'Baloo2_400Regular' }
+                      : { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }
+                  ]}>
+                    {t(`languages.levels.${proficiency}`)}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
 
   const renderCalendarHeader = () => {
     if (!selectedTrialLesson) return null;
@@ -482,6 +541,9 @@ const TrialBookingScreen: React.FC = () => {
       {/* Duration Tabs */}
       {renderDurationTabs()}
 
+      {/* Language Selection */}
+      {renderLanguageSelection()}
+
       {/* Calendar */}
       {renderCalendarHeader()}
 
@@ -497,7 +559,7 @@ const TrialBookingScreen: React.FC = () => {
           mode="contained"
           onPress={handleCreateBooking}
           loading={isLoading}
-          disabled={!selectedTrialLesson || !selectedDate || !selectedTimeSlot}
+          disabled={!selectedTrialLesson || !selectedDate || !selectedTimeSlot || !selectedLanguage}
           style={styles.bookButton}
           labelStyle={{ fontFamily: 'Baloo2_600SemiBold', fontSize: 16 }}
         >
@@ -556,6 +618,43 @@ const styles = StyleSheet.create({
   durationTabText: {
     fontSize: 18,
     fontWeight: '600',
+  },
+  languageContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    marginBottom: 12,
+  },
+  languageTabs: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  languageTab: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 20,
+    minWidth: 100,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  languageTabActive: {
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+  },
+  languageTabText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  languageProficiency: {
+    fontSize: 12,
+    marginTop: 2,
   },
   calendarContainer: {
     paddingHorizontal: 16,

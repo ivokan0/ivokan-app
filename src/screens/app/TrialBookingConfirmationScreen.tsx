@@ -9,7 +9,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 type RouteParams = {
   tutor: { first_name?: string | null; last_name?: string | null; avatar_url?: string | null; average_rating?: number; total_reviews?: number };
-  booking: { date: string; start_time: string; end_time: string; duration_minutes: number; price_eur: number; price_fcfa: number };
+  booking: { date: string; start_time: string; end_time: string; duration_minutes: number; price_eur: number; price_fcfa: number; language_id?: string };
   bookingData: any;
 };
 
@@ -28,6 +28,11 @@ const TrialBookingConfirmationScreen: React.FC = () => {
     const date = new Date(isoDate);
     const weekday = date.toLocaleDateString('fr-FR', { weekday: 'long' });
     return `${weekday}, ${booking.start_time} – ${booking.end_time}`;
+  };
+
+  const formatLanguageName = (languageId?: string) => {
+    if (!languageId) return '';
+    return languageId.charAt(0).toUpperCase() + languageId.slice(1);
   };
 
   const getDateInfo = (isoDate: string) => {
@@ -101,6 +106,11 @@ const TrialBookingConfirmationScreen: React.FC = () => {
              <View style={{ flex: 1 }}>
                <Text style={[styles.lessonWhen, { color: theme.colors.onSurface }]}>{formatDateLabel(booking.date)}</Text>
                <Text style={[styles.lessonSub, { color: theme.colors.onSurfaceVariant }]}>Heure locale d'après votre emplacement</Text>
+               {booking.language_id && (
+                 <Text style={[styles.lessonLanguage, { color: theme.colors.primary }]}>
+                   {t('booking.language')}: {formatLanguageName(booking.language_id)}
+                 </Text>
+               )}
              </View>
            </View>
            <Text style={[styles.freeCancel, { color: theme.colors.primary }]}>Annulez ou reprogrammez gratuitement jusqu'à 01:30</Text>
@@ -152,6 +162,7 @@ const styles = StyleSheet.create({
   dayText: { fontFamily: 'Baloo2_600SemiBold', fontSize: 20 },
   lessonWhen: { fontFamily: 'Baloo2_600SemiBold', fontSize: 16 },
   lessonSub: { fontFamily: 'Baloo2_400Regular', fontSize: 13 },
+  lessonLanguage: { fontFamily: 'Baloo2_500Medium', fontSize: 14, marginTop: 4 },
   freeCancel: { marginTop: 8, fontFamily: 'Baloo2_400Regular', fontSize: 13 },
   rowBetween: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 6 },
   payLabel: { fontFamily: 'Baloo2_400Regular', fontSize: 14 },

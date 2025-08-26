@@ -335,7 +335,54 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
         )}
 
         {/* Separator */}
-        {tutor.spoken_languages?.length > 0 && (
+        {tutor.spoken_languages?.length > 0 && tutor.taught_languages?.length > 0 && (
+          <View style={[styles.separator, { backgroundColor: '#E0E0E0' }]} />
+        )}
+
+        {/* I teach Section */}
+        {tutor.taught_languages?.length > 0 && (
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
+              {t('tutorProfile.iTeach')}
+            </Text>
+            
+            <View style={styles.spokenLanguagesContainer}>
+              {tutor.taught_languages.map((lang, index) => {
+                const proficiency = (tutor.proficiency_taught_lan as any)?.[lang]?.level;
+                const proficiencyLabel = proficiency ? t(`languages.levels.${proficiency}`) : '';
+                const languageName = lang.charAt(0).toUpperCase() + lang.slice(1);
+                
+                return (
+                  <View key={index} style={styles.spokenLanguageItem}>
+                    <View style={styles.spokenLanguageRow}>
+                      <Text style={[styles.spokenLanguageName, { color: theme.colors.onSurface }]}>
+                        {languageName}
+                      </Text>
+                      <View style={[
+                        styles.proficiencyBadge, 
+                        { 
+                          backgroundColor: proficiency === 'native' ? '#E8F5E8' : '#E3F2FD'
+                        }
+                      ]}>
+                        <Text style={[
+                          styles.proficiencyText, 
+                          { 
+                            color: proficiency === 'native' ? '#2E7D32' : '#1976D2'
+                          }
+                        ]}>
+                          {proficiencyLabel}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
+
+        {/* Separator */}
+        {(tutor.spoken_languages?.length > 0 || tutor.taught_languages?.length > 0) && (
           <View style={[styles.separator, { backgroundColor: '#E0E0E0' }]} />
         )}
 
@@ -389,7 +436,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
         </View>
 
         {/* Separator */}
-        {(tutor.super_tutor || tutor.spoken_languages?.length > 0 || tutor.biography) && (
+        {(tutor.super_tutor || tutor.spoken_languages?.length > 0 || tutor.taught_languages?.length > 0 || tutor.biography) && (
           <View style={[styles.separator, { backgroundColor: '#E0E0E0' }]} />
         )}
 
