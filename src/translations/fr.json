@@ -1,4 +1,14 @@
 {
+      "common": {
+    "success": "Succès",
+    "error": "Erreur",
+    "ok": "OK",
+    "loading": "Chargement...",
+    "notifications": "Notifications",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "notSpecified": "Non spécifié"
+  },
   "splash": {
     "loading": "Chargement..."
   },
@@ -179,12 +189,47 @@
       "endTime": "Fin",
       "add": "Ajouter",
       "edit": "Modifier",
+      "update": "Mettre à jour",
       "cancel": "Annuler",
       "delete": "Supprimer",
       "deleteConfirmation": "Confirmer la suppression",
       "deleteMessage": "Êtes-vous sûr de vouloir supprimer ce créneau ?",
       "overlapError": "Ce créneau chevauche un créneau existant",
-      "timeError": "L'heure de fin doit être après l'heure de début"
+      "timeError": "L'heure de fin doit être après l'heure de début",
+      "dateError": "La date de fin doit être après ou égale à la date de début",
+      "calendarView": "Vue Calendrier",
+      "calendarViewDescription": "Voir vos disponibilités pour les 2 prochaines semaines en format calendrier",
+      "viewCalendar": "Voir le Calendrier",
+      "unavailability": "Indisponibilité",
+      "addUnavailability": "Ajouter une Indisponibilité",
+      "editUnavailability": "Modifier l'Indisponibilité",
+      "noUnavailability": "Aucune période d'indisponibilité définie",
+      "startDate": "Date de Début",
+      "endDate": "Date de Fin",
+      "fullDay": "Journée Entière",
+      "fullDayBadge": "Journée Entière",
+      "deleteUnavailabilityMessage": "Êtes-vous sûr de vouloir supprimer cette période d'indisponibilité ?",
+      "addTitle": "Ajouter une Disponibilité",
+      "editTitle": "Modifier la Disponibilité",
+      "weeklyType": "Disponibilité Hebdomadaire Récurrente",
+      "unavailabilityType": "Période d'Indisponibilité",
+      "added": "Disponibilité ajoutée avec succès",
+      "updated": "Disponibilité mise à jour avec succès",
+      "saveError": "Erreur lors de la sauvegarde de la disponibilité",
+      "dayOfWeek": "Jour de la Semaine",
+      "sunday": "Dimanche",
+      "monday": "Lundi",
+      "tuesday": "Mardi",
+      "wednesday": "Mercredi",
+      "thursday": "Jeudi",
+      "friday": "Vendredi",
+      "saturday": "Samedi",
+      "errors": {
+        "endTimeAfterStart": "L'heure de fin doit être après l'heure de début",
+        "endDateAfterStart": "La date de fin doit être après la date de début",
+        "weeklyOverlap": "Ceci chevauche une disponibilité existante le {{day}} de {{time}}",
+        "unavailabilityOverlap": "Ceci chevauche une indisponibilité existante du {{dates}}"
+      }
     },
     "paymentMethods": {
       "title": "Méthodes de paiement",
@@ -379,14 +424,7 @@
     "resetEmailSentBody": "Si cet e-mail existe, un lien de réinitialisation a été envoyé.",
     "passwordUpdatedTitle": "Mot de passe mis à jour"
   },
-  "common": {
-    "loading": "Chargement...",
-    "notifications": "Notifications",
-    "cancel": "Annuler",
-    "back": "Retour",
-    "notSpecified": "Non spécifié",
-    "error": "Erreur"
-  },
+
   "errors": {
     "title": "Erreur",
     "unknown": "Une erreur inattendue est survenue.",
@@ -423,6 +461,20 @@
       { "title": "Atteins tes objectifs avec un parcours sur mesure" }
     ],
     "getStarted": "Commencer"
+  },
+  "calendar": {
+    "tutorAvailability": "Disponibilité du Tuteur",
+    "legend": "Légende",
+    "available": "Disponible",
+    "partiallyAvailable": "Partiellement Disponible",
+    "unavailable": "Indisponible",
+    "today": "Aujourd'hui",
+    "unavailableFullDay": "Indisponible toute la journée",
+    "noAvailability": "Aucune disponibilité définie pour ce jour",
+    "availableSlots": "Créneaux Disponibles",
+    "unavailableSlots": "Créneaux Indisponibles",
+    "fullDay": "Journée Entière",
+    "noSlots": "Aucun créneau"
   },
   "countries": {
     "af": "Afghanistan",

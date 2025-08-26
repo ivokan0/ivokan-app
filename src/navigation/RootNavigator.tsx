@@ -11,6 +11,7 @@ import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
 import CurrencySettingsScreen from '../screens/app/CurrencySettingsScreen';
 import AvailabilitySettingsScreen from '../screens/app/AvailabilitySettingsScreen';
+import AvailabilitySlotScreen from '../screens/app/AvailabilitySlotScreen';
 import PaymentMethodsScreen from '../screens/app/PaymentMethodsScreen';
 import AddPaymentMethodScreen from '../screens/app/AddPaymentMethodScreen';
 import EditPaymentMethodScreen from '../screens/app/EditPaymentMethodScreen';
@@ -84,6 +85,12 @@ type AppStackParamList = {
   CurrencySettings: undefined;
   EditProfile: undefined;
   AvailabilitySettings: undefined;
+  AvailabilitySlot: {
+    mode: 'add' | 'edit';
+    type: 'weekly_availability' | 'unavailability';
+    availabilityId?: string;
+    initialData?: any;
+  };
   PaymentMethods: undefined;
   AddPaymentMethod: undefined;
   EditPaymentMethod: { paymentMethod: any };
@@ -396,6 +403,24 @@ const AppStackNavigator: React.FC = () => {
           },
           headerLeft: () => <CustomBackButton />,
         }}
+      />
+      <AppStack.Screen
+        name="AvailabilitySlot"
+        component={AvailabilitySlotScreen}
+        options={({ route }) => ({
+          title: route.params?.mode === 'edit' ? t('settings.availability.editTitle') : t('settings.availability.addTitle'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        })}
       />
       <AppStack.Screen
         name="PaymentMethods"

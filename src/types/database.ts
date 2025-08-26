@@ -341,3 +341,87 @@ export interface CreateMessageData {
 export interface UpdateMessageData {
   read_at?: string;
 }
+
+// Tutor Availability types
+export interface TutorAvailability extends BaseEntityWithUpdate {
+  tutor_id: string;
+  type: 'weekly_availability' | 'unavailability';
+  
+  // Weekly availability fields
+  day_of_week?: number; // 0-6 (Sunday-Saturday)
+  start_time?: string;
+  end_time?: string;
+  
+  // Unavailability fields
+  start_date?: string; // ISO date string
+  end_date?: string; // ISO date string
+  is_full_day?: boolean;
+}
+
+export interface AvailabilitySlot {
+  id?: string;
+  day_of_week: number;
+  start_time: string;
+  end_time: string;
+}
+
+export interface UnavailabilityPeriod {
+  id?: string;
+  start_date: string;
+  end_date: string;
+  start_time?: string;
+  end_time?: string;
+  is_full_day: boolean;
+}
+
+export interface TutorAvailabilityView {
+  tutor_id: string;
+  type: 'weekly_availability' | 'unavailability';
+  date_actual: string;
+  day_of_week?: number;
+  start_time?: string;
+  end_time?: string;
+  unavailable_start_date?: string;
+  unavailable_end_date?: string;
+  is_full_day?: boolean;
+  availability_id: string;
+  status: 'available' | 'unavailable_full_day' | 'unavailable_partial' | 'unknown';
+}
+
+export interface EffectiveAvailability {
+  date_actual: string;
+  available_slots: {
+    start_time: string;
+    end_time: string;
+  }[];
+}
+
+// Create/Update types for availability
+export interface CreateTutorAvailabilityData {
+  tutor_id: string;
+  type: 'weekly_availability' | 'unavailability';
+  
+  // Weekly availability fields
+  day_of_week?: number;
+  start_time?: string;
+  end_time?: string;
+  
+  // Unavailability fields
+  start_date?: string;
+  end_date?: string;
+  is_full_day?: boolean;
+}
+
+export interface UpdateTutorAvailabilityData {
+  type?: 'weekly_availability' | 'unavailability';
+  
+  // Weekly availability fields
+  day_of_week?: number;
+  start_time?: string;
+  end_time?: string;
+  
+  // Unavailability fields
+  start_date?: string;
+  end_date?: string;
+  is_full_day?: boolean;
+}

@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, Divider, Button, TextInput } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AppButton from '../../components/ui/AppButton';
-
-interface AvailabilitySlot {
-  id?: string;
-  day_of_week: number;
-  start_time: string;
-  end_time: string;
-}
+import TutorCalendarView from '../../components/TutorCalendarView';
+import { AvailabilitySlot, UnavailabilityPeriod, TutorAvailability } from '../../types/database';
+import {
+  getWeeklyAvailability,
+  getUnavailabilityPeriods,
+  deleteAvailability,
+} from '../../services/availability';
 
 const DAYS_OF_WEEK = [
   { value: 0, label: 'Dimanche' },
@@ -25,118 +26,116 @@ const DAYS_OF_WEEK = [
 ];
 
 const AvailabilitySettingsScreen: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
+  const navigation = useNavigation();
   const { profile } = useAuth();
   const { updateUserProfile } = useProfile();
   
   const [availabilities, setAvailabilities] = useState<AvailabilitySlot[]>([]);
+  const [unavailabilities, setUnavailabilities] = useState<UnavailabilityPeriod[]>([]);
   const [minimumTimeNotice, setMinimumTimeNotice] = useState(profile?.minimum_time_notice?.toString() || '120');
   const [isLoading, setIsLoading] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [editingSlot, setEditingSlot] = useState<AvailabilitySlot | null>(null);
-  
-  // Form state for adding/editing
-  const [formData, setFormData] = useState<AvailabilitySlot>({
-    day_of_week: 1,
-    start_time: '09:00',
-    end_time: '10:00',
-  });
+  const [showCalendar, setShowCalendar] = useState(false);
 
-  useEffect(() => {
-    // TODO: Load availabilities from API
-    // For now, using mock data
-    setAvailabilities([
-      { id: '1', day_of_week: 1, start_time: '09:00', end_time: '12:00' },
-      { id: '2', day_of_week: 2, start_time: '14:00', end_time: '18:00' },
-    ]);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadAvailabilityData();
+    }, [profile?.user_id])
+  );
 
-  const handleSave = async () => {
+  const loadAvailabilityData = async () => {
+    if (!profile?.user_id) return;
+
     try {
       setIsLoading(true);
       
-      // Update minimum time notice
-      await updateUserProfile({
-        minimum_time_notice: parseInt(minimumTimeNotice),
-      });
+      // Load weekly availability
+      const { data: weeklyData, error: weeklyError } = await getWeeklyAvailability(profile.user_id);
+      if (weeklyError) {
+        console.error('Error loading weekly availability:', weeklyError);
+      } else {
+        // Convert TutorAvailability to AvailabilitySlot format
+        const slots: AvailabilitySlot[] = weeklyData?.map(item => ({
+          id: item.id,
+          day_of_week: item.day_of_week!,
+          start_time: item.start_time!,
+          end_time: item.end_time!,
+        })) || [];
+        setAvailabilities(slots);
+      }
 
-      // TODO: Save availabilities to API
-      
-      Alert.alert(
-        t('profile.saveSuccess.title'),
-        t('profile.saveSuccess.message'),
-        [{ text: 'OK' }]
-      );
+      // Load unavailability periods
+      const { data: unavailabilityData, error: unavailabilityError } = await getUnavailabilityPeriods(profile.user_id);
+      if (unavailabilityError) {
+        console.error('Error loading unavailability periods:', unavailabilityError);
+      } else {
+        // Convert TutorAvailability to UnavailabilityPeriod format
+        const periods: UnavailabilityPeriod[] = unavailabilityData?.map(item => ({
+          id: item.id,
+          start_date: item.start_date!,
+          end_date: item.end_date!,
+          start_time: item.start_time || undefined,
+          end_time: item.end_time || undefined,
+          is_full_day: item.is_full_day!,
+        })) || [];
+        setUnavailabilities(periods);
+      }
     } catch (error) {
-      Alert.alert(
-        t('errors.save.title'),
-        t('errors.save.message'),
-        [{ text: 'OK' }]
-      );
+      console.error('Error loading availability data:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleAddSlot = () => {
-    if (formData.start_time >= formData.end_time) {
-      Alert.alert('Erreur', t('settings.availability.timeError'));
-      return;
+  const handleSaveMinimumTimeNotice = async () => {
+    if (!profile?.user_id) return;
+
+    try {
+      setIsLoading(true);
+      await updateUserProfile({
+        minimum_time_notice: parseInt(minimumTimeNotice, 10),
+      });
+
+      Alert.alert(t('common.success'), t('profile.saveSuccess.message'));
+    } catch (error) {
+      console.error('Error saving minimum time notice:', error);
+      Alert.alert(t('common.error'), t('errors.save.message'));
+    } finally {
+      setIsLoading(false);
     }
-
-    // Check for overlapping slots
-    const hasOverlap = availabilities.some(slot => 
-      slot.day_of_week === formData.day_of_week &&
-      ((formData.start_time >= slot.start_time && formData.start_time < slot.end_time) ||
-       (formData.end_time > slot.start_time && formData.end_time <= slot.end_time) ||
-       (formData.start_time <= slot.start_time && formData.end_time >= slot.end_time))
-    );
-
-    if (hasOverlap) {
-      Alert.alert('Erreur', t('settings.availability.overlapError'));
-      return;
-    }
-
-    const newSlot: AvailabilitySlot = {
-      id: Date.now().toString(), // Temporary ID
-      ...formData,
-    };
-
-    setAvailabilities([...availabilities, newSlot]);
-    setFormData({ day_of_week: 1, start_time: '09:00', end_time: '10:00' });
-    setShowAddForm(false);
   };
 
-  const handleEditSlot = () => {
-    if (!editingSlot?.id) return;
+  const handleAddWeeklySlot = () => {
+    (navigation as any).navigate('AvailabilitySlot', {
+      mode: 'add',
+      type: 'weekly_availability'
+    });
+  };
 
-    if (formData.start_time >= formData.end_time) {
-      Alert.alert('Erreur', t('settings.availability.timeError'));
-      return;
-    }
+  const handleEditWeeklySlot = (slot: TutorAvailability) => {
+    (navigation as any).navigate('AvailabilitySlot', {
+      mode: 'edit',
+      type: 'weekly_availability',
+      availabilityId: slot.id,
+      initialData: slot
+    });
+  };
 
-    // Check for overlapping slots (excluding the current one being edited)
-    const hasOverlap = availabilities.some(slot => 
-      slot.id !== editingSlot.id &&
-      slot.day_of_week === formData.day_of_week &&
-      ((formData.start_time >= slot.start_time && formData.start_time < slot.end_time) ||
-       (formData.end_time > slot.start_time && formData.end_time <= slot.end_time) ||
-       (formData.start_time <= slot.start_time && formData.end_time >= slot.end_time))
-    );
+  const handleAddUnavailability = () => {
+    (navigation as any).navigate('AvailabilitySlot', {
+      mode: 'add',
+      type: 'unavailability'
+    });
+  };
 
-    if (hasOverlap) {
-      Alert.alert('Erreur', t('settings.availability.overlapError'));
-      return;
-    }
-
-    setAvailabilities(availabilities.map(slot => 
-      slot.id === editingSlot.id 
-        ? { ...slot, ...formData }
-        : slot
-    ));
-    setEditingSlot(null);
-    setFormData({ day_of_week: 1, start_time: '09:00', end_time: '10:00' });
+  const handleEditUnavailability = (unavailability: TutorAvailability) => {
+    (navigation as any).navigate('AvailabilitySlot', {
+      mode: 'edit',
+      type: 'unavailability',
+      availabilityId: unavailability.id,
+      initialData: unavailability
+    });
   };
 
   const handleDeleteSlot = (id: string) => {
@@ -148,27 +147,80 @@ const AvailabilitySettingsScreen: React.FC = () => {
         { 
           text: t('settings.availability.delete'), 
           style: 'destructive',
-          onPress: () => {
+          onPress: async () => {
+            try {
+              setIsLoading(true);
+
+              const { error } = await deleteAvailability(id, profile?.user_id);
+
+              if (error) {
+                throw error;
+              }
+
             setAvailabilities(availabilities.filter(slot => slot.id !== id));
+            } catch (error) {
+              console.error('Error deleting availability slot:', error);
+              Alert.alert(
+                t('errors.save.title'),
+                t('errors.save.message'),
+                [{ text: 'OK' }]
+              );
+            } finally {
+              setIsLoading(false);
+            }
           }
         }
       ]
     );
   };
 
-  const startEditing = (slot: AvailabilitySlot) => {
-    setEditingSlot(slot);
-    setFormData({ ...slot });
-  };
+  const handleDeleteUnavailability = (id: string) => {
+    Alert.alert(
+      t('settings.availability.deleteConfirmation'),
+      t('settings.availability.deleteUnavailabilityMessage'),
+      [
+        { text: t('settings.availability.cancel'), style: 'cancel' },
+        { 
+          text: t('settings.availability.delete'), 
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsLoading(true);
 
-  const cancelEditing = () => {
-    setEditingSlot(null);
-    setShowAddForm(false);
-    setFormData({ day_of_week: 1, start_time: '09:00', end_time: '10:00' });
+              const { error } = await deleteAvailability(id, profile?.user_id);
+
+              if (error) {
+                throw error;
+              }
+
+              setUnavailabilities(unavailabilities.filter(period => period.id !== id));
+            } catch (error) {
+              console.error('Error deleting unavailability period:', error);
+              Alert.alert(
+                t('errors.save.title'),
+                t('errors.save.message'),
+                [{ text: 'OK' }]
+              );
+            } finally {
+              setIsLoading(false);
+            }
+          }
+        }
+      ]
+    );
   };
 
   const formatTime = (time: string) => {
     return time.substring(0, 5);
+  };
+
+  const formatDate = (date: string) => {
+    const dateObj = new Date(date);
+    const day = dateObj.getDate();
+    const locale = i18n.language === 'fr' ? 'fr-FR' : 'en-US';
+    const month = dateObj.toLocaleDateString(locale, { month: 'short' });
+    const year = dateObj.getFullYear();
+    return `${day} ${month}. ${year}`;
   };
 
   const getDayLabel = (dayOfWeek: number) => {
@@ -183,75 +235,75 @@ const AvailabilitySettingsScreen: React.FC = () => {
   });
 
   return (
-    <KeyboardAvoidingView 
-      style={{ flex: 1 }} 
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-    >
-      <ScrollView 
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
-        keyboardShouldPersistTaps="handled"
-      >
+    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
-        <Text style={[styles.title, { color: theme.colors.onSurface }]}>
+        <Text style={[styles.title, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
           {t('settings.availability.title')}
         </Text>
 
         {/* Minimum Time Notice */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
             {t('settings.availability.minimumTimeNotice')}
           </Text>
-          <Text style={[styles.sectionSubtitle, { color: theme.colors.onSurfaceVariant }]}>
+          <Text style={[styles.sectionSubtitle, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
             {t('settings.availability.minimumTimeNoticeDescription')}
           </Text>
           <TextInput
             value={minimumTimeNotice}
             onChangeText={setMinimumTimeNotice}
-            keyboardType="numeric"
             style={[styles.input, { backgroundColor: theme.colors.surfaceVariant }]}
+            keyboardType="numeric"
             placeholder="120"
           />
+          <Button
+            mode="contained"
+            onPress={handleSaveMinimumTimeNotice}
+            loading={isLoading}
+            style={styles.saveButton}
+          >
+            {t('profile.save')}
+          </Button>
         </View>
 
-        <Divider style={styles.divider} />
-
-        {/* Availabilities List */}
+        {/* Weekly Availability */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: theme.colors.onSurface }]}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
               {t('settings.availability.mySlots')}
             </Text>
-            <Button
-              mode="contained"
-              onPress={() => setShowAddForm(true)}
-              icon="plus"
-              compact
+            <TouchableOpacity
+              onPress={handleAddWeeklySlot}
+              style={[styles.addButton, { backgroundColor: theme.colors.primary }]}
             >
-              {t('settings.availability.add')}
-            </Button>
+              <MaterialCommunityIcons
+                name="plus"
+                size={20}
+                color={theme.colors.onPrimary}
+              />
+            </TouchableOpacity>
           </View>
 
-          {sortedAvailabilities.length === 0 ? (
-            <Text style={[styles.emptyText, { color: theme.colors.onSurfaceVariant }]}>
+          {availabilities.length === 0 ? (
+            <Text style={[styles.emptyText, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
               {t('settings.availability.noSlots')}
             </Text>
           ) : (
-            <View style={styles.availabilitiesList}>
+            <View style={styles.availabilityList}>
               {sortedAvailabilities.map((slot, index) => (
                 <React.Fragment key={slot.id}>
                   <View style={styles.availabilityItem}>
                     <View style={styles.availabilityInfo}>
-                      <Text style={[styles.dayText, { color: theme.colors.onSurface }]}>
+                      <Text style={[styles.dayText, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
                         {getDayLabel(slot.day_of_week)}
                       </Text>
-                      <Text style={[styles.timeText, { color: theme.colors.onSurfaceVariant }]}>
+                      <Text style={[styles.timeText, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
                         {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
                       </Text>
                     </View>
                     <View style={styles.availabilityActions}>
                       <TouchableOpacity
-                        onPress={() => startEditing(slot)}
+                        onPress={() => handleEditWeeklySlot(slot as any)}
                         style={styles.actionButton}
                       >
                         <MaterialCommunityIcons
@@ -272,113 +324,147 @@ const AvailabilitySettingsScreen: React.FC = () => {
                       </TouchableOpacity>
                     </View>
                   </View>
-                  {index < sortedAvailabilities.length - 1 && <Divider style={styles.itemDivider} />}
+                  {index < availabilities.length - 1 && <Divider style={styles.itemDivider} />}
                 </React.Fragment>
               ))}
             </View>
           )}
         </View>
 
-        {/* Add/Edit Form */}
-        {(showAddForm || editingSlot) && (
-          <View style={styles.formSection}>
-            <Text style={[styles.formTitle, { color: theme.colors.onSurface }]}>
-              {editingSlot ? t('settings.availability.editSlot') : t('settings.availability.addSlot')}
+        {/* Unavailability */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
+              {t('settings.availability.unavailability')}
             </Text>
-            
-            <View style={styles.formRow}>
-              <Text style={[styles.formLabel, { color: theme.colors.onSurface }]}>{t('settings.availability.day')} :</Text>
-              <View style={styles.dayPicker}>
-                {DAYS_OF_WEEK.map((day) => (
                   <TouchableOpacity
-                    key={day.value}
-                    style={[
-                      styles.dayButton,
-                      {
-                        backgroundColor: formData.day_of_week === day.value 
-                          ? theme.colors.primary 
-                          : theme.colors.surfaceVariant
-                      }
-                    ]}
-                    onPress={() => setFormData({ ...formData, day_of_week: day.value })}
-                  >
-                    <Text style={[
-                      styles.dayButtonText,
-                      { 
-                        color: formData.day_of_week === day.value 
-                          ? theme.colors.onPrimary 
-                          : theme.colors.onSurfaceVariant
-                      }
-                    ]}>
-                      {day.label.substring(0, 3)}
-                    </Text>
+              onPress={handleAddUnavailability}
+              style={[styles.addButton, { backgroundColor: theme.colors.primary }]}
+            >
+              <MaterialCommunityIcons
+                name="plus"
+                size={20}
+                color={theme.colors.onPrimary}
+              />
                   </TouchableOpacity>
-                ))}
-              </View>
             </View>
 
-            <View style={styles.formRow}>
-              <View style={styles.timeInput}>
-                <Text style={[styles.formLabel, { color: theme.colors.onSurface }]}>{t('settings.availability.startTime')} :</Text>
-                <TextInput
-                  value={formData.start_time}
-                  onChangeText={(text) => setFormData({ ...formData, start_time: text })}
-                  style={[styles.input, { backgroundColor: theme.colors.surfaceVariant }]}
-                  placeholder="09:00"
-                />
+          {unavailabilities.length === 0 ? (
+            <Text style={[styles.emptyText, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
+              {t('settings.availability.noUnavailability')}
+            </Text>
+          ) : (
+            <View style={styles.availabilityList}>
+              {unavailabilities.map((period, index) => (
+                <React.Fragment key={period.id}>
+                  <View style={styles.availabilityItem}>
+                    <View style={styles.availabilityInfo}>
+                      <Text style={[styles.dayText, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
+                        {formatDate(period.start_date)} - {formatDate(period.end_date)}
+                      </Text>
+                      <Text style={[styles.timeText, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
+                        {period.is_full_day 
+                          ? t('settings.availability.fullDay')
+                          : `${formatTime(period.start_time!)} - ${formatTime(period.end_time!)}`
+                        }
+                      </Text>
+                      {period.is_full_day && (
+                        <Text style={[styles.fullDayBadge, { color: theme.colors.error, fontFamily: 'Baloo2_400Regular' }]}>
+                          {t('settings.availability.fullDayBadge')}
+                        </Text>
+                      )}
+                    </View>
+                    <View style={styles.availabilityActions}>
+                      <TouchableOpacity
+                        onPress={() => handleEditUnavailability(period as any)}
+                        style={styles.actionButton}
+                      >
+                        <MaterialCommunityIcons
+                          name="pencil"
+                          size={20}
+                          color={theme.colors.primary}
+                        />
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => handleDeleteUnavailability(period.id!)}
+                        style={styles.actionButton}
+                      >
+                        <MaterialCommunityIcons
+                          name="delete"
+                          size={20}
+                          color={theme.colors.error}
+                        />
+                      </TouchableOpacity>
               </View>
-              <View style={styles.timeInput}>
-                <Text style={[styles.formLabel, { color: theme.colors.onSurface }]}>{t('settings.availability.endTime')} :</Text>
-                <TextInput
-                  value={formData.end_time}
-                  onChangeText={(text) => setFormData({ ...formData, end_time: text })}
-                  style={[styles.input, { backgroundColor: theme.colors.surfaceVariant }]}
-                  placeholder="10:00"
-                />
-              </View>
+                  </View>
+                  {index < unavailabilities.length - 1 && <Divider style={styles.itemDivider} />}
+                </React.Fragment>
+              ))}
+            </View>
+          )}
             </View>
 
-            <View style={styles.formActions}>
-              <Button mode="outlined" onPress={cancelEditing} style={styles.formButton}>
-                {t('settings.availability.cancel')}
-              </Button>
+        {/* Calendar View Button */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
+            {t('settings.availability.calendarView')}
+          </Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
+            {t('settings.availability.calendarViewDescription')}
+          </Text>
               <Button 
                 mode="contained" 
-                onPress={editingSlot ? handleEditSlot : handleAddSlot}
-                style={styles.formButton}
+            onPress={() => setShowCalendar(true)}
+            style={styles.calendarButton}
               >
-                {editingSlot ? t('settings.availability.edit') : t('settings.availability.add')}
+            {t('settings.availability.viewCalendar')}
               </Button>
             </View>
           </View>
-        )}
 
-        <AppButton
-          label={t('profile.save')}
-          onPress={handleSave}
-          loading={isLoading}
-          style={styles.saveButton}
+      {/* Calendar Modal */}
+      <Modal
+        visible={showCalendar}
+        animationType="slide"
+        presentationStyle="pageSheet"
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={[styles.modalTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
+              {t('settings.availability.calendarView')}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setShowCalendar(false)}
+              style={styles.closeButton}
+            >
+              <MaterialCommunityIcons
+                name="close"
+                size={24}
+                color={theme.colors.onSurface}
+              />
+            </TouchableOpacity>
+          </View>
+          <TutorCalendarView 
+            tutorId={profile?.user_id || ''}
+            onClose={() => setShowCalendar(false)}
         />
       </View>
+      </Modal>
       </ScrollView>
-    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
   },
   content: {
     padding: 16,
-    borderRadius: 12,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
+    fontSize: 24,
     marginBottom: 24,
+    textAlign: 'center',
   },
   section: {
     marginBottom: 24,
@@ -390,115 +476,92 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
+    fontSize: 18,
     marginBottom: 8,
   },
   sectionSubtitle: {
     fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
-    marginBottom: 12,
+    marginBottom: 16,
   },
   input: {
-    height: 48,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    fontFamily: 'Baloo2_400Regular',
+    marginBottom: 16,
   },
-  divider: {
-    marginVertical: 16,
+  saveButton: {
+    marginTop: 8,
   },
-  availabilitiesList: {
+  addButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  availabilityList: {
+    backgroundColor: '#f5f5f5',
     borderRadius: 8,
-    overflow: 'hidden',
+    padding: 8,
   },
   availabilityItem: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
   availabilityInfo: {
     flex: 1,
   },
   dayText: {
     fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
     marginBottom: 4,
   },
   timeText: {
     fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
+  },
+  fullDayBadge: {
+    fontSize: 12,
+    marginTop: 4,
   },
   availabilityActions: {
     flexDirection: 'row',
     gap: 8,
   },
   actionButton: {
-    padding: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
   },
   itemDivider: {
     marginHorizontal: 16,
   },
   emptyText: {
     textAlign: 'center',
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
     fontStyle: 'italic',
-    padding: 24,
-  },
-  formSection: {
-    marginTop: 16,
     padding: 16,
-    borderRadius: 8,
-    backgroundColor: 'rgba(0,0,0,0.02)',
   },
-  formTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
-    marginBottom: 16,
+  calendarButton: {
+    marginTop: 8,
   },
-  formRow: {
-    marginBottom: 16,
-  },
-  formLabel: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
-    marginBottom: 8,
-  },
-  dayPicker: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  dayButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 16,
-    minWidth: 50,
-    alignItems: 'center',
-  },
-  dayButtonText: {
-    fontSize: 12,
-    fontFamily: 'Baloo2_600SemiBold',
-  },
-  timeInput: {
+  modalContainer: {
     flex: 1,
-    marginHorizontal: 4,
+    backgroundColor: '#fff',
   },
-  formActions: {
+  modalHeader: {
     flexDirection: 'row',
-    gap: 12,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
-  formButton: {
-    minWidth: 100,
+  modalTitle: {
+    fontSize: 18,
   },
-  saveButton: {
-    marginTop: 24,
+  closeButton: {
+    padding: 4,
   },
 });
 
