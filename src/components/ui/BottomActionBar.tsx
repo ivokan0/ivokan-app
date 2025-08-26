@@ -11,34 +11,26 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface BottomActionBarProps {
   onChatPress: () => void;
-  onBuyTrialPress: () => void;
 }
 
-const BottomActionBar: React.FC<BottomActionBarProps> = ({ onChatPress, onBuyTrialPress }) => {
+const BottomActionBar: React.FC<BottomActionBarProps> = ({ onChatPress }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      {/* Chat Icon */}
+      {/* Send Message Button - Full Width */}
       <TouchableOpacity
-        style={[styles.chatButton, { borderColor: theme.colors.outline }]}
+        style={[styles.sendMessageButton, { backgroundColor: theme.colors.primary }]}
         onPress={onChatPress}
       >
         <MaterialCommunityIcons
           name="message-text-outline"
           size={24}
-          color={theme.colors.onSurface}
+          color={theme.colors.onPrimary}
         />
-      </TouchableOpacity>
-
-      {/* Buy Trial Lesson Button */}
-      <TouchableOpacity
-        style={[styles.buyTrialButton, { backgroundColor: theme.colors.primary }]}
-        onPress={onBuyTrialPress}
-      >
-        <Text style={[styles.buyTrialText, { color: theme.colors.onPrimary }]}>
-          {t('tutorProfile.buyTrialLesson')}
+        <Text style={[styles.sendMessageText, { color: theme.colors.onPrimary }]}>
+          {t('tutorProfile.sendMessage')}
         </Text>
       </TouchableOpacity>
     </View>
@@ -47,36 +39,25 @@ const BottomActionBar: React.FC<BottomActionBarProps> = ({ onChatPress, onBuyTri
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    gap: 12,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  chatButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    justifyContent: 'center',
+  sendMessageButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-  },
-  buyTrialButton: {
-    flex: 1,
+    justifyContent: 'center',
     height: 48,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: '#000',
-    justifyContent: 'center',
-    alignItems: 'center',
+    gap: 8,
   },
-  buyTrialText: {
+  sendMessageText: {
     fontSize: 16,
     fontFamily: 'Baloo2_700Bold',
     fontWeight: '700',

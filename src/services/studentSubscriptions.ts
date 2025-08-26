@@ -79,9 +79,9 @@ export const getStudentSubscriptionsWithDetails = async (filters?: SubscriptionF
       .from('student_subscriptions')
       .select(`
         *,
-        tutor:profiles!student_subscriptions_tutor_id_fkey(*),
-        language:languages(*),
-        plan:subscription_plans(*)
+        tutor:profiles!tutor_id(*),
+        language:languages!language_id(*),
+        plan:subscription_plans!plan_id(*)
       `)
       .order('created_at', { ascending: false });
 
@@ -139,9 +139,9 @@ export const getStudentSubscriptionByIdWithDetails = async (id: string): Promise
       .from('student_subscriptions')
       .select(`
         *,
-        tutor:profiles!student_subscriptions_tutor_id_fkey(*),
-        language:languages(*),
-        plan:subscription_plans(*)
+        tutor:profiles!tutor_id(*),
+        language:languages!language_id(*),
+        plan:subscription_plans!plan_id(*)
       `)
       .eq('id', id)
       .single();
@@ -227,9 +227,9 @@ export const getActiveSubscriptionsForStudent = async (studentId: string): Promi
       .from('student_subscriptions')
       .select(`
         *,
-        tutor:profiles!student_subscriptions_tutor_id_fkey(*),
-        language:languages(*),
-        plan:subscription_plans(*)
+        tutor:profiles!tutor_id(*),
+        language:languages!language_id(*),
+        plan:subscription_plans!plan_id(*)
       `)
       .eq('student_id', studentId)
       .eq('status', 'active')
@@ -252,9 +252,9 @@ export const getActiveSubscriptionsForTutor = async (tutorId: string): Promise<A
       .from('student_subscriptions')
       .select(`
         *,
-        tutor:profiles!student_subscriptions_tutor_id_fkey(*),
-        language:languages(*),
-        plan:subscription_plans(*)
+        tutor:profiles!tutor_id(*),
+        language:languages!language_id(*),
+        plan:subscription_plans!plan_id(*)
       `)
       .eq('tutor_id', tutorId)
       .eq('status', 'active')
@@ -265,6 +265,41 @@ export const getActiveSubscriptionsForTutor = async (tutorId: string): Promise<A
     }
 
     return { data, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+// Check if student has an active subscription for a specific language with a tutor
+export const hasActiveSubscription = async (
+  studentId: string, 
+  tutorId: string, 
+  languageCode: string
+): Promise<ApiResponse<boolean>> => {
+  try {
+    // First get the language ID from the language code
+    const { data: language, error: langError } = await supabase
+      .from('languages')
+      .select('id')
+      .eq('code', languageCode)
+      .single();
+
+    if (langError || !language) {
+      return { data: false, error: null };
+    }
+
+    const { data, error } = await supabase
+      .from('student_subscriptions')
+      .select('id')
+      .eq('student_id', studentId)
+      .eq('tutor_id', tutorId)
+      .eq('language_id', language.id)
+      .eq('status', 'active')
+      .limit(1);
+
+    if (error) throw error;
+
+    return { data: (data || []).length > 0, error: null };
   } catch (error) {
     return { data: null, error };
   }

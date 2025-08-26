@@ -320,3 +320,27 @@ export const getUserTimezone = (): string => {
     return 'UTC';
   }
 };
+
+// Check if student has an active trial booking for a specific language with a tutor
+export const hasActiveTrialBooking = async (
+  studentId: string, 
+  tutorId: string, 
+  languageId: string
+): Promise<ApiResponse<boolean>> => {
+  try {
+    const { data, error } = await supabase
+      .from('trial_bookings')
+      .select('id')
+      .eq('student_id', studentId)
+      .eq('tutor_id', tutorId)
+      .eq('language_id', languageId)
+      .neq('status', 'cancelled')
+      .limit(1);
+
+    if (error) throw error;
+
+    return { data: (data || []).length > 0, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};

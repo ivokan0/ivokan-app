@@ -32,6 +32,9 @@ import StudentScheduleScreen from '../screens/student/ScheduleScreen';
 import SubscriptionsScreen from '../screens/student/SubscriptionsScreen';
 import TrialBookingScreen from '../screens/app/TrialBookingScreen';
 import TrialBookingConfirmationScreen from '../screens/app/TrialBookingConfirmationScreen';
+import SubscriptionBookingScreen from '../screens/app/SubscriptionBookingScreen';
+import SubscriptionBookingConfirmationScreen from '../screens/app/SubscriptionBookingConfirmationScreen';
+import StudentSubscriptionDetailsScreen from '../screens/app/StudentSubscriptionDetailsScreen';
 import TutorHomeScreen from '../screens/tutor/HomeScreen';
 import TutorMessagesScreen from '../screens/tutor/MessagesScreen';
 import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
@@ -101,12 +104,20 @@ type AppStackParamList = {
   WebView: { url: string; title: string };
   PresentationVideo: undefined;
   TutorProfile: { tutor: import('../types/database').TutorWithStats };
-  TrialBooking: { tutorId: string };
+  TrialBooking: { tutorId: string; preselectedLanguage?: string };
   TrialBookingConfirmation: {
     tutor: { first_name?: string | null; last_name?: string | null; avatar_url?: string | null; average_rating?: number; total_reviews?: number };
     booking: { date: string; start_time: string; end_time: string; duration_minutes: number; price_eur: number; price_fcfa: number };
     bookingData: any;
   };
+  SubscriptionBooking: { tutorId: string; languageCode: string; tutorName: string };
+  SubscriptionBookingConfirmation: {
+    tutor: { id: string; first_name?: string | null; last_name?: string | null; avatar_url?: string | null; average_rating?: number; total_reviews?: number };
+    languageCode: string;
+    selectedPlan: import('../types/database').SubscriptionPlan;
+    tutorName: string;
+  };
+  StudentSubscriptionDetails: { subscriptionId: string };
   SuperTutorInfo: undefined;
   ReviewScreen: { tutorId: string; tutorName: string; reviews: import('../types/database').ReviewWithProfiles[] };
   MyResume: undefined;
@@ -597,6 +608,49 @@ const AppStackNavigator: React.FC = () => {
             fontWeight: '600'
           },
           headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="SubscriptionBooking"
+        component={SubscriptionBookingScreen}
+        options={{
+          title: t('subscription.title'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="SubscriptionBookingConfirmation"
+        component={SubscriptionBookingConfirmationScreen}
+        options={{
+          title: t('subscription.title'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
+        }}
+      />
+      <AppStack.Screen
+        name="StudentSubscriptionDetails"
+        component={StudentSubscriptionDetailsScreen}
+        options={{
+          headerShown: false,
         }}
       />
       <AppStack.Screen

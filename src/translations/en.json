@@ -7,6 +7,7 @@
     "notifications": "Notifications",
     "cancel": "Cancel",
     "back": "Back",
+    "continue": "Continue",
     "notSpecified": "Not specified",
     "unknown": "Unknown",
     "localTime": "Local time"
@@ -345,7 +346,9 @@
     "whatStudentsSay": "What my students say",
     "basedOnReviews": "Based on {{count}} student reviews",
     "showAllReviews": "Show all {{count}} reviews",
-    "buyTrialLesson": "Book Trial Lesson"
+    "buyTrialLesson": "Book Trial Lesson",
+    "sendMessage": "Send Message",
+    "subscribe": "Subscribe"
   },
   "superTutorInfo": {
     "title": "What is a Super Tutor?",
@@ -455,12 +458,24 @@
     },
     "validation": {
       "title": "Validation Error",
-      "selectAllFields": "Please select all required fields"
+      "selectAllFields": "Please select all required fields",
+      "selectPlan": "Please select a subscription plan"
     },
     "booking": {
       "title": "Booking Error",
       "create": "Unable to create booking. Please try again.",
       "loadFailed": "Unable to load bookings."
+    },
+    "subscription": {
+      "title": "Subscription Error",
+      "create": "Unable to create subscription. Please try again.",
+      "loadPlans": "Unable to load subscription plans. Please try again.",
+      "loadFailed": "Unable to load subscriptions. Please try again.",
+      "notFound": "Subscription not found.",
+      "invalidLanguage": "Invalid language selected"
+    },
+    "auth": {
+      "notLoggedIn": "Please log in to continue"
     }
   },
   "validation": {
@@ -541,6 +556,89 @@
       "completed": "No completed lessons",
       "cancelled": "No cancelled lessons"
     }
+  },
+  "subscription": {
+    "title": "Subscription Plans",
+    "for": "for",
+    "chooseYourPlan": "Choose your plan",
+    "description": "Subscribe to regular lessons with your tutor and save money while ensuring consistent learning progress.",
+    "language": "Language",
+    "plan": "Plan",
+    "duration": "{{months}} months",
+    "durationMonths": "{{months}} months",
+    "sessions": "Sessions",
+    "sessionsCount": "{{count}} sessions",
+    "sessionDuration": "{{minutes}} min each",
+    "total": "Total",
+    "subscribe": "Subscribe",
+    "pricePerSession": "Price per session",
+    "perSession": "{{price}} per session",
+    "plans": {
+      "monthly": "Monthly",
+      "quarterly": "Quarterly", 
+      "half-yearly": "Half-yearly"
+    },
+    "benefits": {
+      "title": "Benefits of subscribing",
+      "regularSessions": "Regular scheduled sessions",
+      "discountPrice": "Discounted price per lesson",
+      "flexibleScheduling": "Flexible lesson scheduling",
+      "personalizedLearning": "Personalized learning plan"
+    },
+    "confirmation": {
+      "yourTutor": "Your tutor",
+      "details": "Subscription details",
+      "payment": "Payment details",
+      "info": {
+        "title": "Flexible subscription",
+        "description": "You can schedule your lessons flexibly within your subscription period. Unused sessions will expire at the end of the subscription."
+      }
+    },
+    "success": {
+      "title": "Subscription successful!",
+      "message": "Your subscription has been activated. You can now schedule your lessons with your tutor."
+    },
+    "status": {
+      "expired": "Expired",
+      "expiring": "Expiring",
+      "expiredMessage": "This subscription has expired.",
+      "expiringMessage": "This subscription expires soon."
+    },
+    "tabs": {
+      "active": "Active",
+      "expired": "Expired"
+    },
+    "empty": {
+      "activeTitle": "No active subscriptions",
+      "activeDescription": "You don't have any active subscriptions yet. Subscribe to regular lessons with your favorite tutors.",
+      "expiredTitle": "No expired subscriptions",
+      "expiredDescription": "You don't have any expired subscriptions."
+    },
+    "details": {
+      "title": "Subscription Details",
+      "tutorInfo": "Tutor Information",
+      "subscriptionInfo": "Subscription Information",
+      "sessionsProgress": "Sessions Progress",
+      "validity": "Validity Period",
+      "subscriptionId": "Subscription ID",
+      "totalSessions": "Total sessions",
+      "sessionDuration": "Session duration",
+      "totalPaid": "Total paid",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "contactTutor": "Contact Tutor",
+      "viewProfile": "View Profile",
+      "sessionsRemaining": "{{count}} sessions remaining",
+      "allSessionsUsed": "All sessions have been used"
+    },
+    "sessionsProgress": "Sessions progress",
+    "sessionsRemaining": "{{count}} remaining",
+    "noSessionsRemaining": "No sessions remaining",
+    "startDate": "Start",
+    "endDate": "End",
+    "teaching": "Teaching",
+    "months": "months",
+    "minutes": "min"
   },
   "countries": {
     "af": "Afghanistan",

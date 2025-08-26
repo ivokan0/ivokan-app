@@ -7,6 +7,7 @@
     "notifications": "Notifications",
     "cancel": "Annuler",
     "back": "Retour",
+    "continue": "Continuer",
     "notSpecified": "Non spécifié",
     "unknown": "Inconnu",
     "localTime": "Heure locale"
@@ -345,7 +346,9 @@
     "whatStudentsSay": "Ce que disent mes étudiants",
     "basedOnReviews": "Basé sur {{count}} avis d'étudiants",
     "showAllReviews": "Voir tous les {{count}} avis",
-    "buyTrialLesson": "Réserver un cours d'essai"
+    "buyTrialLesson": "Réserver un cours d'essai",
+    "sendMessage": "Envoyer un message",
+    "subscribe": "S'abonner"
   },
   "superTutorInfo": {
     "title": "Qu'est-ce qu'un Super Tuteur ?",
@@ -456,12 +459,24 @@
     },
     "validation": {
       "title": "Erreur de validation",
-      "selectAllFields": "Veuillez sélectionner tous les champs requis"
+      "selectAllFields": "Veuillez sélectionner tous les champs requis",
+      "selectPlan": "Veuillez sélectionner un plan d'abonnement"
     },
     "booking": {
       "title": "Erreur de réservation",
       "create": "Impossible de créer la réservation. Veuillez réessayer.",
       "loadFailed": "Impossible de charger les réservations."
+    },
+    "subscription": {
+      "title": "Erreur d'abonnement",
+      "create": "Impossible de créer l'abonnement. Veuillez réessayer.",
+      "loadPlans": "Impossible de charger les plans d'abonnement. Veuillez réessayer.",
+      "loadFailed": "Impossible de charger les abonnements. Veuillez réessayer.",
+      "notFound": "Abonnement introuvable.",
+      "invalidLanguage": "Langue sélectionnée invalide"
+    },
+    "auth": {
+      "notLoggedIn": "Veuillez vous connecter pour continuer"
     }
   },
   "validation": {
@@ -542,6 +557,89 @@
       "completed": "Aucun cours terminé",
       "cancelled": "Aucun cours annulé"
     }
+  },
+  "subscription": {
+    "title": "Plans d'abonnement",
+    "for": "pour",
+    "chooseYourPlan": "Choisissez votre plan",
+    "description": "Abonnez-vous à des cours réguliers avec votre tuteur et économisez tout en assurant un progrès d'apprentissage constant.",
+    "language": "Langue",
+    "plan": "Plan",
+    "duration": "{{months}} mois",
+    "durationMonths": "{{months}} mois",
+    "sessions": "Séances",
+    "sessionsCount": "{{count}} séances",
+    "sessionDuration": "{{minutes}} min chacune",
+    "total": "Total",
+    "subscribe": "S'abonner",
+    "pricePerSession": "Prix par séance",
+    "perSession": "{{price}} par séance",
+    "plans": {
+      "monthly": "Mensuel",
+      "quarterly": "Trimestriel", 
+      "half-yearly": "Semestriel"
+    },
+    "benefits": {
+      "title": "Avantages de l'abonnement",
+      "regularSessions": "Séances régulières programmées",
+      "discountPrice": "Prix réduit par leçon",
+      "flexibleScheduling": "Planification flexible des leçons",
+      "personalizedLearning": "Plan d'apprentissage personnalisé"
+    },
+    "confirmation": {
+      "yourTutor": "Votre tuteur",
+      "details": "Détails de l'abonnement",
+      "payment": "Détails du paiement",
+      "info": {
+        "title": "Abonnement flexible",
+        "description": "Vous pouvez programmer vos leçons de manière flexible pendant votre période d'abonnement. Les séances non utilisées expireront à la fin de l'abonnement."
+      }
+    },
+    "success": {
+      "title": "Abonnement réussi !",
+      "message": "Votre abonnement a été activé. Vous pouvez maintenant programmer vos leçons avec votre tuteur."
+    },
+    "status": {
+      "expired": "Expiré",
+      "expiring": "Expire bientôt",
+      "expiredMessage": "Cet abonnement a expiré.",
+      "expiringMessage": "Cet abonnement expire bientôt."
+    },
+    "tabs": {
+      "active": "Actifs",
+      "expired": "Expirés"
+    },
+    "empty": {
+      "activeTitle": "Aucun abonnement actif",
+      "activeDescription": "Vous n'avez pas encore d'abonnements actifs. Abonnez-vous à des cours réguliers avec vos tuteurs préférés.",
+      "expiredTitle": "Aucun abonnement expiré",
+      "expiredDescription": "Vous n'avez aucun abonnement expiré."
+    },
+    "details": {
+      "title": "Détails de l'abonnement",
+      "tutorInfo": "Informations du tuteur",
+      "subscriptionInfo": "Informations de l'abonnement",
+      "sessionsProgress": "Progression des séances",
+      "validity": "Période de validité",
+      "subscriptionId": "ID de l'abonnement",
+      "totalSessions": "Total des séances",
+      "sessionDuration": "Durée des séances",
+      "totalPaid": "Total payé",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "contactTutor": "Contacter le tuteur",
+      "viewProfile": "Voir le profil",
+      "sessionsRemaining": "{{count}} séances restantes",
+      "allSessionsUsed": "Toutes les séances ont été utilisées"
+    },
+    "sessionsProgress": "Progression des séances",
+    "sessionsRemaining": "{{count}} restantes",
+    "noSessionsRemaining": "Aucune séance restante",
+    "startDate": "Début",
+    "endDate": "Fin",
+    "teaching": "Enseigne",
+    "months": "mois",
+    "minutes": "min"
   },
   "countries": {
     "af": "Afghanistan",

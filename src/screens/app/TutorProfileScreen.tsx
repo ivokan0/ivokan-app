@@ -20,6 +20,8 @@ import ReviewCard from '../../components/ReviewCard';
 import BottomActionBar from '../../components/ui/BottomActionBar';
 import { getReviewsWithProfiles } from '../../services/reviews';
 import { getOrCreateConversation } from '../../services/messaging';
+import { hasActiveTrialBooking } from '../../services/trialBookings';
+import { hasActiveSubscription } from '../../services/studentSubscriptions';
 import { useAuth } from '../../hooks/useAuth';
 
 type TutorProfileScreenProps = {
@@ -47,6 +49,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
   const [showFullBio, setShowFullBio] = React.useState(false);
   const [reviews, setReviews] = React.useState<ReviewWithProfiles[]>([]);
   const [loadingReviews, setLoadingReviews] = React.useState(true);
+  const [languageBookingStatus, setLanguageBookingStatus] = React.useState<Record<string, { hasTrialBooking: boolean; hasSubscription: boolean }>>({});
 
   const formatNumber = (num: number): string => {
     if (num >= 1000000) {
@@ -106,10 +109,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
     }
   };
 
-  const handleBuyTrialPress = () => {
-    // Navigate to trial booking screen
-    (navigation as any).navigate('TrialBooking', { tutorId: tutor.user_id });
-  };
+
 
   const firstName = tutor.first_name || '';
   const lastInitial = tutor.last_name ? `${tutor.last_name.charAt(0)}.` : '';
@@ -123,26 +123,88 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
     return '?';
   };
 
-  // Load reviews when component mounts
+  // Check booking and subscription status for a language
+  const checkLanguageStatus = async (languageCode: string) => {
+    if (!user?.id) return { hasTrialBooking: false, hasSubscription: false };
+
+    try {
+      const [trialResult, subscriptionResult] = await Promise.all([
+        hasActiveTrialBooking(user.id, tutor.user_id, languageCode),
+        hasActiveSubscription(user.id, tutor.user_id, languageCode),
+      ]);
+
+      return {
+        hasTrialBooking: trialResult.data ?? false,
+        hasSubscription: subscriptionResult.data ?? false,
+      };
+    } catch (error) {
+      console.error('Error checking language status:', error);
+      return { hasTrialBooking: false, hasSubscription: false };
+    }
+  };
+
+  // Load reviews and language statuses when component mounts
   React.useEffect(() => {
-    const loadReviews = async () => {
+    const loadData = async () => {
       try {
         setLoadingReviews(true);
+        
+        // Load reviews
         const { data, error } = await getReviewsWithProfiles(tutor.user_id);
         if (error) {
           console.error('Error loading reviews:', error);
         } else {
           setReviews(data || []);
         }
+
+        // Load language booking statuses if user is logged in
+        if (user?.id && tutor.taught_languages?.length > 0) {
+          const statusMap: Record<string, { hasTrialBooking: boolean; hasSubscription: boolean }> = {};
+          
+          for (const lang of tutor.taught_languages) {
+            statusMap[lang] = await checkLanguageStatus(lang);
+          }
+          
+          setLanguageBookingStatus(statusMap);
+        }
       } catch (error) {
-        console.error('Error loading reviews:', error);
+        console.error('Error loading data:', error);
       } finally {
         setLoadingReviews(false);
       }
     };
 
-    loadReviews();
-  }, [tutor.user_id]);
+    loadData();
+  }, [tutor.user_id, user?.id]);
+
+  const handleTrialBookingPress = (languageCode: string) => {
+    if (!user?.id) {
+      // Handle not logged in case
+      Alert.alert(t('common.error'), t('errors.auth.notLoggedIn'));
+      return;
+    }
+
+    // Navigate to trial booking screen with the specific language
+    (navigation as any).navigate('TrialBooking', { 
+      tutorId: tutor.user_id,
+      preselectedLanguage: languageCode 
+    });
+  };
+
+  const handleSubscriptionPress = (languageCode: string) => {
+    if (!user?.id) {
+      // Handle not logged in case
+      Alert.alert(t('common.error'), t('errors.auth.notLoggedIn'));
+      return;
+    }
+
+    // Navigate to subscription booking screen
+    (navigation as any).navigate('SubscriptionBooking', {
+      tutorId: tutor.user_id,
+      languageCode: languageCode,
+      tutorName: displayName,
+    });
+  };
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
@@ -351,9 +413,10 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
                 const proficiency = (tutor.proficiency_taught_lan as any)?.[lang]?.level;
                 const proficiencyLabel = proficiency ? t(`languages.levels.${proficiency}`) : '';
                 const languageName = lang.charAt(0).toUpperCase() + lang.slice(1);
+                const status = languageBookingStatus[lang] || { hasTrialBooking: false, hasSubscription: false };
                 
                 return (
-                  <View key={index} style={styles.spokenLanguageItem}>
+                  <View key={index} style={styles.teachLanguageItem}>
                     <View style={styles.spokenLanguageRow}>
                       <Text style={[styles.spokenLanguageName, { color: theme.colors.onSurface }]}>
                         {languageName}
@@ -374,6 +437,45 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
                         </Text>
                       </View>
                     </View>
+                    
+                    {/* Action Buttons */}
+                    {user?.id && (
+                      <View style={styles.languageActions}>
+                        {/* Trial Booking Button - Only show if no trial booking AND no active subscription */}
+                        {!status.hasTrialBooking && !status.hasSubscription && (
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.trialButton, { backgroundColor: theme.colors.primary }]}
+                            onPress={() => handleTrialBookingPress(lang)}
+                          >
+                            <MaterialCommunityIcons
+                              name="play-circle-outline"
+                              size={16}
+                              color={theme.colors.onPrimary}
+                            />
+                            <Text style={[styles.actionButtonText, { color: theme.colors.onPrimary }]}>
+                              {t('tutorProfile.bookTrialLesson')}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                        
+                        {/* Subscription Button */}
+                        {!status.hasSubscription && (
+                          <TouchableOpacity
+                            style={[styles.actionButton, styles.subscriptionButton, { borderColor: theme.colors.primary }]}
+                            onPress={() => handleSubscriptionPress(lang)}
+                          >
+                            <MaterialCommunityIcons
+                              name="bookmark-plus-outline"
+                              size={16}
+                              color={theme.colors.primary}
+                            />
+                            <Text style={[styles.actionButtonText, { color: theme.colors.primary }]}>
+                              {t('tutorProfile.subscribe')}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    )}
                   </View>
                 );
               })}
@@ -499,7 +601,6 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
       {/* Bottom Action Bar */}
       <BottomActionBar
         onChatPress={handleChatPress}
-        onBuyTrialPress={handleBuyTrialPress}
       />
     </SafeAreaView>
   );
@@ -686,6 +787,9 @@ const styles = StyleSheet.create({
   spokenLanguageItem: {
     paddingVertical: 4,
   },
+  teachLanguageItem: {
+    paddingVertical: 8,
+  },
   spokenLanguageRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -795,6 +899,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Baloo2_400Regular',
     marginTop: 12,
+  },
+  languageActions: {
+    flexDirection: 'row',
+    marginTop: 12,
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+    minWidth: 120,
+    justifyContent: 'center',
+  },
+  trialButton: {
+    borderWidth: 0,
+  },
+  subscriptionButton: {
+    backgroundColor: 'transparent',
+    borderWidth: 1.5,
+  },
+  actionButtonText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_600SemiBold',
+    fontWeight: '600',
   },
 });
 
