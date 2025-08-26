@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    paddingBottom: 24, // Extra padding for safe area
     gap: 12,
     elevation: 8,
     shadowColor: '#000',

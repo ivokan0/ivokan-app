@@ -6,6 +6,7 @@ import {
   Alert,
   Modal,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {
   Text,
@@ -328,7 +329,8 @@ const AvailabilitySlotScreen: React.FC = () => {
   );
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView}>
       <Card style={styles.card}>
         <Card.Content>
           <Text variant="headlineSmall" style={[styles.title, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
@@ -522,11 +524,15 @@ const AvailabilitySlotScreen: React.FC = () => {
           title={t('settings.availability.endDate')}
         />
       </ScrollView>
-    );
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
     padding: 16,
   },

@@ -20,6 +20,7 @@ export interface Profile extends BaseEntityWithUpdate {
   timezone: string;
   profile_type: 'student' | 'tutor';
   minimum_time_notice: number | null;
+  break_duration_minutes?: number | null;
   biography: string | null;
   super_tutor: boolean;
   spoken_languages: string[];
@@ -425,4 +426,49 @@ export interface UpdateTutorAvailabilityData {
   start_date?: string;
   end_date?: string;
   is_full_day?: boolean;
+}
+
+// Trial Booking types
+export interface TrialBooking extends BaseEntityWithUpdate {
+  student_id: string;
+  tutor_id: string;
+  trial_lesson_id: string;
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  student_timezone: string;
+  tutor_timezone: string;
+  student_notes?: string;
+  tutor_notes?: string;
+  confirmed_at?: string;
+  cancelled_at?: string;
+}
+
+export interface CreateTrialBookingData {
+  student_id: string;
+  tutor_id: string;
+  trial_lesson_id: string;
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  student_timezone: string;
+  tutor_timezone: string;
+  student_notes?: string;
+}
+
+export interface UpdateTrialBookingData {
+  status?: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  student_notes?: string;
+  tutor_notes?: string;
+}
+
+export interface AvailableTrialSlot {
+  date_actual: string;
+  available_slots: { 
+    start_time: string; 
+    end_time: string; 
+    duration_minutes: number;
+  }[];
+  trial_lesson_duration: number;
 }

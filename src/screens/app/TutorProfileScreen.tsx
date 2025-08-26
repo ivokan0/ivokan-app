@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Share,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
@@ -106,8 +107,8 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
   };
 
   const handleBuyTrialPress = () => {
-    // TODO: Navigate to trial lesson purchase screen
-    console.log('Navigate to buy trial lesson for tutor:', tutor.user_id);
+    // Navigate to trial booking screen
+    (navigation as any).navigate('TrialBooking', { tutorId: tutor.user_id });
   };
 
   const firstName = tutor.first_name || '';
@@ -144,7 +145,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
   }, [tutor.user_id]);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: theme.colors.surface }]}>
         <TouchableOpacity
@@ -453,7 +454,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
         onChatPress={handleChatPress}
         onBuyTrialPress={handleBuyTrialPress}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -467,7 +468,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    paddingTop: 50,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

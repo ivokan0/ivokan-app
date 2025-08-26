@@ -3,11 +3,13 @@
     "success": "Success",
     "error": "Error",
     "ok": "OK",
-    "loading": "Loading...",
+    "loading": "Loading",
     "notifications": "Notifications",
     "cancel": "Cancel",
     "back": "Back",
-    "notSpecified": "Not specified"
+    "notSpecified": "Not specified",
+    "unknown": "Unknown",
+    "localTime": "Local time"
   },
     "splash": {
     "loading": "Loading..."
@@ -180,6 +182,8 @@
       "title": "Availability",
       "minimumTimeNotice": "Minimum booking notice",
       "minimumTimeNoticeDescription": "Minimum time (in minutes) before a student can book a slot",
+      "breakDuration": "Break duration between slots",
+      "breakDurationDescription": "Break time (in minutes) between lessons",
       "mySlots": "My available slots",
       "addSlot": "Add a slot",
       "editSlot": "Edit slot",
@@ -447,6 +451,15 @@
       "rateLimited": "Too many requests. Please try again later.",
       "passwordTooShort": "Password is too short.",
       "userNotFound": "User not found."
+    },
+    "validation": {
+      "title": "Validation Error",
+      "selectAllFields": "Please select all required fields"
+    },
+    "booking": {
+      "title": "Booking Error",
+      "create": "Unable to create booking. Please try again.",
+      "loadFailed": "Unable to load bookings."
     }
   },
   "validation": {
@@ -474,6 +487,57 @@
     "unavailableSlots": "Unavailable Time Slots",
     "fullDay": "Full Day",
     "noSlots": "No slots"
+  },
+  "booking": {
+    "trialLessonTitle": "Book a Trial Lesson",
+    "withTutor": "with",
+    "trialLesson": "Trial Lesson",
+    "selectTrialLesson": "Select a trial lesson",
+    "date": "Date",
+    "selectDate": "Select a date",
+    "time": "Time",
+    "selectTime": "Select a time",
+    "timezone": "Timezone",
+    "inYourTimezone": "In your timezone:",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "noSlotsForDate": "No available slots for this date",
+    "notes": "Notes",
+    "optional": "optional",
+    "notesPlaceholder": "Add notes for the tutor (goals, level, etc.)",
+    "minimumNotice": "Minimum notice",
+    "minimumNoticeDescription": "This tutor requires a minimum notice of {{hours}} hours for bookings",
+    "bookTrialLesson": "Book Trial Lesson",
+    "minutes": "minutes",
+    "availableSlots": "available slots",
+    "today": "Today",
+    "success": {
+      "title": "Booking Confirmed",
+      "trialLessonBooked": "Your trial lesson has been successfully booked!"
+    },
+    "tabs": {
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "countdown": {
+      "started": "Lesson started",
+      "days": "In {{days}}d {{hours}}h",
+      "hours": "In {{hours}}h {{minutes}}min",
+      "minutes": "In {{minutes}} min"
+    },
+    "empty": {
+      "upcoming": "No upcoming lessons",
+      "completed": "No completed lessons",
+      "cancelled": "No cancelled lessons"
+    }
   },
   "countries": {
     "af": "Afghanistan",

@@ -10,6 +10,7 @@ export interface Profile {
   timezone: string;
   profile_type: 'student' | 'tutor';
   minimum_time_notice: number | null;
+  break_duration_minutes?: number | null;
   biography: string | null;
   super_tutor: boolean;
   spoken_languages: string[];
@@ -30,6 +31,7 @@ export interface CreateProfileData {
   timezone?: string;
   profile_type?: 'student' | 'tutor';
   minimum_time_notice?: number;
+  break_duration_minutes?: number;
   biography?: string;
   super_tutor?: boolean;
   spoken_languages?: string[];
@@ -80,6 +82,7 @@ export const createProfile = async (data: CreateProfileData): Promise<{ data: Pr
         timezone,
         profile_type: data.profile_type ?? 'student',
         minimum_time_notice: data.minimum_time_notice || 120,
+        break_duration_minutes: data.break_duration_minutes ?? 15,
       })
       .select()
       .single();
@@ -157,5 +160,24 @@ export const profileExists = async (userId: string): Promise<boolean> => {
     return !!data;
   } catch (error) {
     return false;
+  }
+};
+
+// Récupérer le profil d'un tuteur par son user_id (utilisé par l'écran de réservation)
+export const getTutorProfile = async (tutorUserId: string): Promise<{ data: Profile | null; error: any }> => {
+  try {
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', tutorUserId)
+      .maybeSingle();
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: profile, error: null };
+  } catch (error) {
+    return { data: null, error };
   }
 };

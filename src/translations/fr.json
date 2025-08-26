@@ -3,11 +3,13 @@
     "success": "Succès",
     "error": "Erreur",
     "ok": "OK",
-    "loading": "Chargement...",
+    "loading": "Chargement",
     "notifications": "Notifications",
     "cancel": "Annuler",
     "back": "Retour",
-    "notSpecified": "Non spécifié"
+    "notSpecified": "Non spécifié",
+    "unknown": "Inconnu",
+    "localTime": "Heure locale"
   },
   "splash": {
     "loading": "Chargement..."
@@ -180,6 +182,8 @@
       "title": "Disponibilités",
       "minimumTimeNotice": "Délai minimum de réservation",
       "minimumTimeNoticeDescription": "Délai minimum (en minutes) avant qu'un étudiant puisse réserver un créneau",
+      "breakDuration": "Durée de pause entre créneaux",
+      "breakDurationDescription": "Temps de pause (en minutes) entre les cours",
       "mySlots": "Mes créneaux disponibles",
       "addSlot": "Ajouter un créneau",
       "editSlot": "Modifier le créneau",
@@ -448,6 +452,15 @@
       "rateLimited": "Trop de tentatives de connexion. Réessayez plus tard.",
       "passwordTooShort": "Mot de passe trop court.",
       "userNotFound": "Utilisateur introuvable."
+    },
+    "validation": {
+      "title": "Erreur de validation",
+      "selectAllFields": "Veuillez sélectionner tous les champs requis"
+    },
+    "booking": {
+      "title": "Erreur de réservation",
+      "create": "Impossible de créer la réservation. Veuillez réessayer.",
+      "loadFailed": "Impossible de charger les réservations."
     }
   },
   "validation": {
@@ -475,6 +488,57 @@
     "unavailableSlots": "Créneaux Indisponibles",
     "fullDay": "Journée Entière",
     "noSlots": "Aucun créneau"
+  },
+  "booking": {
+    "trialLessonTitle": "Réserver un cours d'essai",
+    "withTutor": "avec",
+    "trialLesson": "Cours d'essai",
+    "selectTrialLesson": "Sélectionner un cours d'essai",
+    "date": "Date",
+    "selectDate": "Sélectionner une date",
+    "time": "Heure",
+    "selectTime": "Sélectionner une heure",
+    "timezone": "Fuseau horaire",
+    "inYourTimezone": "Dans votre fuseau horaire :",
+    "morning": "Matin",
+    "afternoon": "Après-midi",
+    "evening": "Soir",
+    "noSlotsForDate": "Aucun créneau disponible pour cette date",
+    "notes": "Notes",
+    "optional": "optionnel",
+    "notesPlaceholder": "Ajoutez des notes pour le tuteur (objectifs, niveau, etc.)",
+    "minimumNotice": "Délai minimum",
+    "minimumNoticeDescription": "Ce tuteur nécessite un délai de {{hours}} heures minimum pour les réservations",
+    "bookTrialLesson": "Réserver le cours d'essai",
+    "minutes": "minutes",
+    "availableSlots": "créneaux disponibles",
+    "today": "Aujourd'hui",
+    "success": {
+      "title": "Réservation confirmée",
+      "trialLessonBooked": "Votre cours d'essai a été réservé avec succès !"
+    },
+    "tabs": {
+      "upcoming": "À venir",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "status": {
+      "pending": "En attente",
+      "confirmed": "Confirmé",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+    "countdown": {
+      "started": "Cours commencé",
+      "days": "Dans {{days}} j {{hours}}h",
+      "hours": "Dans {{hours}}h {{minutes}}min",
+      "minutes": "Dans {{minutes}} min"
+    },
+    "empty": {
+      "upcoming": "Aucun cours à venir",
+      "completed": "Aucun cours terminé",
+      "cancelled": "Aucun cours annulé"
+    }
   },
   "countries": {
     "af": "Afghanistan",

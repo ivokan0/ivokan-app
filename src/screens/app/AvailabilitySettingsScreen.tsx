@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Modal, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useTheme, Divider, Button, TextInput } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -36,6 +36,7 @@ const AvailabilitySettingsScreen: React.FC = () => {
   const [unavailabilities, setUnavailabilities] = useState<UnavailabilityPeriod[]>([]);
   const [minimumTimeNotice, setMinimumTimeNotice] = useState(profile?.minimum_time_notice?.toString() || '120');
   const [isLoading, setIsLoading] = useState(false);
+  const [breakDuration, setBreakDuration] = useState((profile?.break_duration_minutes ?? 15).toString());
   const [showCalendar, setShowCalendar] = useState(false);
 
   useFocusEffect(
@@ -100,6 +101,24 @@ const AvailabilitySettingsScreen: React.FC = () => {
       Alert.alert(t('common.success'), t('profile.saveSuccess.message'));
     } catch (error) {
       console.error('Error saving minimum time notice:', error);
+      Alert.alert(t('common.error'), t('errors.save.message'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSaveBreakDuration = async () => {
+    if (!profile?.user_id) return;
+
+    try {
+      setIsLoading(true);
+      await updateUserProfile({
+        break_duration_minutes: parseInt(breakDuration, 10),
+      });
+
+      Alert.alert(t('common.success'), t('profile.saveSuccess.message'));
+    } catch (error) {
+      console.error('Error saving break duration:', error);
       Alert.alert(t('common.error'), t('errors.save.message'));
     } finally {
       setIsLoading(false);
@@ -235,7 +254,8 @@ const AvailabilitySettingsScreen: React.FC = () => {
   });
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <ScrollView style={styles.scrollView}>
         <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
         <Text style={[styles.title, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
           {t('settings.availability.title')}
@@ -259,6 +279,31 @@ const AvailabilitySettingsScreen: React.FC = () => {
           <Button
             mode="contained"
             onPress={handleSaveMinimumTimeNotice}
+            loading={isLoading}
+            style={styles.saveButton}
+          >
+            {t('profile.save')}
+          </Button>
+        </View>
+
+        {/* Break Duration Between Slots */}
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.onSurface, fontFamily: 'Baloo2_500Medium' }]}>
+            {t('settings.availability.breakDuration')}
+          </Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.colors.onSurfaceVariant, fontFamily: 'Baloo2_400Regular' }]}>
+            {t('settings.availability.breakDurationDescription')}
+          </Text>
+          <TextInput
+            value={breakDuration}
+            onChangeText={setBreakDuration}
+            style={[styles.input, { backgroundColor: theme.colors.surfaceVariant } ]}
+            keyboardType="numeric"
+            placeholder="15"
+          />
+          <Button
+            mode="contained"
+            onPress={handleSaveBreakDuration}
             loading={isLoading}
             style={styles.saveButton}
           >
@@ -451,11 +496,15 @@ const AvailabilitySettingsScreen: React.FC = () => {
       </View>
       </Modal>
       </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollView: {
     flex: 1,
   },
   content: {
