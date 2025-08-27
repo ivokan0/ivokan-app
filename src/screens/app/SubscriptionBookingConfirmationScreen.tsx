@@ -16,6 +16,7 @@ import { useCurrency } from '../../hooks/useCurrency';
 import { useAuth } from '../../hooks/useAuth';
 import { createStudentSubscription } from '../../services/studentSubscriptions';
 import { getLanguageByCode } from '../../services/languages';
+import { createEarning, calculateNetAmount } from '../../services/earnings';
 import { SubscriptionPlan } from '../../types/database';
 
 type RouteParams = {
@@ -102,6 +103,27 @@ const SubscriptionBookingConfirmationScreen: React.FC = () => {
       }
 
       if (subscription) {
+        // Create earning record for the tutor
+        try {
+          const totalPrice = getTotalPrice();
+          const netAmount = await calculateNetAmount(totalPrice);
+
+          await createEarning({
+            tutor_id: tutor.id,
+            student_id: profile.user_id,
+            type: 'plan',
+            student_subscriptions_id: subscription.id,
+            gross_amount: totalPrice,
+            net_amount: netAmount,
+            status: 'pending',
+          });
+
+          console.log('Earning record created successfully');
+        } catch (earningError) {
+          console.error('Error creating earning record:', earningError);
+          // Don't block the user flow for earning creation errors
+        }
+
         Alert.alert(
           t('subscription.success.title'),
           t('subscription.success.message'),

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { useCurrency } from '../../hooks/useCurrency';
 import { createTrialBooking } from '../../services/trialBookings';
+import { createEarning, calculateNetAmount } from '../../services/earnings';
 import { useAuth } from '../../hooks/useAuth';
 
 type RouteParams = {
@@ -58,7 +59,28 @@ const TrialBookingConfirmationScreen: React.FC = () => {
 
       if (error) {
         Alert.alert(t('errors.booking.title'), error.message);
-      } else {
+      } else if (booking) {
+        // Create earning record for the tutor
+        try {
+          const totalPrice = amount.total;
+          const netAmount = await calculateNetAmount(totalPrice);
+
+          await createEarning({
+            tutor_id: bookingData.tutor_id,
+            student_id: profile.user_id,
+            type: 'trial',
+            trial_bookings_id: booking.id,
+            gross_amount: totalPrice,
+            net_amount: netAmount,
+            status: 'pending',
+          });
+
+          console.log('Earning record created successfully for trial booking');
+        } catch (earningError) {
+          console.error('Error creating earning record:', earningError);
+          // Don't block the user flow for earning creation errors
+        }
+
         Alert.alert(
           t('booking.success.title'),
           t('booking.success.trialLessonBooked'),

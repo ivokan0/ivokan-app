@@ -474,3 +474,46 @@ export interface AvailableTrialSlot {
   }[];
   trial_lesson_duration: number;
 }
+
+// Policies table
+export interface Policy {
+  id: string;
+  key: string;
+  value: string;
+  description?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// Earnings table
+export interface Earning {
+  id: string;
+  tutor_id: string;
+  student_id: string;
+  type: 'trial' | 'plan';
+  student_subscriptions_id?: string;
+  trial_bookings_id?: string;
+  gross_amount: number;
+  net_amount: number;
+  status: 'pending' | 'gained' | 'refunded';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface EarningWithDetails extends Earning {
+  tutor?: Profile;
+  student?: Profile;
+  subscription?: StudentSubscription;
+  trial_booking?: TrialBooking;
+}
+
+export interface CreateEarningData {
+  tutor_id: string;
+  student_id: string;
+  type: 'trial' | 'plan';
+  student_subscriptions_id?: string;
+  trial_bookings_id?: string;
+  gross_amount: number;
+  net_amount: number;
+  status?: 'pending' | 'gained' | 'refunded';
+}
