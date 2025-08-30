@@ -10,7 +10,8 @@
     "continue": "Continuer",
     "notSpecified": "Non spécifié",
     "unknown": "Inconnu",
-    "localTime": "Heure locale"
+    "localTime": "Heure locale",
+    "comingSoon": "Bientôt disponible"
   },
   "splash": {
     "loading": "Chargement..."

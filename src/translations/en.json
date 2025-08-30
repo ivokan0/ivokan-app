@@ -10,7 +10,8 @@
     "continue": "Continue",
     "notSpecified": "Not specified",
     "unknown": "Unknown",
-    "localTime": "Local time"
+    "localTime": "Local time",
+    "comingSoon": "Coming soon"
   },
     "splash": {
     "loading": "Loading..."
