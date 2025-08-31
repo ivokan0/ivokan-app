@@ -325,6 +325,13 @@
       "averageRating": "Note Moyenne",
       "totalStudents": "Total des Étudiants",
       "totalLessons": "Total des Leçons"
+    },
+    "reviews": {
+      "title": "Avis des Étudiants",
+      "subtitle": "Voyez ce que vos étudiants disent de vous",
+      "noReviews": "Aucun avis pour le moment",
+      "noReviewsDescription": "Les avis de vos étudiants apparaîtront ici une fois qu'ils commenceront à laisser des commentaires",
+      "viewAll": "Voir tous les {{count}} avis"
     }
   },
   "tutorProfile": {

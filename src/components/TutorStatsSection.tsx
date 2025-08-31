@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 import { getTutorStats } from '../services/tutorStats';
 import { TutorStats } from '../types/database';
 import StatsCard from './ui/StatsCard';
+import TutorReviewsSection from './TutorReviewsSection';
 
 const TutorStatsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -102,6 +103,7 @@ const TutorStatsSection: React.FC = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
       showsVerticalScrollIndicator={false}
     >
+      {/* Stats Section */}
       <View style={styles.header}>
         <Text style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
           {t('tutor.stats.title')}
@@ -140,6 +142,19 @@ const TutorStatsSection: React.FC = () => {
             color="#45B7D1"
           />
         </View>
+      </View>
+
+      {/* Reviews Section */}
+      <View style={styles.reviewsSection}>
+        <View style={styles.header}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
+            {t('tutor.reviews.title')}
+          </Text>
+          <Text style={[styles.sectionSubtitle, { color: theme.colors.onSurfaceVariant }]}>
+            {t('tutor.reviews.subtitle')}
+          </Text>
+        </View>
+        <TutorReviewsSection />
       </View>
     </ScrollView>
   );
@@ -203,6 +218,9 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 14,
     fontFamily: 'Baloo2_400Regular',
+  },
+  reviewsSection: {
+    marginTop: 24,
   },
 });
 

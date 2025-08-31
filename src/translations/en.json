@@ -325,6 +325,13 @@
       "averageRating": "Average Rating",
       "totalStudents": "Total Students",
       "totalLessons": "Total Lessons"
+    },
+    "reviews": {
+      "title": "Student Reviews",
+      "subtitle": "See what your students are saying about you",
+      "noReviews": "No reviews yet",
+      "noReviewsDescription": "Reviews from your students will appear here once they start leaving feedback",
+      "viewAll": "View all {{count}} reviews"
     }
   },
   "tutorProfile": {
