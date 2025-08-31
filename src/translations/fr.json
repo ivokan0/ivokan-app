@@ -316,7 +316,16 @@
     "send": "Envoyer",
     "unreadMessages": "{{count}} non lu",
     "lastMessage": "Dernier message",
-    "newMessage": "Nouveau message"
+    "newMessage": "Nouveau message",
+    "noStatsAvailable": "Aucune statistique disponible pour le moment",
+    "stats": {
+      "title": "Vos Statistiques",
+      "subtitle": "Suivez vos performances d'enseignement et votre croissance",
+      "totalReviews": "Total des Avis",
+      "averageRating": "Note Moyenne",
+      "totalStudents": "Total des Étudiants",
+      "totalLessons": "Total des Leçons"
+    }
   },
   "tutorProfile": {
     "title": "Profil du Tuteur",

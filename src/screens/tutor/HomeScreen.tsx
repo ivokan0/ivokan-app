@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import TutorStatsSection from '../../components/TutorStatsSection';
 
 const TutorHomeScreen: React.FC = () => {
-  const { t } = useTranslation();
   const theme = useTheme();
+  
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.title, { color: theme.colors.onBackground }]}>{t('tutor.home')}</Text>
+      <TutorStatsSection />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: '600', fontFamily: 'Baloo2_600SemiBold' },
+  container: { 
+    flex: 1,
+  },
 });
 
 export default TutorHomeScreen;
