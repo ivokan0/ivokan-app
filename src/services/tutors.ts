@@ -174,3 +174,43 @@ export const getAvailableCountries = async (): Promise<ApiResponse<string[]>> =>
     return { data: null, error };
   }
 };
+
+// Get a single tutor with stats by user_id
+export const getTutorWithStats = async (tutorUserId: string): Promise<ApiResponse<TutorWithStats>> => {
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(`
+        *,
+        tutor_stats(*)
+      `)
+      .eq('user_id', tutorUserId)
+      .eq('profile_type', 'tutor')
+      .single();
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    // Transform the data to match TutorWithStats interface
+    const tutorWithStats: TutorWithStats = {
+      ...data,
+      tutor_stats: data.tutor_stats || {
+        id: '',
+        tutor_id: data.user_id,
+        total_reviews: 0,
+        average_rating: 0,
+        total_students: 0,
+        total_lessons: 0,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      },
+      reviews: [],
+      payment_methods: []
+    };
+
+    return { data: tutorWithStats, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};

@@ -332,7 +332,8 @@
       "noReviews": "No reviews yet",
       "noReviewsDescription": "Reviews from your students will appear here once they start leaving feedback",
       "viewAll": "View all {{count}} reviews"
-    }
+    },
+    "seeMyProfile": "See my profile"
   },
   "tutorProfile": {
     "title": "Tutor Profile",

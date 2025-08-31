@@ -332,7 +332,8 @@
       "noReviews": "Aucun avis pour le moment",
       "noReviewsDescription": "Les avis de vos étudiants apparaîtront ici une fois qu'ils commenceront à laisser des commentaires",
       "viewAll": "Voir tous les {{count}} avis"
-    }
+    },
+    "seeMyProfile": "Voir mon profil"
   },
   "tutorProfile": {
     "title": "Profil du Tuteur",

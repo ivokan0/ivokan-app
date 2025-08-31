@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../hooks/useAuth';
 import { getTutorStats } from '../services/tutorStats';
+import { getTutorWithStats } from '../services/tutors';
 import { TutorStats } from '../types/database';
 import StatsCard from './ui/StatsCard';
 import TutorReviewsSection from './TutorReviewsSection';
@@ -11,10 +14,32 @@ import TutorReviewsSection from './TutorReviewsSection';
 const TutorStatsSection: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const navigation = useNavigation();
   const { user } = useAuth();
   const [stats, setStats] = useState<TutorStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleViewProfile = async () => {
+    if (user?.id) {
+      try {
+        // Get the current tutor's profile with stats
+        const { data: tutorWithStats, error } = await getTutorWithStats(user.id);
+        
+        if (error || !tutorWithStats) {
+          console.error('Error loading tutor profile:', error);
+          return;
+        }
+
+        // Navigate to the tutor own profile screen
+        (navigation as any).navigate('TutorOwnProfile', {
+          tutor: tutorWithStats
+        });
+      } catch (error) {
+        console.error('Error navigating to profile:', error);
+      }
+    }
+  };
 
   useEffect(() => {
     const loadStats = async () => {
@@ -103,6 +128,26 @@ const TutorStatsSection: React.FC = () => {
       style={[styles.container, { backgroundColor: theme.colors.background }]}
       showsVerticalScrollIndicator={false}
     >
+      {/* Profile Button */}
+      <TouchableOpacity
+        style={[styles.profileButton, { backgroundColor: theme.colors.primary }]}
+        onPress={handleViewProfile}
+      >
+        <MaterialCommunityIcons
+          name="account-circle"
+          size={24}
+          color={theme.colors.onPrimary}
+        />
+        <Text style={[styles.profileButtonText, { color: theme.colors.onPrimary }]}>
+          {t('tutor.seeMyProfile')}
+        </Text>
+        <MaterialCommunityIcons
+          name="chevron-right"
+          size={20}
+          color={theme.colors.onPrimary}
+        />
+      </TouchableOpacity>
+
       {/* Stats Section */}
       <View style={styles.header}>
         <Text style={[styles.sectionTitle, { color: theme.colors.onBackground }]}>
@@ -221,6 +266,29 @@ const styles = StyleSheet.create({
   },
   reviewsSection: {
     marginTop: 24,
+  },
+  profileButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 8,
+    borderRadius: 12,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  profileButtonText: {
+    flex: 1,
+    fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
+    fontWeight: '600',
+    marginLeft: 12,
   },
 });
 

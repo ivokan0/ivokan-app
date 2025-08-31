@@ -20,6 +20,7 @@ import EditMyLanguagesScreen from '../screens/app/EditMyLanguagesScreen';
 import WebViewScreen from '../screens/app/WebViewScreen';
 import PresentationVideoScreen from '../screens/app/PresentationVideoScreen';
 import TutorProfileScreen from '../screens/app/TutorProfileScreen';
+import TutorOwnProfileScreen from '../screens/app/TutorOwnProfileScreen';
 import SuperTutorInfoScreen from '../screens/app/SuperTutorInfoScreen';
 import { useAuth } from '../hooks/useAuth';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -588,6 +589,13 @@ const AppStackNavigator: React.FC = () => {
       <AppStack.Screen
         name="TutorProfile"
         component={TutorProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="TutorOwnProfile"
+        component={TutorOwnProfileScreen}
         options={{
           headerShown: false,
         }}
