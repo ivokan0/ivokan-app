@@ -41,8 +41,10 @@ import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
 import EarningsScreen from '../screens/tutor/EarningsScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileMenu from '../components/ProfileMenu';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useUnreadMessages } from '../hooks/useUnreadMessages';
+import UnreadBadge from '../components/ui/UnreadBadge';
 
 const CustomBackButton: React.FC = () => {
   const theme = useTheme();
@@ -134,6 +136,14 @@ const Tab = createBottomTabNavigator();
 const StudentTabs: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { unreadCount } = useUnreadMessages();
+
+  const MessageIconWithBadge = ({ color, size }: { color: string; size: number }) => (
+    <View style={{ position: 'relative' }}>
+      <MaterialCommunityIcons name="message-text-outline" color={color} size={size} />
+      <UnreadBadge count={unreadCount} size="small" />
+    </View>
+  );
   return (
     <Tab.Navigator
       screenOptions={{
@@ -180,7 +190,7 @@ const StudentTabs: React.FC = () => {
         options={{
           title: t('student.messages'),
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="message-text-outline" color={color} size={size} />
+            <MessageIconWithBadge color={color} size={size} />
           ),
         }}
       />
@@ -211,6 +221,14 @@ const StudentTabs: React.FC = () => {
 const TutorTabs: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { unreadCount } = useUnreadMessages();
+
+  const MessageIconWithBadge = ({ color, size }: { color: string; size: number }) => (
+    <View style={{ position: 'relative' }}>
+      <MaterialCommunityIcons name="message-text-outline" color={color} size={size} />
+      <UnreadBadge count={unreadCount} size="small" />
+    </View>
+  );
   return (
     <Tab.Navigator
       screenOptions={{
@@ -257,7 +275,7 @@ const TutorTabs: React.FC = () => {
         options={{
           title: t('tutor.messages'),
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="message-text-outline" color={color} size={size} />
+            <MessageIconWithBadge color={color} size={size} />
           ),
         }}
       />
