@@ -1,21 +1,30 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import { useCurrency } from '../hooks/useCurrency';
 
 interface TutorEarningsBalanceProps {
   summary: {
-    gainedAmount: number;
+    balance: number;
     pendingAmount: number;
     refundedAmount: number;
   } | null;
+  withdrawalSummary?: {
+    pendingWithdrawals: number;
+  } | null;
   loading?: boolean;
+  onWithdrawPress?: () => void;
 }
 
-const TutorEarningsBalance: React.FC<TutorEarningsBalanceProps> = ({ summary, loading = false }) => {
+const TutorEarningsBalance: React.FC<TutorEarningsBalanceProps> = ({ 
+  summary, 
+  withdrawalSummary, 
+  loading = false, 
+  onWithdrawPress 
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { formatCurrency } = useCurrency();
@@ -72,10 +81,10 @@ const TutorEarningsBalance: React.FC<TutorEarningsBalanceProps> = ({ summary, lo
             color={theme.colors.primary} 
           />
           <Text style={[styles.balanceAmount, { color: theme.colors.onSurface }]}>
-            {formatCurrency(summary.gainedAmount)}
+            {formatCurrency(summary.balance)}
           </Text>
           <Text style={[styles.balanceLabel, { color: theme.colors.onSurfaceVariant }]}>
-            {t('tutor.earningsGained')}
+            {t('tutor.earningsBalance')}
           </Text>
         </View>
         
@@ -95,18 +104,35 @@ const TutorEarningsBalance: React.FC<TutorEarningsBalanceProps> = ({ summary, lo
         
         <View style={styles.balanceCard}>
           <MaterialCommunityIcons 
-            name="close-circle-outline" 
+            name="bank-transfer" 
             size={24} 
-            color="#EF5350" 
+            color="#9C27B0" 
           />
           <Text style={[styles.balanceAmount, { color: theme.colors.onSurface }]}>
-            {formatCurrency(summary.refundedAmount)}
+            {formatCurrency(withdrawalSummary?.pendingWithdrawals || 0)}
           </Text>
           <Text style={[styles.balanceLabel, { color: theme.colors.onSurfaceVariant }]}>
-            {t('tutor.earningsRefunded')}
+            {t('tutor.pendingWithdrawals')}
           </Text>
         </View>
       </View>
+
+      {/* Withdraw Button */}
+      {onWithdrawPress && (
+        <TouchableOpacity 
+          style={[styles.withdrawButton, { backgroundColor: theme.colors.primary }]}
+          onPress={onWithdrawPress}
+        >
+          <MaterialCommunityIcons 
+            name="bank-transfer" 
+            size={20} 
+            color="white" 
+          />
+          <Text style={styles.withdrawButtonText}>
+            {t('tutor.requestWithdrawal')}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -174,6 +200,22 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
     paddingHorizontal: 32,
+  },
+  withdrawButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  withdrawButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: 'Baloo2_600SemiBold',
+    marginLeft: 8,
   },
 });
 

@@ -50,6 +50,7 @@ import TutorMessagesScreen from '../screens/tutor/MessagesScreen';
 import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
 import TutorAgendaScreen from '../screens/tutor/AgendaScreen';
 import EarningsScreen from '../screens/tutor/EarningsScreen';
+import WithdrawalScreen from '../screens/tutor/WithdrawalScreen';
 
 
 import { useUnreadMessages } from '../hooks/useUnreadMessages';
@@ -128,12 +129,16 @@ type AppStackParamList = {
     tutorName: string;
   };
   StudentSubscriptionDetails: { subscriptionId: string };
+  TutorStudentSubscriptionDetails: { subscriptionId: string };
+  TutorSubscriptions: undefined;
+  TutorOwnProfile: { tutor: import('../types/database').TutorWithStats };
   SuperTutorInfo: undefined;
   ReviewScreen: { tutorId: string; tutorName: string; reviews: import('../types/database').ReviewWithProfiles[] };
   MyResume: undefined;
   AddEditResume: { item?: import('../types/database').TutorResume };
   TutorResumeProfile: { tutorId: string; tutorName?: string };
   Chat: { conversationId: string };
+  Withdrawal: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -758,6 +763,24 @@ const AppStackNavigator: React.FC = () => {
         component={ChatScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="Withdrawal"
+        component={WithdrawalScreen}
+        options={{
+          title: t('tutor.requestWithdrawal'),
+          headerStyle: { 
+            backgroundColor: theme.colors.background,
+          },
+          headerShadowVisible: false,
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: { 
+            fontFamily: 'Baloo2_600SemiBold',
+            fontSize: 18,
+            fontWeight: '600'
+          },
+          headerLeft: () => <CustomBackButton />,
         }}
       />
     </AppStack.Navigator>

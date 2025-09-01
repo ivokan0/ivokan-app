@@ -501,6 +501,7 @@ export interface Earning {
   gross_amount: number;
   net_amount: number;
   status: 'pending' | 'gained' | 'refunded';
+  balance: number;
   created_at: string;
   updated_at: string;
 }
@@ -525,6 +526,29 @@ export interface CreateEarningData {
   gross_amount: number;
   net_amount: number;
   status?: 'pending' | 'gained' | 'refunded';
+}
+
+// Withdrawal Request types
+export interface WithdrawalRequest extends BaseEntityWithUpdate {
+  tutor_id: string;
+  amount: number;
+  payment_method_id: string;
+  status: 'pending' | 'done' | 'rejected';
+  notes?: string;
+  payment_proof_url?: string;
+  payment_proof_uploaded_at?: string;
+}
+
+export interface WithdrawalRequestWithDetails extends WithdrawalRequest {
+  tutor?: Profile;
+  payment_method?: TutorPaymentMethod;
+}
+
+export interface CreateWithdrawalRequestData {
+  tutor_id: string;
+  amount: number;
+  payment_method_id: string;
+  notes?: string;
 }
 
 // Subscription Booking types

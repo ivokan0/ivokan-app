@@ -291,11 +291,12 @@ export const getTutorEarningsSummary = async (
   refundedAmount: number;
   trialEarnings: number;
   planEarnings: number;
+  balance: number;
 }>> => {
   try {
     let query = supabase
       .from('earnings')
-      .select('gross_amount, net_amount, status, type')
+      .select('gross_amount, net_amount, status, type, balance')
       .eq('tutor_id', tutorId);
 
     if (filters?.startDate) {
@@ -337,7 +338,13 @@ export const getTutorEarningsSummary = async (
       refundedAmount: 0,
       trialEarnings: 0,
       planEarnings: 0,
+      balance: 0,
     });
+
+    // Get the current balance from the first earning record (all should have the same balance for a tutor)
+    if (data && data.length > 0) {
+      summary.balance = data[0].balance || 0;
+    }
 
     return { data: summary, error: null };
   } catch (error) {
