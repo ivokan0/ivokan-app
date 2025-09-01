@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { supabase } from '../../services/supabase';
-import { translateSupabaseError } from '../../utils/i18nErrors';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+
 import AppButton from '../../components/ui/AppButton';
 import AppTextInput from '../../components/ui/AppTextInput';
+import { supabase } from '../../services/supabase';
+import { translateSupabaseError } from '../../utils/i18nErrors';
 
 const ForgotPasswordScreen: React.FC = () => {
   const [email, setEmail] = useState('');

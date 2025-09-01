@@ -1,11 +1,20 @@
-import React from 'react';
-import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SplashScreen from '../screens/SplashScreen';
-import { LoginScreen, SignupScreen, ForgotPasswordScreen, ResetPasswordScreen, SignupRoleScreen } from '../screens/auth';
+import { NavigationContainer, DefaultTheme, Theme } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { TouchableOpacity, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
+
+import ProfileMenu from '../components/ProfileMenu';
+import UnreadBadge from '../components/ui/UnreadBadge';
+import { AppProvider, useApp } from '../contexts/AppContext';
+import { useAuth } from '../hooks/useAuth';
 import { HomeScreen, ProfileScreen, SettingsScreen, ReviewScreen, MyResumeScreen, AddEditResumeScreen, TutorResumeProfileScreen, ChatScreen } from '../screens/app';
+import { LoginScreen, SignupScreen, ForgotPasswordScreen, ResetPasswordScreen, SignupRoleScreen } from '../screens/auth';
+import SplashScreen from '../screens/SplashScreen';
 import EditProfileScreen from '../screens/app/EditProfileScreen';
 import LanguageSettingsScreen from '../screens/app/LanguageSettingsScreen';
 import TimezoneSettingsScreen from '../screens/app/TimezoneSettingsScreen';
@@ -22,14 +31,12 @@ import PresentationVideoScreen from '../screens/app/PresentationVideoScreen';
 import TutorProfileScreen from '../screens/app/TutorProfileScreen';
 import TutorOwnProfileScreen from '../screens/app/TutorOwnProfileScreen';
 import SuperTutorInfoScreen from '../screens/app/SuperTutorInfoScreen';
-import { useAuth } from '../hooks/useAuth';
-import WelcomeScreen from '../screens/WelcomeScreen';
- 
-import { AppProvider, useApp } from '../contexts/AppContext';
-import { useTheme } from 'react-native-paper';
-import SearchScreen from '../screens/student/SearchScreen';
 import StudentMessagesScreen from '../screens/student/MessagesScreen';
 import StudentScheduleScreen from '../screens/student/ScheduleScreen';
+import SearchScreen from '../screens/student/SearchScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
+ 
+
 import SubscriptionsScreen from '../screens/student/SubscriptionsScreen';
 import TrialBookingScreen from '../screens/app/TrialBookingScreen';
 import TrialBookingConfirmationScreen from '../screens/app/TrialBookingConfirmationScreen';
@@ -43,12 +50,9 @@ import TutorMessagesScreen from '../screens/tutor/MessagesScreen';
 import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
 import TutorAgendaScreen from '../screens/tutor/AgendaScreen';
 import EarningsScreen from '../screens/tutor/EarningsScreen';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ProfileMenu from '../components/ProfileMenu';
-import { TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
+
 import { useUnreadMessages } from '../hooks/useUnreadMessages';
-import UnreadBadge from '../components/ui/UnreadBadge';
 
 const CustomBackButton: React.FC = () => {
   const theme = useTheme();

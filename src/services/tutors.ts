@@ -77,7 +77,7 @@ export const getTutorsWithFilters = async (filters?: {
 
     // Apply sorting
     let orderBy = 'created_at';
-    let ascending = false;
+    const ascending = false;
     if (filters?.sortBy === 'rating') {
       // We'll sort by tutor_stats.average_rating in client-side since we can't easily order by joined table
       orderBy = 'created_at';

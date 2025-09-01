@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { Dimensions, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AppButton from '../components/ui/AppButton';
-import { useTranslation } from 'react-i18next';
-import { FlatList } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import AppButton from '../components/ui/AppButton';
 import { setLanguage } from '../translations/i18n';
 
 const { width } = Dimensions.get('window');

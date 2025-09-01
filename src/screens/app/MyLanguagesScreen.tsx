@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Divider } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme, Divider } from 'react-native-paper';
+
+import { useAuth } from '../../hooks/useAuth';
 import { getLanguages } from '../../services/languages';
 import { Language, ProficiencyLevel } from '../../types/database';
 

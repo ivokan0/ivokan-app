@@ -1,10 +1,11 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
-import AppButton from '../../components/ui/AppButton';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { useTheme } from 'react-native-paper';
+
+import AppButton from '../../components/ui/AppButton';
 
 const TUTOR_URL = 'https://www.ivokan.com/devenir-tuteur';
 

@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -8,11 +11,9 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { ReviewWithProfiles } from '../../types/database';
+
 import ReviewCard from '../../components/ReviewCard';
+import { ReviewWithProfiles } from '../../types/database';
 
 type ReviewScreenProps = {
   route: RouteProp<{ ReviewScreen: { tutorId: string; tutorName: string; reviews: ReviewWithProfiles[] } }, 'ReviewScreen'>;

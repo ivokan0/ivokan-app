@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { TutorAvailabilityView, EffectiveAvailability } from '../types/database';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme } from 'react-native-paper';
+
 import { getTutorAvailabilityView, getEffectiveAvailability } from '../services/availability';
+import { TutorAvailabilityView, EffectiveAvailability } from '../types/database';
 
 interface TutorCalendarViewProps {
   tutorId: string;

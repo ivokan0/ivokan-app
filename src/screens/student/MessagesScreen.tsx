@@ -1,13 +1,14 @@
+import { useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
+
 import ConversationList from '../../components/ConversationList';
 import StudentChatScreen from '../../components/StudentChatScreen';
-import { ConversationWithProfiles } from '../../types/database';
+import { useAuth } from '../../hooks/useAuth';
 import { getConversations, subscribeToConversations, subscribeToMessagesForConversations, getConversation } from '../../services/messaging';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { ConversationWithProfiles } from '../../types/database';
 
 const MessagesScreen: React.FC = () => {
   const { t } = useTranslation();

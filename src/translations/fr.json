@@ -1,5 +1,5 @@
 {
-      "common": {
+  "common": {
     "success": "Succès",
     "error": "Erreur",
     "ok": "OK",
@@ -14,24 +14,62 @@
     "comingSoon": "Bientôt disponible"
   },
   "errors": {
+    "title": "Erreur",
+    "unknown": "Une erreur inattendue est survenue.",
+    "network": "Erreur réseau. Vérifiez votre connexion.",
     "validation": {
       "title": "Erreur de Validation",
       "selectSubscription": "Veuillez sélectionner un abonnement",
       "futureDate": "Veuillez sélectionner une date et heure futures",
-      "replyRequired": "Veuillez entrer une réponse"
+      "replyRequired": "Veuillez entrer une réponse",
+      "selectAllFields": "Veuillez sélectionner tous les champs requis",
+      "selectPlan": "Veuillez sélectionner un plan d'abonnement"
     },
     "subscription": {
       "loadFailed": "Échec du chargement des abonnements",
-      "loadPlans": "Échec du chargement des plans d'abonnement"
+      "loadPlans": "Échec du chargement des plans d'abonnement",
+      "create": "Impossible de créer l'abonnement. Veuillez réessayer.",
+      "notFound": "Abonnement introuvable.",
+      "invalidLanguage": "Langue sélectionnée invalide"
     },
     "booking": {
-      "createFailed": "Échec de la création de la réservation"
+      "createFailed": "Échec de la création de la réservation",
+      "create": "Impossible de créer la réservation. Veuillez réessayer.",
+      "loadFailed": "Impossible de charger les réservations."
     },
     "student": {
       "notFound": "Informations de l'étudiant introuvables"
     },
     "conversation": {
       "createFailed": "Échec de la création de la conversation"
+    },
+    "upload": {
+      "title": "Erreur de téléchargement",
+      "message": "Impossible de télécharger l'image. Veuillez réessayer."
+    },
+    "save": {
+      "title": "Erreur de sauvegarde",
+      "message": "Impossible de sauvegarder les modifications. Veuillez réessayer."
+    },
+    "invalidUrl": {
+      "title": "URL invalide",
+      "youtube": "Veuillez entrer une URL YouTube valide (ex: https://www.youtube.com/watch?v=VIDEO_ID)"
+    },
+    "auth": {
+      "invalidCredentials": "E-mail ou mot de passe invalide.",
+      "emailNotConfirmed": "Veuillez confirmer votre e-mail avant de vous connecter.",
+      "alreadyRegistered": "Utilisateur déjà enregistré.",
+      "rateLimited": "Trop de tentatives de connexion. Réessayez plus tard.",
+      "passwordTooShort": "Mot de passe trop court.",
+      "userNotFound": "Utilisateur introuvable.",
+      "notLoggedIn": "Veuillez vous connecter pour continuer"
+    },
+    "documents": {
+      "pickFailed": "Échec de la sélection des documents. Veuillez réessayer.",
+      "uploadFailed": "Échec du téléchargement des documents. Veuillez réessayer."
+    },
+    "review": {
+      "replyFailed": "Échec de la soumission de la réponse. Veuillez réessayer."
     }
   },
   "splash": {
@@ -325,9 +363,35 @@
     "messages": "Messages",
     "schedule": "Agenda",
     "earnings": "Revenus",
+    "earningsBalance": "Solde",
+    "earningsRevenue": "Revenus",
+    "earningsHistory": "Historique",
+    "earningsPending": "En attente",
+    "earningsGained": "Gagné",
+    "earningsRefunded": "Remboursé",
+    "earningsTotal": "Total",
+    "earningsNet": "Net",
+    "earningsGross": "Brut",
+    "earningsTrial": "Cours d'Essai",
+    "earningsPlan": "Plans d'Abonnement",
+    "earningsNoData": "Aucune donnée de revenus disponible",
+    "earningsNoDataDescription": "Vos revenus apparaîtront ici une fois que vous commencerez à enseigner",
+    "earningsFilterAll": "Tout",
+    "earningsFilterTrial": "Essai",
+    "earningsFilterPlan": "Plan",
+    "earningsFilterPending": "En attente",
+    "earningsFilterGained": "Gagné",
+    "earningsFilterRefunded": "Remboursé",
+    "earningsDateRange": "Période",
+    "earningsFromDate": "Date de début",
+    "earningsToDate": "Date de fin",
+    "earningsApplyFilters": "Appliquer les filtres",
+    "earningsClearFilters": "Effacer les filtres",
+    "earningsStudentName": "Nom de l'étudiant",
+    "earningsLanguage": "Langue",
+    "earningsTrialLesson": "Cours d'essai",
+    "earningsSubscriptionLesson": "Cours d'abonnement",
     "super_tutor": "Super Tuteur",
-    "reviews": "{{count}} avis",
-    "stats": "{{students}} étudiants • {{lessons}} leçons",
     "speaks": "Parle {{languages}}",
     "noConversations": "Aucune conversation pour le moment",
     "startConversation": "Les étudiants apparaîtront ici quand ils commenceront des conversations avec vous",
@@ -547,60 +611,6 @@
     "resetEmailSentTitle": "E-mail envoyé",
     "resetEmailSentBody": "Si cet e-mail existe, un lien de réinitialisation a été envoyé.",
     "passwordUpdatedTitle": "Mot de passe mis à jour"
-  },
-
-  "errors": {
-    "title": "Erreur",
-    "unknown": "Une erreur inattendue est survenue.",
-    "network": "Erreur réseau. Vérifiez votre connexion.",
-    "upload": {
-      "title": "Erreur de téléchargement",
-      "message": "Impossible de télécharger l'image. Veuillez réessayer."
-    },
-    "save": {
-      "title": "Erreur de sauvegarde",
-      "message": "Impossible de sauvegarder les modifications. Veuillez réessayer."
-    },
-    "invalidUrl": {
-      "title": "URL invalide",
-      "youtube": "Veuillez entrer une URL YouTube valide (ex: https://www.youtube.com/watch?v=VIDEO_ID)"
-    },
-    "auth": {
-      "invalidCredentials": "E-mail ou mot de passe invalide.",
-      "emailNotConfirmed": "Veuillez confirmer votre e-mail avant de vous connecter.",
-      "alreadyRegistered": "Utilisateur déjà enregistré.",
-      "rateLimited": "Trop de tentatives de connexion. Réessayez plus tard.",
-      "passwordTooShort": "Mot de passe trop court.",
-      "userNotFound": "Utilisateur introuvable."
-    },
-    "validation": {
-      "title": "Erreur de validation",
-      "selectAllFields": "Veuillez sélectionner tous les champs requis",
-      "selectPlan": "Veuillez sélectionner un plan d'abonnement"
-    },
-    "booking": {
-      "title": "Erreur de réservation",
-      "create": "Impossible de créer la réservation. Veuillez réessayer.",
-      "loadFailed": "Impossible de charger les réservations."
-    },
-    "subscription": {
-      "title": "Erreur d'abonnement",
-      "create": "Impossible de créer l'abonnement. Veuillez réessayer.",
-      "loadPlans": "Impossible de charger les plans d'abonnement. Veuillez réessayer.",
-      "loadFailed": "Impossible de charger les abonnements. Veuillez réessayer.",
-      "notFound": "Abonnement introuvable.",
-      "invalidLanguage": "Langue sélectionnée invalide"
-    },
-    "documents": {
-      "pickFailed": "Échec de la sélection des documents. Veuillez réessayer.",
-      "uploadFailed": "Échec du téléchargement des documents. Veuillez réessayer."
-    },
-    "review": {
-      "replyFailed": "Échec de la soumission de la réponse. Veuillez réessayer."
-    },
-    "auth": {
-      "notLoggedIn": "Veuillez vous connecter pour continuer"
-    }
   },
   "validation": {
     "required": "{{field}} est requis",

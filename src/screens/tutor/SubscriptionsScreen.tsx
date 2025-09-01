@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -10,9 +13,7 @@ import {
   Image,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { useAuth } from '../../hooks/useAuth';
 import { getActiveSubscriptionsForTutor } from '../../services/studentSubscriptions';
 import { StudentSubscriptionWithDetails } from '../../types/database';

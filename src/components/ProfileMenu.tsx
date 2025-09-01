@@ -1,8 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import { useAuth } from '../hooks/useAuth';
 import Avatar from './ui/Avatar';
-import { useNavigation } from '@react-navigation/native';
 
 interface ProfileMenuProps {
   userType: 'student' | 'tutor';

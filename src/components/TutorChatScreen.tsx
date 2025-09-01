@@ -1,4 +1,6 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -11,12 +13,11 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MessageWithProfiles, ConversationWithProfiles } from '../types/database';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { sendMessage, markConversationAsRead, subscribeToMessages } from '../services/messaging';
+import { MessageWithProfiles, ConversationWithProfiles } from '../types/database';
 
 interface TutorChatScreenProps {
   conversation: ConversationWithProfiles;

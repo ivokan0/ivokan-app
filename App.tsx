@@ -1,15 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, configureFonts } from 'react-native-paper';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ClerkProvider } from '@clerk/clerk-expo';
-import { AuthProvider } from './src/contexts/AuthContext';
-import RootNavigator from './src/navigation/RootNavigator';
-import { setupI18n } from './src/translations/i18n';
-import { ClerkConfig } from './src/services/clerk';
+import { useFonts, Baloo2_400Regular, Baloo2_500Medium, Baloo2_600SemiBold, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text as RNText } from 'react-native';
-import { useFonts, Baloo2_400Regular, Baloo2_500Medium, Baloo2_600SemiBold, Baloo2_700Bold } from '@expo-google-fonts/baloo-2';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { MD3LightTheme as DefaultTheme, Provider as PaperProvider, configureFonts } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+import { AuthProvider } from './src/contexts/AuthContext';
+import RootNavigator from './src/navigation/RootNavigator';
+import { ClerkConfig } from './src/services/clerk';
+import { setupI18n } from './src/translations/i18n';
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Baloo2_400Regular, Baloo2_500Medium, Baloo2_600SemiBold, Baloo2_700Bold });

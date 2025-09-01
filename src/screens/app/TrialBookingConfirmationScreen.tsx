@@ -1,8 +1,8 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const TrialBookingConfirmationScreen: React.FC = () => {
   const theme = useTheme();

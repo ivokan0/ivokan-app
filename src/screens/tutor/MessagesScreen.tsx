@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
+
 import ConversationList from '../../components/ConversationList';
 import TutorChatScreen from '../../components/TutorChatScreen';
-import { ConversationWithProfiles } from '../../types/database';
+import { useAuth } from '../../hooks/useAuth';
 import { getConversations, subscribeToConversations, subscribeToMessagesForConversations } from '../../services/messaging';
+import { ConversationWithProfiles } from '../../types/database';
 
 const TutorMessagesScreen: React.FC = () => {
   const { t } = useTranslation();

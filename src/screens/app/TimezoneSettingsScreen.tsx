@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, StyleSheet, Text, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { useTheme, Divider } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
+
 import AppButton from '../../components/ui/AppButton';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';

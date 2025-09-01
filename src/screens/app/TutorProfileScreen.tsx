@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -11,18 +14,16 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { TutorWithStats, ReviewWithProfiles } from '../../types/database';
-import YouTubePlayer from '../../components/ui/YouTubePlayer';
+
 import ReviewCard from '../../components/ReviewCard';
 import BottomActionBar from '../../components/ui/BottomActionBar';
-import { getReviewsWithProfiles } from '../../services/reviews';
-import { getOrCreateConversation } from '../../services/messaging';
-import { hasActiveTrialBooking } from '../../services/trialBookings';
-import { hasActiveSubscription } from '../../services/studentSubscriptions';
+import YouTubePlayer from '../../components/ui/YouTubePlayer';
 import { useAuth } from '../../hooks/useAuth';
+import { getOrCreateConversation } from '../../services/messaging';
+import { getReviewsWithProfiles } from '../../services/reviews';
+import { hasActiveSubscription } from '../../services/studentSubscriptions';
+import { hasActiveTrialBooking } from '../../services/trialBookings';
+import { TutorWithStats, ReviewWithProfiles } from '../../types/database';
 
 type TutorProfileScreenProps = {
   route: RouteProp<{ TutorProfile: { tutor: TutorWithStats } }, 'TutorProfile'>;

@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { setLanguage } from '../../translations/i18n';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useTheme, Divider } from 'react-native-paper';
+
+import { setLanguage } from '../../translations/i18n';
+
 
 const SettingsScreen: React.FC = () => {
   const { t, i18n } = useTranslation();

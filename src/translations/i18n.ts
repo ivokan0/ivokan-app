@@ -1,7 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Localization from 'expo-localization';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import en from './en.json';
 import fr from './fr.json';
 
@@ -24,7 +25,7 @@ export const setLanguage = async (lng: 'en' | 'fr') => {
 
 // Initialize immediately so translations work on the very first render
 i18n.use(initReactI18next).init({
-  compatibilityJSON: 'v3',
+  compatibilityJSON: 'v4',
   resources: { en: { translation: en }, fr: { translation: fr } },
   lng: 'en',
   fallbackLng: 'en',

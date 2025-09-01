@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -8,9 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
 import { useCurrency } from '../hooks/useCurrency';
 import { StudentSubscriptionWithDetails } from '../types/database';
 

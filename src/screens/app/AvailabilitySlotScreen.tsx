@@ -1,4 +1,6 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   ScrollView,
@@ -17,9 +19,8 @@ import {
   Divider,
   useTheme,
 } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
+
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   createAvailability,
   updateAvailability,

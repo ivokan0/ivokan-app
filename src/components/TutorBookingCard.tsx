@@ -1,8 +1,9 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useTheme, Button, Chip } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { TrialBooking, TrialBookingWithDetails, SubscriptionBookingWithDetails } from '../types/database';
 
 interface TutorBookingCardProps {

@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Button, ActivityIndicator } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../../hooks/useAuth';
-import { getTutorTrialBookingsWithDetails } from '../../services/trialBookings';
-import { getTutorSubscriptionBookingsWithDetails } from '../../services/subscriptionBookings';
-import { confirmTrialBooking } from '../../services/trialBookings';
-import { completeSubscriptionBooking } from '../../services/subscriptionBookings';
-import { TrialBooking, TrialBookingWithDetails, SubscriptionBookingWithDetails } from '../../types/database';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useTheme, Button, ActivityIndicator } from 'react-native-paper';
+
 import CreateSubscriptionBookingModal from '../../components/CreateSubscriptionBookingModal';
 import TutorBookingCard from '../../components/TutorBookingCard';
+import { useAuth } from '../../hooks/useAuth';
+import { getTutorSubscriptionBookingsWithDetails } from '../../services/subscriptionBookings';
+import { completeSubscriptionBooking } from '../../services/subscriptionBookings';
+import { getTutorTrialBookingsWithDetails } from '../../services/trialBookings';
+import { confirmTrialBooking } from '../../services/trialBookings';
+import { TrialBooking, TrialBookingWithDetails, SubscriptionBookingWithDetails } from '../../types/database';
 
 type TabType = 'pending' | 'upcoming' | 'completed' | 'cancelled';
 

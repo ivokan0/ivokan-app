@@ -508,8 +508,12 @@ export interface Earning {
 export interface EarningWithDetails extends Earning {
   tutor?: Profile;
   student?: Profile;
-  subscription?: StudentSubscription;
-  trial_booking?: TrialBooking;
+  subscription?: StudentSubscription & {
+    language?: Language;
+  };
+  trial_booking?: TrialBooking & {
+    trial_lesson?: TrialLesson;
+  };
 }
 
 export interface CreateEarningData {

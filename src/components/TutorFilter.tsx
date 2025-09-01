@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, SafeAreaView, ScrollView, Switch } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
+
 import { getCountryByCode, COUNTRIES } from '../utils/countries';
 
 interface TutorFilters {

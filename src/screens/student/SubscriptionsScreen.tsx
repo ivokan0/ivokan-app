@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   View, 
   Text, 
@@ -8,14 +11,12 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
-import { useFocusEffect } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import StudentSubscriptionCard from '../../components/StudentSubscriptionCard';
 import { useAuth } from '../../hooks/useAuth';
 import { getStudentSubscriptionsWithDetails } from '../../services/studentSubscriptions';
 import { StudentSubscriptionWithDetails } from '../../types/database';
-import StudentSubscriptionCard from '../../components/StudentSubscriptionCard';
 
 type TabType = 'active' | 'expired';
 

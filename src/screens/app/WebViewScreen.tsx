@@ -1,8 +1,8 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { WebView } from 'react-native-webview';
 import { useTheme } from 'react-native-paper';
-import { useRoute } from '@react-navigation/native';
+import { WebView } from 'react-native-webview';
 
 interface WebViewScreenProps {
   route: {

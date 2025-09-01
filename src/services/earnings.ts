@@ -193,8 +193,14 @@ export const getEarningsWithDetails = async (
         *,
         tutor:profiles!tutor_id(*),
         student:profiles!student_id(*),
-        subscription:student_subscriptions!student_subscriptions_id(*),
-        trial_booking:trial_bookings!trial_bookings_id(*)
+        subscription:student_subscriptions!student_subscriptions_id(
+          *,
+          language:languages!language_id(*)
+        ),
+        trial_booking:trial_bookings!trial_bookings_id(
+          *,
+          trial_lesson:trial_lessons!trial_lesson_id(*)
+        )
       `)
       .order('created_at', { ascending: false });
 

@@ -1,6 +1,7 @@
-import { supabase } from './supabase';
-import * as ImageManipulator from 'expo-image-manipulator';
 import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
+
+import { supabase } from './supabase';
 
 // Fonction pour compresser une image
 export const compressImage = async (uri: string, quality: number = 0.7): Promise<string> => {

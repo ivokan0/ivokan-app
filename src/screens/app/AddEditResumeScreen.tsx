@@ -1,14 +1,15 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import { useTheme, Button, Checkbox } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
-import AppTextInput from '../../components/ui/AppTextInput';
+
 import AppButton from '../../components/ui/AppButton';
+import AppTextInput from '../../components/ui/AppTextInput';
+import { useAuth } from '../../hooks/useAuth';
 import { createTutorResume, updateTutorResume } from '../../services/resume';
 import { TutorResume } from '../../types/database';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const AddEditResumeScreen: React.FC = () => {
   const { t } = useTranslation();

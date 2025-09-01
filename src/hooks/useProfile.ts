@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { useAuth } from './useAuth';
 import { getProfile, updateProfile, type Profile } from '../services/profiles';
 

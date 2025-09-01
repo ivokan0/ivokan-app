@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -11,16 +14,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { TutorWithStats, ReviewWithProfiles } from '../../types/database';
-import YouTubePlayer from '../../components/ui/YouTubePlayer';
+
 import ReviewCard from '../../components/ReviewCard';
-
-import { getReviewsWithProfiles } from '../../services/reviews';
-
+import YouTubePlayer from '../../components/ui/YouTubePlayer';
 import { useAuth } from '../../hooks/useAuth';
+import { getReviewsWithProfiles } from '../../services/reviews';
+import { TutorWithStats, ReviewWithProfiles } from '../../types/database';
 
 type TutorOwnProfileScreenProps = {
   route: RouteProp<{ TutorOwnProfile: { tutor: TutorWithStats } }, 'TutorOwnProfile'>;

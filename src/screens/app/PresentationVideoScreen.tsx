@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme } from 'react-native-paper';
+
+import AppButton from '../../components/ui/AppButton';
+import AppTextInput from '../../components/ui/AppTextInput';
+import YouTubePlayer from '../../components/ui/YouTubePlayer';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
-import AppTextInput from '../../components/ui/AppTextInput';
-import AppButton from '../../components/ui/AppButton';
-import YouTubePlayer from '../../components/ui/YouTubePlayer';
 
 const PresentationVideoScreen: React.FC = () => {
   const { t } = useTranslation();

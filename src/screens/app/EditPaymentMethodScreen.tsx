@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, TextInput, Switch } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { paymentMethodsService, PaymentMethod, UpdatePaymentMethodData } from '../../services/paymentMethods';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { useTheme, TextInput, Switch } from 'react-native-paper';
+
+import { useAuth } from '../../hooks/useAuth';
+import { paymentMethodsService, PaymentMethod, UpdatePaymentMethodData } from '../../services/paymentMethods';
+
 
 interface RouteParams {
   paymentMethod: PaymentMethod;

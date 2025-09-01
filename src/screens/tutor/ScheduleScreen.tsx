@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 const TutorScheduleScreen: React.FC = () => {

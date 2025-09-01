@@ -1,4 +1,6 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -10,8 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTranslation } from 'react-i18next';
+
 import { getLocalizedCountries, Country, searchCountries } from '../../utils/countries';
 
 interface CountryPickerModalProps {

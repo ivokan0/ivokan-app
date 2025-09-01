@@ -1,4 +1,9 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -9,16 +14,12 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme, Button, TextInput, Card, Chip } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import * as DocumentPicker from 'expo-document-picker';
-import * as ImagePicker from 'expo-image-picker';
+
 import { useAuth } from '../hooks/useAuth';
+import { uploadLessonDocuments } from '../services/storage';
 import { getActiveSubscriptionsForTutor } from '../services/studentSubscriptions';
 import { createSubscriptionBooking } from '../services/subscriptionBookings';
-import { uploadLessonDocuments } from '../services/storage';
 import { StudentSubscriptionWithDetails } from '../types/database';
 
 interface CreateSubscriptionBookingModalProps {

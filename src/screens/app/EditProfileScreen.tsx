@@ -1,18 +1,20 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme, Button } from 'react-native-paper';
+
+import AppButton from '../../components/ui/AppButton';
+import AppTextInput from '../../components/ui/AppTextInput';
+import Avatar from '../../components/ui/Avatar';
+import CountryPickerModal from '../../components/ui/CountryPickerModal';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
-import Avatar from '../../components/ui/Avatar';
-import AppTextInput from '../../components/ui/AppTextInput';
-import AppButton from '../../components/ui/AppButton';
-import CountryPickerModal from '../../components/ui/CountryPickerModal';
-import * as ImagePicker from 'expo-image-picker';
 import { uploadAvatar, deleteAvatar } from '../../services/storage';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Country, getCountryByCode, getLocalizedCountries } from '../../utils/countries';
-import { useNavigation } from '@react-navigation/native';
+
 
 const EditProfileScreen: React.FC = () => {
   const { t } = useTranslation();

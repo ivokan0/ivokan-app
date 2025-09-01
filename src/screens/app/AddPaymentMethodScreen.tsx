@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, TextInput, Switch } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
-import { useNavigation } from '@react-navigation/native';
-import { paymentMethodsService, CreatePaymentMethodData } from '../../services/paymentMethods';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { useTheme, TextInput, Switch } from 'react-native-paper';
+
+import { useAuth } from '../../hooks/useAuth';
+import { paymentMethodsService, CreatePaymentMethodData } from '../../services/paymentMethods';
+
 
 const AddPaymentMethodScreen: React.FC = () => {
   const { t } = useTranslation();

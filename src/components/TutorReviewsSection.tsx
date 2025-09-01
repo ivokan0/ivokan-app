@@ -1,14 +1,15 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import ReviewCard from './ReviewCard';
+import ReviewReplyModal from './ReviewReplyModal';
 import { useAuth } from '../hooks/useAuth';
 import { getReviewsWithProfiles } from '../services/reviews';
 import { ReviewWithProfiles } from '../types/database';
-import ReviewCard from './ReviewCard';
-import ReviewReplyModal from './ReviewReplyModal';
 
 const TutorReviewsSection: React.FC = () => {
   const { t } = useTranslation();

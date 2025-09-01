@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../hooks/useAuth';
+import { StyleSheet, Text, View } from 'react-native';
+
 import AppButton from '../../components/ui/AppButton';
+import { useAuth } from '../../hooks/useAuth';
 
 const HomeScreen: React.FC = () => {
   const { signOut, user } = useAuth();

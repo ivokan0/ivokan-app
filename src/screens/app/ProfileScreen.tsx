@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Divider } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
-import Avatar from '../../components/ui/Avatar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useTheme, Divider } from 'react-native-paper';
+
+import Avatar from '../../components/ui/Avatar';
+import { useAuth } from '../../hooks/useAuth';
 
 const ProfileScreen: React.FC = () => {
   const { t } = useTranslation();

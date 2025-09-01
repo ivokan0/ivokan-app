@@ -1,15 +1,33 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { useTheme } from 'react-native-paper';
+
+import TutorEarningsBalance from '../../components/TutorEarningsBalance';
 import TutorStatsSection from '../../components/TutorStatsSection';
+import { useEarnings } from '../../hooks/useEarnings';
 
 const TutorHomeScreen: React.FC = () => {
   const theme = useTheme();
+  const { summary, loading: loadingEarnings, refresh } = useEarnings();
+  
+  const onRefresh = async () => {
+    await refresh();
+  };
   
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+    <ScrollView 
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      refreshControl={
+        <RefreshControl refreshing={false} onRefresh={onRefresh} />
+      }
+      showsVerticalScrollIndicator={false}
+    >
+      {/* Earnings Balance Section */}
+      <TutorEarningsBalance summary={summary} loading={loadingEarnings} />
+      
+      {/* Stats Section */}
       <TutorStatsSection />
-    </View>
+    </ScrollView>
   );
 };
 

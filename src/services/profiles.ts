@@ -1,5 +1,6 @@
-import { supabase } from './supabase';
 import * as Location from 'expo-location';
+
+import { supabase } from './supabase';
 
 export interface Profile {
   id: string;

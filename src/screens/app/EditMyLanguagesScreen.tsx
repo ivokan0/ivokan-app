@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useTheme } from 'react-native-paper';
+
+import AppButton from '../../components/ui/AppButton';
+import { useAuth } from '../../hooks/useAuth';
 import { getLanguages } from '../../services/languages';
 import { updateProfile } from '../../services/profiles';
 import { Language, ProficiencyLevel, SPOKEN_LANGUAGES } from '../../types/database';
-import AppButton from '../../components/ui/AppButton';
 
 interface RouteParams {
   type: 'spoken' | 'taught';

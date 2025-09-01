@@ -1,8 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Divider } from 'react-native-paper';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTheme, Divider } from 'react-native-paper';
+
 import { getTutorResume } from '../../services/resume';
 import { TutorResume } from '../../types/database';
 

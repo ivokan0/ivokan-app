@@ -1,4 +1,6 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -7,9 +9,8 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme, Button, TextInput } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { updateReview } from '../services/reviews';
 import { ReviewWithProfiles } from '../types/database';
 

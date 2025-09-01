@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Divider } from 'react-native-paper';
-import { useAuth } from '../../hooks/useAuth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { paymentMethodsService, PaymentMethod } from '../../services/paymentMethods';
 import { useIsFocused } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useTheme, Divider } from 'react-native-paper';
+
+import { useAuth } from '../../hooks/useAuth';
+import { paymentMethodsService, PaymentMethod } from '../../services/paymentMethods';
+
 
 const PaymentMethodsScreen: React.FC = () => {
   const { t } = useTranslation();

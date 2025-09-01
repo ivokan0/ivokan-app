@@ -1,16 +1,17 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useAuth } from '../hooks/useAuth';
-import { getTutorStats } from '../services/tutorStats';
-import { getTutorWithStats } from '../services/tutors';
-import { TutorStats } from '../types/database';
-import StatsCard from './ui/StatsCard';
+
 import TutorReviewsSection from './TutorReviewsSection';
 import TutorStudentSubscriptionsSection from './TutorStudentSubscriptionsSection';
+import { useAuth } from '../hooks/useAuth';
+import { getTutorWithStats } from '../services/tutors';
+import { getTutorStats } from '../services/tutorStats';
+import { TutorStats } from '../types/database';
+import StatsCard from './ui/StatsCard';
 
 const TutorStatsSection: React.FC = () => {
   const { t } = useTranslation();

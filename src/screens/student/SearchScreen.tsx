@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import TutorCard from '../../components/TutorCard';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { useTheme } from 'react-native-paper';
+
 import LanguageFilter from '../../components/LanguageFilter';
+import TutorCard from '../../components/TutorCard';
 import TutorFilter from '../../components/TutorFilter';
-import { TutorWithStats } from '../../types/database';
 import { getTutorsWithFilters, getAvailableTaughtLanguages, getAvailableCountries } from '../../services/tutors';
+import { TutorWithStats } from '../../types/database';
 
 const SearchScreen: React.FC = () => {
   const { t } = useTranslation();

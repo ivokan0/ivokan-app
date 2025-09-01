@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -7,11 +10,10 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { ConversationWithProfiles } from '../types/database';
-import { useNavigation } from '@react-navigation/native';
+
 
 interface ConversationListProps {
   conversations: ConversationWithProfiles[];

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { useAuth } from '../../hooks/useAuth';
-import AppTextInput from '../../components/ui/AppTextInput';
-import AppButton from '../../components/ui/AppButton';
 import * as WebBrowser from 'expo-web-browser';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+
+import AppButton from '../../components/ui/AppButton';
+import AppTextInput from '../../components/ui/AppTextInput';
+import { useAuth } from '../../hooks/useAuth';
+
 
 const TERMS_URL = 'https://example.com/terms';
 const PRIVACY_URL = 'https://example.com/privacy';

@@ -1,11 +1,12 @@
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { RouteProp, useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../hooks/useAuth';
+
 import StudentChatScreen from '../../components/StudentChatScreen';
-import { ConversationWithProfiles } from '../../types/database';
+import { useAuth } from '../../hooks/useAuth';
 import { getConversation } from '../../services/messaging';
+import { ConversationWithProfiles } from '../../types/database';
 
 type ChatScreenProps = {
   route: RouteProp<{ Chat: { conversationId: string } }, 'Chat'>;

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Modal, SafeAreaView } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme, Divider, Button, TextInput } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Modal, SafeAreaView } from 'react-native';
+import { useTheme, Divider, Button, TextInput } from 'react-native-paper';
+
+import TutorCalendarView from '../../components/TutorCalendarView';
+import AppButton from '../../components/ui/AppButton';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import AppButton from '../../components/ui/AppButton';
-import TutorCalendarView from '../../components/TutorCalendarView';
-import { AvailabilitySlot, UnavailabilityPeriod, TutorAvailability } from '../../types/database';
 import {
   getWeeklyAvailability,
   getUnavailabilityPeriods,
   deleteAvailability,
 } from '../../services/availability';
+import { AvailabilitySlot, UnavailabilityPeriod, TutorAvailability } from '../../types/database';
 
 const DAYS_OF_WEEK = [
   { value: 0, label: 'Dimanche' },

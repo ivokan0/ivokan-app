@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useTheme } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-import { useAuth } from '../../hooks/useAuth';
-import { getStudentTrialBookings } from '../../services/trialBookings';
-import { getTutorProfile } from '../../services/profiles';
-import { TrialBooking, Profile } from '../../types/database';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { useTheme } from 'react-native-paper';
+
 import BookingCard from '../../components/BookingCard';
+import { useAuth } from '../../hooks/useAuth';
+import { getTutorProfile } from '../../services/profiles';
+import { getStudentTrialBookings } from '../../services/trialBookings';
+import { TrialBooking, Profile } from '../../types/database';
 
 type TabType = 'upcoming' | 'completed' | 'cancelled';
 

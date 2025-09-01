@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -8,13 +11,11 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme, Button } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { useCurrency } from '../../hooks/useCurrency';
-import { getSubscriptionPlans } from '../../services/subscriptionPlans';
 import { getTutorProfile } from '../../services/profiles';
+import { getSubscriptionPlans } from '../../services/subscriptionPlans';
 import { SubscriptionPlan } from '../../types/database';
 
 interface RouteParams {

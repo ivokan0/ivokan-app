@@ -1,7 +1,9 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth as useClerkAuth, useUser, useSignIn, useSignUp, useOAuth } from '@clerk/clerk-expo';
-import { createProfile, getProfile, profileExists, type Profile } from '../services/profiles';
 import * as WebBrowser from 'expo-web-browser';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { createProfile, getProfile, profileExists, type Profile } from '../services/profiles';
+
 
 type AuthContextValue = {
   user: any | null;

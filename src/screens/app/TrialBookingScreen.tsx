@@ -1,4 +1,7 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -9,12 +12,11 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import { useTheme, Button } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
+import { getTutorProfile } from '../../services/profiles';
 import {
   getAvailableTrialSlots,
   createTrialBooking,
@@ -22,7 +24,6 @@ import {
   getUserTimezone,
 } from '../../services/trialBookings';
 import { getTrialLessons } from '../../services/trialLessons';
-import { getTutorProfile } from '../../services/profiles';
 import { TrialLesson, AvailableTrialSlot } from '../../types/database';
 
 interface RouteParams {
