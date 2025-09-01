@@ -427,6 +427,49 @@ export const subscribeToMessagesForConversations = (
     .subscribe();
 };
 
+// Find or create a conversation between a tutor and a student
+export const findOrCreateConversation = async (
+  tutorId: string,
+  studentId: string
+): Promise<ApiResponse<ConversationWithProfiles>> => {
+  try {
+    // First, try to find an existing conversation
+    const { data: existingConversation, error: findError } = await supabase
+      .from('conversations')
+      .select('*')
+      .or(`and(tutor_id.eq.${tutorId},student_id.eq.${studentId}),and(tutor_id.eq.${studentId},student_id.eq.${tutorId})`)
+      .single();
+
+    if (findError && findError.code !== 'PGRST116') {
+      // PGRST116 is "no rows returned", which is expected if no conversation exists
+      throw findError;
+    }
+
+    if (existingConversation) {
+      // Return the existing conversation with full details
+      return await getConversation(existingConversation.id, tutorId);
+    }
+
+    // Create a new conversation
+    const { data: newConversation, error: createError } = await supabase
+      .from('conversations')
+      .insert({
+        tutor_id: tutorId,
+        student_id: studentId,
+      })
+      .select()
+      .single();
+
+    if (createError) throw createError;
+
+    // Return the new conversation with full details
+    return await getConversation(newConversation.id, tutorId);
+  } catch (error) {
+    console.error('Error finding or creating conversation:', error);
+    return { data: null, error };
+  }
+};
+
 export const subscribeToConversations = (
   userId: string,
   callback: (conversation: ConversationWithProfiles) => void

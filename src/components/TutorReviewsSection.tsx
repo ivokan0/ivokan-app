@@ -8,6 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import { getReviewsWithProfiles } from '../services/reviews';
 import { ReviewWithProfiles } from '../types/database';
 import ReviewCard from './ReviewCard';
+import ReviewReplyModal from './ReviewReplyModal';
 
 const TutorReviewsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -17,35 +18,37 @@ const TutorReviewsSection: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewWithProfiles[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedReview, setSelectedReview] = useState<ReviewWithProfiles | null>(null);
+  const [showReplyModal, setShowReplyModal] = useState(false);
 
-  useEffect(() => {
-    const loadReviews = async () => {
-      if (!user?.id) {
-        setLoading(false);
+  const loadReviews = async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const { data, error: reviewsError } = await getReviewsWithProfiles(user.id);
+      
+      if (reviewsError) {
+        console.error('Error loading reviews:', reviewsError);
+        setError('Failed to load reviews');
         return;
       }
 
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const { data, error: reviewsError } = await getReviewsWithProfiles(user.id);
-        
-        if (reviewsError) {
-          console.error('Error loading reviews:', reviewsError);
-          setError('Failed to load reviews');
-          return;
-        }
+      setReviews(data || []);
+    } catch (err) {
+      console.error('Error loading reviews:', err);
+      setError('Failed to load reviews');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setReviews(data || []);
-      } catch (err) {
-        console.error('Error loading reviews:', err);
-        setError('Failed to load reviews');
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  useEffect(() => {
     loadReviews();
   }, [user?.id]);
 
@@ -58,6 +61,23 @@ const TutorReviewsSection: React.FC = () => {
         reviews: reviews
       });
     }
+  };
+
+  const handleReply = (review: ReviewWithProfiles) => {
+    setSelectedReview(review);
+    setShowReplyModal(true);
+  };
+
+  const handleReplySuccess = () => {
+    // Reload reviews to show the new reply
+    if (user?.id) {
+      loadReviews();
+    }
+  };
+
+  const handleCloseReplyModal = () => {
+    setShowReplyModal(false);
+    setSelectedReview(null);
   };
 
   if (loading) {
@@ -113,7 +133,11 @@ const TutorReviewsSection: React.FC = () => {
       >
         {reviews.slice(0, 3).map((review) => (
           <View key={review.id} style={styles.reviewCard}>
-            <ReviewCard review={review} />
+            <ReviewCard 
+              review={review} 
+              onReply={handleReply}
+              showReplyButton={true}
+            />
           </View>
         ))}
       </ScrollView>
@@ -132,6 +156,16 @@ const TutorReviewsSection: React.FC = () => {
             color={theme.colors.onPrimary}
           />
         </TouchableOpacity>
+      )}
+
+      {/* Reply Modal */}
+      {selectedReview && (
+        <ReviewReplyModal
+          visible={showReplyModal}
+          onClose={handleCloseReplyModal}
+          onSuccess={handleReplySuccess}
+          review={selectedReview}
+        />
       )}
     </View>
   );

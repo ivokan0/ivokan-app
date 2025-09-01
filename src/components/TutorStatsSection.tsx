@@ -10,6 +10,7 @@ import { getTutorWithStats } from '../services/tutors';
 import { TutorStats } from '../types/database';
 import StatsCard from './ui/StatsCard';
 import TutorReviewsSection from './TutorReviewsSection';
+import TutorStudentSubscriptionsSection from './TutorStudentSubscriptionsSection';
 
 const TutorStatsSection: React.FC = () => {
   const { t } = useTranslation();
@@ -189,6 +190,11 @@ const TutorStatsSection: React.FC = () => {
         </View>
       </View>
 
+      {/* Student Subscriptions Section */}
+      <View style={styles.subscriptionsSection}>
+        <TutorStudentSubscriptionsSection />
+      </View>
+
       {/* Reviews Section */}
       <View style={styles.reviewsSection}>
         <View style={styles.header}>
@@ -263,6 +269,9 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 14,
     fontFamily: 'Baloo2_400Regular',
+  },
+  subscriptionsSection: {
+    marginTop: 24,
   },
   reviewsSection: {
     marginTop: 24,

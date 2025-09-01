@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import {
   TrialBooking,
+  TrialBookingWithDetails,
   CreateTrialBookingData,
   UpdateTrialBookingData,
   AvailableTrialSlot,
@@ -41,6 +42,32 @@ export const getTutorTrialBookings = async (tutorId: string, currentUserId?: str
     const { data, error } = await supabase
       .from('trial_bookings')
       .select('*')
+      .eq('tutor_id', tutorId)
+      .order('booking_date', { ascending: true })
+      .order('start_time', { ascending: true });
+
+    if (error) throw error;
+
+    return { data: data || [], error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+};
+
+// Get all trial bookings for a tutor with student details
+export const getTutorTrialBookingsWithDetails = async (tutorId: string, currentUserId?: string): Promise<ApiResponse<TrialBookingWithDetails[]>> => {
+  try {
+    // Application-level authorization: verify user is requesting their own bookings
+    if (currentUserId && currentUserId !== tutorId) {
+      return { data: null, error: new Error('User can only view their own bookings') };
+    }
+
+    const { data, error } = await supabase
+      .from('trial_bookings')
+      .select(`
+        *,
+        student:profiles!student_id(*)
+      `)
       .eq('tutor_id', tutorId)
       .order('booking_date', { ascending: true })
       .order('start_time', { ascending: true });
@@ -186,7 +213,7 @@ export const confirmTrialBooking = async (
     if (currentUserId) {
       const { data: existing, error: fetchError } = await supabase
         .from('trial_bookings')
-        .select('tutor_id')
+        .select('tutor_id, status')
         .eq('id', bookingId)
         .single();
 
@@ -194,6 +221,10 @@ export const confirmTrialBooking = async (
       
       if (!existing || existing.tutor_id !== currentUserId) {
         return { data: null, error: new Error('Only the tutor can confirm bookings') };
+      }
+
+      if (existing.status !== 'pending') {
+        return { data: null, error: new Error('Only pending bookings can be confirmed') };
       }
     }
 

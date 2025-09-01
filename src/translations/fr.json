@@ -4,14 +4,35 @@
     "error": "Erreur",
     "ok": "OK",
     "loading": "Chargement",
-    "notifications": "Notifications",
     "cancel": "Annuler",
     "back": "Retour",
     "continue": "Continuer",
     "notSpecified": "Non spécifié",
     "unknown": "Inconnu",
+    "retry": "Réessayer",
     "localTime": "Heure locale",
     "comingSoon": "Bientôt disponible"
+  },
+  "errors": {
+    "validation": {
+      "title": "Erreur de Validation",
+      "selectSubscription": "Veuillez sélectionner un abonnement",
+      "futureDate": "Veuillez sélectionner une date et heure futures",
+      "replyRequired": "Veuillez entrer une réponse"
+    },
+    "subscription": {
+      "loadFailed": "Échec du chargement des abonnements",
+      "loadPlans": "Échec du chargement des plans d'abonnement"
+    },
+    "booking": {
+      "createFailed": "Échec de la création de la réservation"
+    },
+    "student": {
+      "notFound": "Informations de l'étudiant introuvables"
+    },
+    "conversation": {
+      "createFailed": "Échec de la création de la conversation"
+    }
   },
   "splash": {
     "loading": "Chargement..."
@@ -331,9 +352,86 @@
       "subtitle": "Voyez ce que vos étudiants disent de vous",
       "noReviews": "Aucun avis pour le moment",
       "noReviewsDescription": "Les avis de vos étudiants apparaîtront ici une fois qu'ils commenceront à laisser des commentaires",
-      "viewAll": "Voir tous les {{count}} avis"
+      "viewAll": "Voir tous les {{count}} avis",
+      "reply": "Répondre",
+      "replyToReview": "Répondre à l'Avis",
+      "studentReview": "Avis de l'Étudiant",
+      "yourReply": "Votre Réponse",
+      "replyPlaceholder": "Écrivez votre réponse à cet avis...",
+      "submitReply": "Soumettre la Réponse",
+      "replySubmitted": "Réponse soumise avec succès !"
     },
-    "seeMyProfile": "Voir mon profil"
+          "subscriptions": {
+        "title": "Abonnements des Étudiants",
+        "subtitle": "Gérez vos abonnements étudiants actifs",
+        "noSubscriptions": "Aucun abonnement pour le moment",
+        "noSubscriptionsDescription": "Les abonnements étudiants apparaîtront ici une fois que les étudiants s'abonneront à vos cours",
+        "viewAll": "Voir tous les {{count}} abonnements",
+        "activeSubscriptions": "Abonnements Actifs ({{count}})",
+        "viewDetails": "Voir les Détails",
+        "sessionsRemaining": "sessions restantes",
+        "status": {
+          "active": "Actif",
+          "expired": "Expiré",
+          "cancelled": "Annulé"
+        }
+      },
+      "subscription": {
+        "learning": "Apprend",
+        "details": {
+          "title": "Détails de l'Abonnement",
+          "studentInfo": "Informations de l'Étudiant",
+          "subscriptionInfo": "Informations de l'Abonnement",
+          "sessionsProgress": "Progression des Sessions",
+          "validity": "Période de Validité",
+          "subscriptionId": "ID de l'Abonnement",
+          "totalSessions": "Total des Sessions",
+          "sessionDuration": "Durée de Session",
+          "totalPaid": "Total Payé",
+          "startDate": "Date de Début",
+          "endDate": "Date de Fin",
+          "sessionsRemaining": "{{count}} sessions restantes",
+          "allSessionsUsed": "Toutes les sessions ont été utilisées"
+        },
+        "contactStudent": "Contacter l'Étudiant"
+    },
+    "seeMyProfile": "Voir mon profil",
+    "agenda": {
+      "pending": "En attente",
+      "upcoming": "À venir",
+      "completed": "Terminé",
+      "cancelled": "Annulé",
+      "noBookings": "Aucune réservation dans cette catégorie",
+      "trialLesson": "Cours d'Essai",
+      "subscriptionLesson": "Cours d'Abonnement",
+      "studentNotes": "Notes de l'Étudiant",
+      "tutorNotes": "Notes du Tuteur",
+      "confirmTrial": "Confirmer l'Essai",
+      "completeLesson": "Terminer la Leçon",
+      "trialConfirmed": "Cours d'essai confirmé avec succès",
+      "subscriptionCompleted": "Leçon terminée avec succès",
+      "statusPending": "En attente",
+      "statusConfirmed": "Confirmé",
+      "statusCompleted": "Terminé",
+      "statusCancelled": "Annulé",
+      "createBooking": "Créer une Réservation",
+      "selectSubscription": "Sélectionner un Abonnement",
+      "noActiveSubscriptions": "Aucun abonnement actif trouvé",
+      "dateAndTime": "Date et Heure",
+      "duration": "Durée",
+      "minutes": "minutes",
+      "oneHourThirty": "1h30",
+      "endTime": "Heure de Fin",
+      "notes": "Notes",
+      "notesPlaceholder": "Ajouter des notes pour cette leçon...",
+      "documents": "Documents de Leçon",
+      "selectDocuments": "Sélectionner Documents",
+      "selectImages": "Sélectionner Images",
+      "selectedDocuments": "Documents Sélectionnés",
+      "uploadingDocuments": "Téléchargement des documents",
+      "sessionsRemaining": "sessions restantes",
+      "bookingCreated": "Réservation d'abonnement créée avec succès !"
+    }
   },
   "tutorProfile": {
     "title": "Profil du Tuteur",
@@ -492,6 +590,13 @@
       "loadFailed": "Impossible de charger les abonnements. Veuillez réessayer.",
       "notFound": "Abonnement introuvable.",
       "invalidLanguage": "Langue sélectionnée invalide"
+    },
+    "documents": {
+      "pickFailed": "Échec de la sélection des documents. Veuillez réessayer.",
+      "uploadFailed": "Échec du téléchargement des documents. Veuillez réessayer."
+    },
+    "review": {
+      "replyFailed": "Échec de la soumission de la réponse. Veuillez réessayer."
     },
     "auth": {
       "notLoggedIn": "Veuillez vous connecter pour continuer"

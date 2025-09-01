@@ -79,6 +79,7 @@ export const getStudentSubscriptionsWithDetails = async (filters?: SubscriptionF
       .from('student_subscriptions')
       .select(`
         *,
+        student:profiles!student_id(*),
         tutor:profiles!tutor_id(*),
         language:languages!language_id(*),
         plan:subscription_plans!plan_id(*)
@@ -139,6 +140,7 @@ export const getStudentSubscriptionByIdWithDetails = async (id: string): Promise
       .from('student_subscriptions')
       .select(`
         *,
+        student:profiles!student_id(*),
         tutor:profiles!tutor_id(*),
         language:languages!language_id(*),
         plan:subscription_plans!plan_id(*)
@@ -252,6 +254,7 @@ export const getActiveSubscriptionsForTutor = async (tutorId: string): Promise<A
       .from('student_subscriptions')
       .select(`
         *,
+        student:profiles!student_id(*),
         tutor:profiles!tutor_id(*),
         language:languages!language_id(*),
         plan:subscription_plans!plan_id(*)

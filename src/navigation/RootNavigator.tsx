@@ -36,9 +36,12 @@ import TrialBookingConfirmationScreen from '../screens/app/TrialBookingConfirmat
 import SubscriptionBookingScreen from '../screens/app/SubscriptionBookingScreen';
 import SubscriptionBookingConfirmationScreen from '../screens/app/SubscriptionBookingConfirmationScreen';
 import StudentSubscriptionDetailsScreen from '../screens/app/StudentSubscriptionDetailsScreen';
+import TutorStudentSubscriptionDetailsScreen from '../screens/tutor/StudentSubscriptionDetailsScreen';
+import TutorSubscriptionsScreen from '../screens/tutor/SubscriptionsScreen';
 import TutorHomeScreen from '../screens/tutor/HomeScreen';
 import TutorMessagesScreen from '../screens/tutor/MessagesScreen';
 import TutorScheduleScreen from '../screens/tutor/ScheduleScreen';
+import TutorAgendaScreen from '../screens/tutor/AgendaScreen';
 import EarningsScreen from '../screens/tutor/EarningsScreen';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ProfileMenu from '../components/ProfileMenu';
@@ -282,7 +285,7 @@ const TutorTabs: React.FC = () => {
       />
       <Tab.Screen
         name="Schedule"
-        component={TutorScheduleScreen}
+        component={TutorAgendaScreen}
         options={{
           title: t('tutor.schedule'),
           tabBarIcon: ({ color, size }) => (
@@ -675,6 +678,20 @@ const AppStackNavigator: React.FC = () => {
       <AppStack.Screen
         name="StudentSubscriptionDetails"
         component={StudentSubscriptionDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="TutorStudentSubscriptionDetails"
+        component={TutorStudentSubscriptionDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <AppStack.Screen
+        name="TutorSubscriptions"
+        component={TutorSubscriptionsScreen}
         options={{
           headerShown: false,
         }}

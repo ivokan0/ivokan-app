@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +13,11 @@ import { ReviewWithProfiles } from '../types/database';
 
 interface ReviewCardProps {
   review: ReviewWithProfiles;
+  onReply?: (review: ReviewWithProfiles) => void;
+  showReplyButton?: boolean;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ review, onReply, showReplyButton = false }) => {
   const theme = useTheme();
   const { t } = useTranslation();
 
@@ -122,6 +125,23 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
           </Text>
         </View>
       )}
+
+      {/* Reply Button */}
+      {showReplyButton && !review.reply && onReply && (
+        <TouchableOpacity
+          style={[styles.replyButton, { borderColor: theme.colors.primary }]}
+          onPress={() => onReply(review)}
+        >
+          <MaterialCommunityIcons
+            name="reply"
+            size={16}
+            color={theme.colors.primary}
+          />
+          <Text style={[styles.replyButtonText, { color: theme.colors.primary }]}>
+            {t('tutor.reviews.reply')}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -209,6 +229,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Baloo2_400Regular',
     lineHeight: 20,
+  },
+  replyButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderRadius: 16,
+    marginTop: 12,
+    alignSelf: 'flex-start',
+  },
+  replyButtonText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_500Medium',
+    marginLeft: 6,
   },
 });
 

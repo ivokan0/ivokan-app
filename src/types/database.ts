@@ -142,6 +142,7 @@ export interface ReviewWithProfiles extends Review {
 }
 
 export interface StudentSubscriptionWithDetails extends StudentSubscription {
+  student: Profile;
   tutor: Profile;
   language: Language;
   plan: SubscriptionPlan;
@@ -465,6 +466,10 @@ export interface UpdateTrialBookingData {
   tutor_notes?: string;
 }
 
+export interface TrialBookingWithDetails extends TrialBooking {
+  student?: Profile;
+}
+
 export interface AvailableTrialSlot {
   date_actual: string;
   available_slots: { 
@@ -516,4 +521,46 @@ export interface CreateEarningData {
   gross_amount: number;
   net_amount: number;
   status?: 'pending' | 'gained' | 'refunded';
+}
+
+// Subscription Booking types
+export interface SubscriptionBooking extends BaseEntityWithUpdate {
+  student_id: string;
+  tutor_id: string;
+  student_subscriptions_id: string;
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  status: 'confirmed' | 'completed' | 'cancelled';
+  student_timezone: string;
+  tutor_timezone: string;
+  student_notes?: string;
+  tutor_notes?: string;
+  lesson_documents_urls?: string[];
+  cancelled_at?: string;
+}
+
+export interface CreateSubscriptionBookingData {
+  student_id: string;
+  tutor_id: string;
+  student_subscriptions_id: string;
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  student_timezone: string;
+  tutor_timezone: string;
+  student_notes?: string;
+  lesson_documents_urls?: string[];
+}
+
+export interface UpdateSubscriptionBookingData {
+  status?: 'confirmed' | 'completed' | 'cancelled';
+  student_notes?: string;
+  tutor_notes?: string;
+}
+
+export interface SubscriptionBookingWithDetails extends SubscriptionBooking {
+  student?: Profile;
+  tutor?: Profile;
+  subscription?: StudentSubscriptionWithDetails;
 }
