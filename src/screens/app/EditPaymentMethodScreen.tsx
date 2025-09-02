@@ -248,6 +248,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 24,
   },
   form: {
     borderRadius: 12,

@@ -1,18 +1,20 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import { TrialBooking } from '../types/database';
+import { Language } from '../types/database';
+import { UnifiedBooking } from '../utils/bookingUtils';
 
 interface BookingCardProps {
-  booking: TrialBooking;
+  booking: UnifiedBooking;
   tutorName?: string;
   tutorAvatar?: string | null;
+  language?: Language;
 }
 
-const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvatar }) => {
+const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvatar, language }) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const [countdown, setCountdown] = useState<string>('');
@@ -102,6 +104,28 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvat
     }
   };
 
+  const getLessonTypeText = () => {
+    if (booking.isTrial) {
+      return t('booking.trialLesson');
+    } else {
+      return t('booking.subscriptionLesson');
+    }
+  };
+
+  const getDurationText = () => {
+    if (booking.duration_minutes) {
+      const hours = Math.floor(booking.duration_minutes / 60);
+      const minutes = booking.duration_minutes % 60;
+      
+      if (hours > 0) {
+        return minutes > 0 ? `${hours}h${minutes}min` : `${hours}h`;
+      } else {
+        return `${minutes}min`;
+      }
+    }
+    return '';
+  };
+
   const { weekday, date, time } = formatDateTime();
 
   return (
@@ -121,14 +145,21 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvat
             <Text style={[styles.tutorName, { color: theme.colors.onSurface }]}>
               {tutorName || t('common.unknown')}
             </Text>
-            <Text style={[styles.lessonType, { color: theme.colors.onSurfaceVariant }]}>
-              {t('booking.trialLesson')}
-              {booking.language_id && (
+            <View style={styles.lessonInfo}>
+              <Text style={[styles.lessonType, { color: theme.colors.onSurfaceVariant }]}>
+                {getLessonTypeText()}
+              </Text>
+              {language && (
                 <Text style={[styles.languageText, { color: theme.colors.primary }]}>
-                  {' • '}{booking.language_id.charAt(0).toUpperCase() + booking.language_id.slice(1)}
+                  {' • '}{language.name}
                 </Text>
               )}
-            </Text>
+              {getDurationText() && (
+                <Text style={[styles.durationText, { color: theme.colors.onSurfaceVariant }]}>
+                  {' • '}{getDurationText()}
+                </Text>
+              )}
+            </View>
           </View>
         </View>
         
@@ -182,6 +213,59 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvat
             <Text style={[styles.countdownText, { color: theme.colors.primary }]}>
               {countdown}
             </Text>
+          </View>
+        )}
+
+        {/* Notes Section */}
+        {(booking.student_notes || booking.tutor_notes) && (
+          <View style={styles.notesContainer}>
+            <MaterialCommunityIcons
+              name="note-text"
+              size={18}
+              color={theme.colors.primary}
+            />
+            <View style={styles.notesContent}>
+              {booking.student_notes && (
+                <Text style={[styles.noteText, { color: theme.colors.onSurface }]}>
+                  <Text style={styles.noteLabel}>{t('booking.studentNotes')}: </Text>
+                  {booking.student_notes}
+                </Text>
+              )}
+              {booking.tutor_notes && (
+                <Text style={[styles.noteText, { color: theme.colors.onSurface }]}>
+                  <Text style={styles.noteLabel}>{t('booking.tutorNotes')}: </Text>
+                  {booking.tutor_notes}
+                </Text>
+              )}
+            </View>
+          </View>
+        )}
+
+        {/* Documents Section */}
+        {booking.lesson_documents_urls && booking.lesson_documents_urls.length > 0 && (
+          <View style={styles.documentsContainer}>
+            <MaterialCommunityIcons
+              name="file-document"
+              size={18}
+              color={theme.colors.primary}
+            />
+            <View style={styles.documentsContent}>
+              <Text style={[styles.documentsTitle, { color: theme.colors.onSurface }]}>
+                {t('booking.documents')} ({booking.lesson_documents_urls.length})
+              </Text>
+              {booking.lesson_documents_urls.map((docUrl, index) => (
+                <TouchableOpacity key={index} style={styles.documentItem}>
+                  <MaterialCommunityIcons
+                    name="file-pdf-box"
+                    size={16}
+                    color={theme.colors.primary}
+                  />
+                  <Text style={[styles.documentText, { color: theme.colors.primary }]}>
+                    {t('booking.document')} {index + 1}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         )}
       </View>
@@ -247,6 +331,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Baloo2_600SemiBold',
   },
+  durationText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  lessonInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   statusContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -297,6 +390,51 @@ const styles = StyleSheet.create({
   countdownText: {
     fontSize: 14,
     fontFamily: 'Baloo2_600SemiBold',
+  },
+  notesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+  },
+  notesContent: {
+    flex: 1,
+  },
+  noteText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  noteLabel: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_600SemiBold',
+  },
+  documentsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingTop: 4,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+  },
+  documentsContent: {
+    flex: 1,
+  },
+  documentsTitle: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_600SemiBold',
+    marginBottom: 4,
+  },
+  documentItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 4,
+  },
+  documentText: {
+    fontSize: 14,
+    fontFamily: 'Baloo2_400Regular',
   },
 });
 

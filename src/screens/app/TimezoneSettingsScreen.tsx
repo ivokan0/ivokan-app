@@ -655,9 +655,7 @@ const TimezoneSettingsScreen: React.FC = () => {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
-        <Text style={[styles.title, { color: theme.colors.onSurface }]}>
-          {t('settings.timezone.selectTimezone')}
-        </Text>
+
 
         <Text style={[styles.label, { color: theme.colors.onSurfaceVariant }]}>
           {t('settings.timezone.current')}: {profile?.timezone || systemTimezone}
@@ -709,7 +707,8 @@ const TimezoneSettingsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    padding: 16 
+    padding: 16,
+    paddingTop: 24
   },
   content: { 
     padding: 16, 

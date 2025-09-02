@@ -119,7 +119,7 @@ const SearchScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, paddingTop: 24 },
   listContent: { paddingVertical: 8 },
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 64 },
   emptyText: { fontSize: 16, fontFamily: 'Baloo2_400Regular' },

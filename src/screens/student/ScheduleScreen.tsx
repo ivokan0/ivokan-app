@@ -3,19 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import BookingCard from '../../components/BookingCard';
 import ScheduleScreenSkeleton from '../../components/ui/ScheduleScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getTutorProfile } from '../../services/profiles';
 import { getStudentTrialBookings } from '../../services/trialBookings';
-import { TrialBooking, Profile } from '../../types/database';
+import { getStudentSubscriptionBookings } from '../../services/subscriptionBookings';
+import { getStudentSubscriptionByIdWithDetails } from '../../services/studentSubscriptions';
+import { TrialBooking, SubscriptionBooking, Profile, Language } from '../../types/database';
+import { 
+  UnifiedBooking, 
+  convertTrialBookingToUnified, 
+  convertSubscriptionBookingToUnified,
+  calculateDurationMinutes 
+} from '../../utils/bookingUtils';
 
 type TabType = 'upcoming' | 'completed' | 'cancelled';
 
-interface BookingWithTutor extends TrialBooking {
+interface BookingWithTutor extends UnifiedBooking {
   tutorName?: string;
   tutorAvatar?: string | null;
+  language?: Language;
 }
 
 const ScheduleScreen: React.FC = () => {
@@ -38,34 +48,76 @@ const ScheduleScreen: React.FC = () => {
 
     try {
       setLoading(true);
-      const { data: bookingsData, error } = await getStudentTrialBookings(profile.user_id, profile.user_id);
       
-      if (error) {
-        console.error('Error loading bookings:', error);
-        Alert.alert(t('errors.booking.title'), error.message);
+      // Load trial bookings
+      const { data: trialBookingsData, error: trialError } = await getStudentTrialBookings(profile.user_id, profile.user_id);
+      if (trialError) {
+        console.error('Error loading trial bookings:', trialError);
+        Alert.alert(t('errors.booking.title'), trialError.message);
         return;
       }
 
-      if (bookingsData) {
-        // Load tutor profiles for each booking
-        const bookingsWithTutors = await Promise.all(
-          bookingsData.map(async (booking) => {
-            try {
-              const { data: tutorProfile } = await getTutorProfile(booking.tutor_id);
-              return {
-                ...booking,
-                tutorName: tutorProfile ? `${tutorProfile.first_name || ''} ${tutorProfile.last_name || ''}`.trim() : undefined,
-                tutorAvatar: tutorProfile?.avatar_url,
-              };
-            } catch (error) {
-              console.error('Error loading tutor profile:', error);
-              return booking;
-            }
-          })
-        );
-
-        setBookings(bookingsWithTutors);
+      // Load subscription bookings
+      const { data: subscriptionBookingsData, error: subscriptionError } = await getStudentSubscriptionBookings(profile.user_id, profile.user_id);
+      if (subscriptionError) {
+        console.error('Error loading subscription bookings:', subscriptionError);
+        Alert.alert(t('errors.booking.title'), subscriptionError.message);
+        return;
       }
+
+      const allBookings: BookingWithTutor[] = [];
+
+      // Process trial bookings
+      if (trialBookingsData) {
+        for (const trialBooking of trialBookingsData) {
+          try {
+            const { data: tutorProfile } = await getTutorProfile(trialBooking.tutor_id);
+            const durationMinutes = calculateDurationMinutes(trialBooking.start_time, trialBooking.end_time);
+            
+            const unifiedBooking = convertTrialBookingToUnified(trialBooking, durationMinutes);
+            
+            allBookings.push({
+              ...unifiedBooking,
+              tutorName: tutorProfile ? `${tutorProfile.first_name || ''} ${tutorProfile.last_name || ''}`.trim() : undefined,
+              tutorAvatar: tutorProfile?.avatar_url,
+              language: trialBooking.language_id ? { id: trialBooking.language_id, name: trialBooking.language_id, code: trialBooking.language_id, created_at: new Date().toISOString() } : undefined,
+            });
+          } catch (error) {
+            console.error('Error loading tutor profile for trial booking:', error);
+          }
+        }
+      }
+
+      // Process subscription bookings
+      if (subscriptionBookingsData) {
+        for (const subscriptionBooking of subscriptionBookingsData) {
+          try {
+            const { data: tutorProfile } = await getTutorProfile(subscriptionBooking.tutor_id);
+            const { data: subscriptionDetails } = await getStudentSubscriptionByIdWithDetails(subscriptionBooking.student_subscriptions_id);
+            const durationMinutes = calculateDurationMinutes(subscriptionBooking.start_time, subscriptionBooking.end_time);
+            
+            const unifiedBooking = convertSubscriptionBookingToUnified(subscriptionBooking, durationMinutes);
+            
+            allBookings.push({
+              ...unifiedBooking,
+              tutorName: tutorProfile ? `${tutorProfile.first_name || ''} ${tutorProfile.last_name || ''}`.trim() : undefined,
+              tutorAvatar: tutorProfile?.avatar_url,
+              language: subscriptionDetails?.language,
+            });
+          } catch (error) {
+            console.error('Error loading subscription details:', error);
+          }
+        }
+      }
+
+      // Sort all bookings by date and time
+      allBookings.sort((a, b) => {
+        const dateA = new Date(`${a.booking_date}T${a.start_time}`);
+        const dateB = new Date(`${b.booking_date}T${b.start_time}`);
+        return dateA.getTime() - dateB.getTime();
+      });
+
+      setBookings(allBookings);
     } catch (error) {
       console.error('Error loading bookings:', error);
       Alert.alert(t('errors.booking.title'), t('errors.booking.loadFailed'));
@@ -105,6 +157,7 @@ const ScheduleScreen: React.FC = () => {
       booking={item}
       tutorName={item.tutorName}
       tutorAvatar={item.tutorAvatar}
+      language={item.language}
     />
   );
 
@@ -125,12 +178,7 @@ const ScheduleScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.onBackground }]}>
-          {t('student.schedule')}
-        </Text>
-      </View>
+
 
       {/* Tabs */}
       <View style={styles.tabsContainer}>
@@ -190,21 +238,13 @@ const ScheduleScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: { 
     flex: 1,
+    paddingTop: 24,
   },
-  header: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  title: { 
-    fontSize: 24, 
-    fontWeight: '600', 
-    fontFamily: 'Baloo2_600SemiBold',
-  },
+
   tabsContainer: {
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
+    paddingTop: 16,
   },
   tabsContent: {
     paddingHorizontal: 16,

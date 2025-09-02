@@ -663,6 +663,7 @@
     "trialLessonTitle": "Réserver un cours d'essai",
     "withTutor": "avec",
     "trialLesson": "Cours d'essai",
+    "subscriptionLesson": "Cours d'abonnement",
     "selectTrialLesson": "Sélectionner un cours d'essai",
     "selectLanguage": "Sélectionner une langue",
     "language": "Langue",
@@ -706,6 +707,10 @@
       "hours": "Dans {{hours}}h {{minutes}}min",
       "minutes": "Dans {{minutes}} min"
     },
+    "studentNotes": "Notes de l'étudiant",
+    "tutorNotes": "Notes du tuteur",
+    "documents": "Documents",
+    "document": "Document",
     "empty": {
       "upcoming": "Aucun cours à venir",
       "completed": "Aucun cours terminé",

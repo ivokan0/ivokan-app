@@ -404,6 +404,7 @@ const StudentSubscriptionDetailsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
   header: {
     flexDirection: 'row',

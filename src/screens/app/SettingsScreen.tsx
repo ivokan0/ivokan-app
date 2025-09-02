@@ -18,7 +18,7 @@ const SettingsScreen: React.FC = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.title, { color: theme.colors.onSurface }]}>{t('settings.title')}</Text>
+
       <Text style={[styles.subtitle, { color: theme.colors.onSurfaceVariant }]}>{t('settings.soon')}</Text>
       <View style={{ height: 24 }} />
       <Text style={[styles.label, { color: theme.colors.onSurface }]}>{t('settings.language.label')}</Text>
@@ -66,7 +66,8 @@ const SettingsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    padding: 16 
+    padding: 16,
+    paddingTop: 24
   },
   title: { 
     fontSize: 18, 

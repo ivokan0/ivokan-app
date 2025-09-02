@@ -64,6 +64,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
 });
 

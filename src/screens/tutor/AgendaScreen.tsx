@@ -150,34 +150,34 @@ const TutorAgendaScreen: React.FC = () => {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {/* Tab Navigation */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tabContainer}>
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab.key}
-            style={[
-              styles.tab,
-              activeTab === tab.key && { backgroundColor: theme.colors.primaryContainer }
-            ]}
-            onPress={() => setActiveTab(tab.key)}
-          >
-            <MaterialCommunityIcons
-              name={tab.icon as any}
-              size={20}
-              color={activeTab === tab.key ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant}
-            />
-            <Text
+      <View style={styles.tabsContainer}>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tabsContent}
+        >
+          {tabs.map((tab) => (
+            <TouchableOpacity
+              key={tab.key}
               style={[
-                styles.tabText,
-                {
-                  color: activeTab === tab.key ? theme.colors.onPrimaryContainer : theme.colors.onSurfaceVariant
-                }
+                styles.tab,
+                activeTab === tab.key && [styles.activeTab, { borderBottomColor: theme.colors.primary }]
               ]}
+              onPress={() => setActiveTab(tab.key)}
             >
-              {tab.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+              <Text
+                style={[
+                  styles.tabText,
+                  { color: activeTab === tab.key ? theme.colors.primary : theme.colors.onSurfaceVariant },
+                  activeTab === tab.key && styles.activeTabText
+                ]}
+              >
+                {tab.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
       {/* Create Booking Button */}
       <View style={styles.createBookingContainer}>
@@ -242,30 +242,38 @@ const TutorAgendaScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
   loader: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  tabContainer: {
+  tabsContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  tabsContent: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
   },
   tab: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
     marginRight: 8,
-    borderRadius: 20,
-    minWidth: 100,
-    justifyContent: 'center',
+  },
+  activeTab: {
+    borderBottomWidth: 2,
   },
   tabText: {
-    marginLeft: 4,
-    fontSize: 14,
-    fontFamily: 'Baloo2_500Medium',
+    fontSize: 16,
+    fontFamily: 'Baloo2_400Regular',
+  },
+  activeTabText: {
+    fontFamily: 'Baloo2_600SemiBold',
   },
   bookingsContainer: {
     flex: 1,

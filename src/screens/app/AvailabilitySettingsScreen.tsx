@@ -258,9 +258,7 @@ const AvailabilitySettingsScreen: React.FC = () => {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <ScrollView style={styles.scrollView}>
         <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
-        <Text style={[styles.title, { color: theme.colors.onSurface, fontFamily: 'Baloo2_600SemiBold' }]}>
-          {t('settings.availability.title')}
-        </Text>
+
 
         {/* Minimum Time Notice */}
         <View style={styles.section}>
@@ -504,6 +502,7 @@ const AvailabilitySettingsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
   scrollView: {
     flex: 1,

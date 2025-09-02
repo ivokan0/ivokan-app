@@ -63,9 +63,7 @@ const CurrencySettingsScreen: React.FC = () => {
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <View style={[styles.content, { backgroundColor: theme.colors.surface }]}>
-        <Text style={[styles.title, { color: theme.colors.onSurface }]}>
-          {t('settings.currency.selectCurrency')}
-        </Text>
+
         
         <View style={styles.currencyList}>
           {currencies.map((currencyOption, index) => (
@@ -85,6 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 24,
   },
   content: {
     padding: 16,

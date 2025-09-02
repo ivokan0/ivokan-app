@@ -181,28 +181,7 @@ const SubscriptionBookingScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={[styles.headerButton, { backgroundColor: theme.colors.surfaceVariant }]}
-        >
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={24}
-            color={theme.colors.onSurfaceVariant}
-          />
-        </TouchableOpacity>
-        
-        <View style={styles.headerContent}>
-          <Text style={[styles.headerTitle, { color: theme.colors.onSurface }]}>
-            {t('subscription.title')}
-          </Text>
-          <Text style={[styles.headerSubtitle, { color: theme.colors.onSurfaceVariant }]}>
-            {t('subscription.for')} {tutorName} - {formatLanguageName(languageCode)}
-          </Text>
-        </View>
-      </View>
+
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Description */}
@@ -278,34 +257,9 @@ const SubscriptionBookingScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
-  },
-  headerButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerContent: {
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontFamily: 'Baloo2_600SemiBold',
-    fontWeight: '600',
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
-    marginTop: 2,
-  },
+
   content: {
     flex: 1,
   },

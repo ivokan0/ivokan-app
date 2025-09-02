@@ -110,22 +110,7 @@ const WithdrawalScreen: React.FC = () => {
       }
       showsVerticalScrollIndicator={false}
     >
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.colors.surface }]}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <MaterialCommunityIcons 
-            name="arrow-left" 
-            size={24} 
-            color={theme.colors.onSurface} 
-          />
-        </TouchableOpacity>
-        <Text style={[styles.headerTitle, { color: theme.colors.onSurface }]}>
-          {t('tutor.requestWithdrawal')}
-        </Text>
-      </View>
+
 
       {/* Amount Input */}
       <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
@@ -274,26 +259,9 @@ const getPaymentMethodIcon = (paymentType: string): string => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  backButton: {
-    padding: 8,
-    marginRight: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    fontFamily: 'Baloo2_600SemiBold',
-  },
+
   section: {
     margin: 16,
     padding: 20,
