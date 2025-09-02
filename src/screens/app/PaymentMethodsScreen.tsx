@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useTheme, Divider } from 'react-native-paper';
 
+import PaymentMethodsScreenSkeleton from '../../components/ui/PaymentMethodsScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { paymentMethodsService, PaymentMethod } from '../../services/paymentMethods';
 
@@ -184,6 +185,11 @@ const PaymentMethodsScreen: React.FC = () => {
     </View>
   );
 
+  // Show skeleton while loading
+  if (loading) {
+    return <PaymentMethodsScreenSkeleton />;
+  }
+
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
       {/* Header with Add Button */}
@@ -208,13 +214,7 @@ const PaymentMethodsScreen: React.FC = () => {
 
       {/* Payment Methods List */}
       <View style={[styles.section, { backgroundColor: theme.colors.surface }]}>
-        {loading ? (
-          <View style={styles.loadingContainer}>
-            <Text style={[styles.loadingText, { color: theme.colors.onSurfaceVariant }]}>
-              {t('common.loading')}
-            </Text>
-          </View>
-        ) : paymentMethods.length === 0 ? (
+        {paymentMethods.length === 0 ? (
           <View style={styles.emptyContainer}>
             <MaterialCommunityIcons
               name="credit-card-off"

@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import TutorEarningsBalance from '../../components/TutorEarningsBalance';
 import WithdrawalHistory from '../../components/WithdrawalHistory';
+import EarningsScreenSkeleton from '../../components/ui/EarningsScreenSkeleton';
 import { useEarnings } from '../../hooks/useEarnings';
 import { useWithdrawals } from '../../hooks/useWithdrawals';
 
@@ -21,6 +22,11 @@ const EarningsScreen: React.FC = () => {
   const handleWithdrawPress = () => {
     navigation.navigate('Withdrawal' as never);
   };
+
+  // Show skeleton while loading
+  if (loading || withdrawalsLoading) {
+    return <EarningsScreenSkeleton />;
+  }
 
   return (
     <ScrollView 

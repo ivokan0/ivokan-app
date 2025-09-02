@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Fla
 import { useTheme } from 'react-native-paper';
 
 import BookingCard from '../../components/BookingCard';
+import ScheduleScreenSkeleton from '../../components/ui/ScheduleScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getTutorProfile } from '../../services/profiles';
 import { getStudentTrialBookings } from '../../services/trialBookings';
@@ -116,6 +117,11 @@ const ScheduleScreen: React.FC = () => {
       </Text>
     </View>
   );
+
+  // Show skeleton while loading
+  if (loading) {
+    return <ScheduleScreenSkeleton />;
+  }
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>

@@ -4,6 +4,7 @@ import { useTheme } from 'react-native-paper';
 
 import TutorEarningsBalance from '../../components/TutorEarningsBalance';
 import TutorStatsSection from '../../components/TutorStatsSection';
+import TutorHomeScreenSkeleton from '../../components/ui/TutorHomeScreenSkeleton';
 import { useEarnings } from '../../hooks/useEarnings';
 
 const TutorHomeScreen: React.FC = () => {
@@ -13,6 +14,11 @@ const TutorHomeScreen: React.FC = () => {
   const onRefresh = async () => {
     await refresh();
   };
+
+  // Show skeleton while loading
+  if (loadingEarnings) {
+    return <TutorHomeScreenSkeleton />;
+  }
   
   return (
     <ScrollView 

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useTheme, Button } from 'react-native-paper';
 
+import StudentSubscriptionDetailsScreenSkeleton from '../../components/ui/StudentSubscriptionDetailsScreenSkeleton';
 import { useCurrency } from '../../hooks/useCurrency';
 import { getStudentSubscriptionByIdWithDetails } from '../../services/studentSubscriptions';
 import { StudentSubscriptionWithDetails } from '../../types/database';
@@ -137,16 +138,9 @@ const StudentSubscriptionDetailsScreen: React.FC = () => {
     }
   };
 
+  // Show skeleton while loading
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <View style={styles.loadingContainer}>
-          <Text style={[styles.loadingText, { color: theme.colors.onSurface }]}>
-            {t('common.loading')}...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return <StudentSubscriptionDetailsScreenSkeleton />;
   }
 
   if (!subscription) {

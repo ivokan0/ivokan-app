@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
+import TutorSubscriptionsScreenSkeleton from '../../components/ui/TutorSubscriptionsScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getActiveSubscriptionsForTutor } from '../../services/studentSubscriptions';
 import { StudentSubscriptionWithDetails } from '../../types/database';
@@ -92,17 +93,9 @@ const TutorSubscriptionsScreen: React.FC = () => {
     }
   };
 
+  // Show skeleton while loading
   if (loading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-          <Text style={[styles.loadingText, { color: theme.colors.onSurfaceVariant }]}>
-            {t('common.loading')}
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return <TutorSubscriptionsScreenSkeleton />;
   }
 
   if (error) {

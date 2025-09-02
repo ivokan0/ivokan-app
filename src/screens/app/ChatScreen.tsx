@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
+import ChatScreenSkeleton from '../../components/ui/ChatScreenSkeleton';
 import StudentChatScreen from '../../components/StudentChatScreen';
 import { useAuth } from '../../hooks/useAuth';
 import { getConversation } from '../../services/messaging';
@@ -46,12 +47,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     navigation.goBack();
   };
 
+  // Show skeleton while loading
   if (loading || !conversation) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        {/* Loading state handled by ChatScreenComponent */}
-      </View>
-    );
+    return <ChatScreenSkeleton />;
   }
 
   return (

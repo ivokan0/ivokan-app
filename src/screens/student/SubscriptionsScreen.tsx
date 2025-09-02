@@ -14,6 +14,7 @@ import {
 import { useTheme } from 'react-native-paper';
 
 import StudentSubscriptionCard from '../../components/StudentSubscriptionCard';
+import SubscriptionsScreenSkeleton from '../../components/ui/SubscriptionsScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getStudentSubscriptionsWithDetails } from '../../services/studentSubscriptions';
 import { StudentSubscriptionWithDetails } from '../../types/database';
@@ -152,14 +153,9 @@ const SubscriptionsScreen: React.FC = () => {
     <StudentSubscriptionCard subscription={item} />
   );
 
+  // Show skeleton while loading
   if (isLoading) {
-    return (
-      <View style={[styles.container, styles.centerContent, { backgroundColor: theme.colors.background }]}>
-        <Text style={[styles.loadingText, { color: theme.colors.onSurface }]}>
-          {t('common.loading')}...
-        </Text>
-      </View>
-    );
+    return <SubscriptionsScreenSkeleton />;
   }
 
   const filteredSubscriptions = getFilteredSubscriptions();

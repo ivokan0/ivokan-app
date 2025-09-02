@@ -6,6 +6,7 @@ import { useTheme } from 'react-native-paper';
 
 import ConversationList from '../../components/ConversationList';
 import StudentChatScreen from '../../components/StudentChatScreen';
+import MessagesScreenSkeleton from '../../components/ui/MessagesScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getConversations, subscribeToConversations, subscribeToMessagesForConversations, getConversation } from '../../services/messaging';
 import { ConversationWithProfiles } from '../../types/database';
@@ -124,6 +125,11 @@ const MessagesScreen: React.FC = () => {
           onBack={handleBackToConversations}
         />
     );
+  }
+
+  // Show skeleton while loading
+  if (loading) {
+    return <MessagesScreenSkeleton />;
   }
 
   return (

@@ -7,6 +7,7 @@ import { useTheme } from 'react-native-paper';
 import LanguageFilter from '../../components/LanguageFilter';
 import TutorCard from '../../components/TutorCard';
 import TutorFilter from '../../components/TutorFilter';
+import SearchScreenSkeleton from '../../components/ui/SearchScreenSkeleton';
 import { getTutorsWithFilters, getAvailableTaughtLanguages, getAvailableCountries } from '../../services/tutors';
 import { TutorWithStats } from '../../types/database';
 
@@ -69,6 +70,11 @@ const SearchScreen: React.FC = () => {
     loadAvailableCountries();
     loadTutors();
   }, [loadAvailableLanguages, loadAvailableCountries, loadTutors]);
+
+  // Show skeleton while loading
+  if (loading) {
+    return <SearchScreenSkeleton />;
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }] }>

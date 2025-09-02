@@ -5,6 +5,7 @@ import { useTheme } from 'react-native-paper';
 
 import ConversationList from '../../components/ConversationList';
 import TutorChatScreen from '../../components/TutorChatScreen';
+import TutorMessagesScreenSkeleton from '../../components/ui/TutorMessagesScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getConversations, subscribeToConversations, subscribeToMessagesForConversations } from '../../services/messaging';
 import { ConversationWithProfiles } from '../../types/database';
@@ -92,6 +93,11 @@ const TutorMessagesScreen: React.FC = () => {
         onBack={handleBackToConversations}
       />
     );
+  }
+
+  // Show skeleton while loading
+  if (loading) {
+    return <TutorMessagesScreenSkeleton />;
   }
 
   return (

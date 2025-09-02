@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 
+import WithdrawalScreenSkeleton from '../../components/ui/WithdrawalScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { useWithdrawals } from '../../hooks/useWithdrawals';
 import { useCurrency } from '../../hooks/useCurrency';
@@ -96,16 +97,9 @@ const WithdrawalScreen: React.FC = () => {
     await refresh();
   };
 
+  // Show skeleton while loading
   if (loading) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <View style={styles.loadingContainer}>
-          <Text style={[styles.loadingText, { color: theme.colors.onSurface }]}>
-            Loading...
-          </Text>
-        </View>
-      </View>
-    );
+    return <WithdrawalScreenSkeleton />;
   }
 
   return (

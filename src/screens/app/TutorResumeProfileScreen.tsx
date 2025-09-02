@@ -1,11 +1,14 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { useTheme, Divider } from 'react-native-paper';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import TutorResumeProfileScreenSkeleton from '../../components/ui/TutorResumeProfileScreenSkeleton';
+import { useAuth } from '../../hooks/useAuth';
 import { getTutorResume } from '../../services/resume';
-import { TutorResume } from '../../types/database';
+import { ResumeItem } from '../../types/database';
 
 type TutorResumeProfileRoute = RouteProp<
   { TutorResumeProfile: { tutorId: string; tutorName?: string } },
@@ -18,11 +21,12 @@ const TutorResumeProfileScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute<TutorResumeProfileRoute>();
   const { tutorId } = route.params as any;
+  const { user } = useAuth();
 
-  const [items, setItems] = React.useState<TutorResume[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
+  const [items, setItems] = useState<ResumeItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const load = async () => {
       if (!tutorId) return;
       setLoading(true);
@@ -44,7 +48,7 @@ const TutorResumeProfileScreen: React.FC = () => {
     data,
   }: {
     title: string;
-    data: TutorResume[];
+    data: ResumeItem[];
   }) => {
     if (!data || data.length === 0) return null;
     return (
@@ -78,16 +82,15 @@ const TutorResumeProfileScreen: React.FC = () => {
   const education = items.filter((i) => i.type === 'education');
   const certs = items.filter((i) => i.type === 'certification');
 
+  // Show skeleton while loading
+  if (loading) {
+    return <TutorResumeProfileScreenSkeleton />;
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <ScrollView style={styles.scroll}>
-        {loading ? (
-          <View style={styles.loadingContainer}>
-            <Text style={[styles.loadingText, { color: theme.colors.onSurfaceVariant }]}>
-              {t('common.loading')}
-            </Text>
-          </View>
-        ) : items.length === 0 ? (
+        {items.length === 0 ? (
           <View style={styles.loadingContainer}>
             <Text style={[styles.emptyText, { color: theme.colors.onSurfaceVariant }]}>
               {t('resume.noItems')}

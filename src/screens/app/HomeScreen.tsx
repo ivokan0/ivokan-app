@@ -3,11 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
 import AppButton from '../../components/ui/AppButton';
+import HomeScreenSkeleton from '../../components/ui/HomeScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 
 const HomeScreen: React.FC = () => {
-  const { signOut, user } = useAuth();
+  const { signOut, user, isLoaded } = useAuth();
   const { t } = useTranslation();
+
+  // Show skeleton while auth is loading
+  if (!isLoaded || !user) {
+    return <HomeScreenSkeleton />;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{t('home.title')}</Text>

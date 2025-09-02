@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useTheme, Divider, FAB } from 'react-native-paper';
 
+import MyResumeScreenSkeleton from '../../components/ui/MyResumeScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getTutorResume, deleteTutorResume } from '../../services/resume';
 import { TutorResume } from '../../types/database';
@@ -198,16 +199,15 @@ const MyResumeScreen: React.FC = () => {
     </View>
   );
 
+  // Show skeleton while loading
+  if (isLoading) {
+    return <MyResumeScreenSkeleton />;
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <ScrollView style={styles.scrollView}>
-        {isLoading ? (
-          <View style={styles.loadingContainer}>
-            <Text style={[styles.loadingText, { color: theme.colors.onSurfaceVariant }]}>
-              {t('common.loading')}
-            </Text>
-          </View>
-        ) : resumeItems.length === 0 ? (
+        {resumeItems.length === 0 ? (
           <EmptyState />
         ) : (
           <View style={styles.content}>

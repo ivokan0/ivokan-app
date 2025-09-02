@@ -6,13 +6,19 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { useTheme, Divider } from 'react-native-paper';
 
 import Avatar from '../../components/ui/Avatar';
+import ProfileScreenSkeleton from '../../components/ui/ProfileScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 
 const ProfileScreen: React.FC = () => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isLoaded } = useAuth();
   const navigation = useNavigation();
+
+  // Show skeleton while auth is loading
+  if (!isLoaded || !user || !profile) {
+    return <ProfileScreenSkeleton />;
+  }
 
   const navigateToEditProfile = () => {
     // @ts-ignore

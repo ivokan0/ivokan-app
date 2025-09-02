@@ -6,6 +6,7 @@ import { useTheme, Button, ActivityIndicator } from 'react-native-paper';
 
 import CreateSubscriptionBookingModal from '../../components/CreateSubscriptionBookingModal';
 import TutorBookingCard from '../../components/TutorBookingCard';
+import AgendaScreenSkeleton from '../../components/ui/AgendaScreenSkeleton';
 import { useAuth } from '../../hooks/useAuth';
 import { getTutorSubscriptionBookingsWithDetails } from '../../services/subscriptionBookings';
 import { completeSubscriptionBooking } from '../../services/subscriptionBookings';
@@ -138,12 +139,9 @@ const TutorAgendaScreen: React.FC = () => {
 
 
 
+  // Show skeleton while loading
   if (loading) {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-        <ActivityIndicator size="large" style={styles.loader} />
-      </View>
-    );
+    return <AgendaScreenSkeleton />;
   }
 
   const filteredBookings = getFilteredBookings();
