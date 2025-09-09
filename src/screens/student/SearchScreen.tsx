@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, FlatList, RefreshControl, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import LanguageFilter from '../../components/LanguageFilter';
@@ -17,6 +17,9 @@ const SearchScreen: React.FC = () => {
   const navigation = useNavigation();
   const [tutors, setTutors] = useState<TutorWithStats[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const [hasMoreTutors, setHasMoreTutors] = useState<boolean>(true);
+  const [currentOffset, setCurrentOffset] = useState<number>(0);
   const [availableLanguages, setAvailableLanguages] = useState<string[]>([]);
   const [availableCountries, setAvailableCountries] = useState<string[]>([]);
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
@@ -42,17 +45,35 @@ const SearchScreen: React.FC = () => {
     setAvailableCountries(data || []);
   }, []);
 
-  const loadTutors = useCallback(async (language?: string | null, filters?: typeof tutorFilters) => {
-    setLoading(true);
+  const loadTutors = useCallback(async (language?: string | null, filters?: typeof tutorFilters, offset: number = 0, append: boolean = false) => {
+    if (append) {
+      setLoadingMore(true);
+    } else {
+      setLoading(true);
+      setCurrentOffset(0);
+    }
+
     const { data } = await getTutorsWithFilters({
       language: language || undefined,
       superTutor: filters?.superTutor || undefined,
       countryOfBirth: filters?.countryOfBirth || undefined,
       spokenLanguages: filters?.spokenLanguages && filters.spokenLanguages.length > 0 ? filters.spokenLanguages : undefined,
-      sortBy: filters?.sortBy || undefined
+      sortBy: filters?.sortBy || undefined,
+      limit: 20,
+      offset: offset
     });
-    setTutors(data || []);
-    setLoading(false);
+
+    if (append) {
+      setTutors(prevTutors => [...prevTutors, ...(data || [])]);
+      setLoadingMore(false);
+    } else {
+      setTutors(data || []);
+      setLoading(false);
+    }
+
+    // Check if there are more tutors to load
+    setHasMoreTutors((data || []).length === 20);
+    setCurrentOffset(offset + (data || []).length);
   }, []);
 
   const handleLanguageSelect = useCallback((language: string | null) => {
@@ -64,6 +85,12 @@ const SearchScreen: React.FC = () => {
     setTutorFilters(filters);
     loadTutors(selectedLanguage, filters);
   }, [loadTutors, selectedLanguage]);
+
+  const loadMoreTutors = useCallback(() => {
+    if (!loadingMore && hasMoreTutors) {
+      loadTutors(selectedLanguage, tutorFilters, currentOffset, true);
+    }
+  }, [loadTutors, selectedLanguage, tutorFilters, currentOffset, loadingMore, hasMoreTutors]);
 
   useEffect(() => {
     loadAvailableLanguages();
@@ -77,7 +104,7 @@ const SearchScreen: React.FC = () => {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }] }>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <LanguageFilter
         availableLanguages={availableLanguages}
         selectedLanguage={selectedLanguage}
@@ -113,6 +140,21 @@ const SearchScreen: React.FC = () => {
             </View>
           ) : null
         }
+        ListFooterComponent={
+          hasMoreTutors && tutors.length > 0 ? (
+            <View style={styles.loadMoreContainer}>
+              <TouchableOpacity 
+                style={[styles.loadMoreButton, { backgroundColor: theme.colors.primary }]}
+                onPress={loadMoreTutors}
+                disabled={loadingMore}
+              >
+                <Text style={[styles.loadMoreText, { color: theme.colors.onPrimary }]}>
+                  {loadingMore ? t('search.loadingMore') || 'Chargement...' : t('search.loadMore') || 'Charger plus'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : null
+        }
       />
     </View>
   );
@@ -123,6 +165,21 @@ const styles = StyleSheet.create({
   listContent: { paddingVertical: 8 },
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingTop: 64 },
   emptyText: { fontSize: 16, fontFamily: 'Baloo2_400Regular' },
+  loadMoreContainer: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  loadMoreButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    minWidth: 120,
+    alignItems: 'center',
+  },
+  loadMoreText: {
+    fontSize: 16,
+    fontFamily: 'Baloo2_600SemiBold',
+  },
 });
 
 export default SearchScreen;

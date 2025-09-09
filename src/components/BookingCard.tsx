@@ -241,33 +241,6 @@ const BookingCard: React.FC<BookingCardProps> = ({ booking, tutorName, tutorAvat
           </View>
         )}
 
-        {/* Documents Section */}
-        {booking.lesson_documents_urls && booking.lesson_documents_urls.length > 0 && (
-          <View style={styles.documentsContainer}>
-            <MaterialCommunityIcons
-              name="file-document"
-              size={18}
-              color={theme.colors.primary}
-            />
-            <View style={styles.documentsContent}>
-              <Text style={[styles.documentsTitle, { color: theme.colors.onSurface }]}>
-                {t('booking.documents')} ({booking.lesson_documents_urls.length})
-              </Text>
-              {booking.lesson_documents_urls.map((docUrl, index) => (
-                <TouchableOpacity key={index} style={styles.documentItem}>
-                  <MaterialCommunityIcons
-                    name="file-pdf-box"
-                    size={16}
-                    color={theme.colors.primary}
-                  />
-                  <Text style={[styles.documentText, { color: theme.colors.primary }]}>
-                    {t('booking.document')} {index + 1}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-        )}
       </View>
     </View>
   );
@@ -409,32 +382,6 @@ const styles = StyleSheet.create({
   noteLabel: {
     fontSize: 14,
     fontFamily: 'Baloo2_600SemiBold',
-  },
-  documentsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingTop: 4,
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-  },
-  documentsContent: {
-    flex: 1,
-  },
-  documentsTitle: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_600SemiBold',
-    marginBottom: 4,
-  },
-  documentItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 4,
-  },
-  documentText: {
-    fontSize: 14,
-    fontFamily: 'Baloo2_400Regular',
   },
 });
 

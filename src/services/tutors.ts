@@ -48,6 +48,8 @@ export const getTutorsWithFilters = async (filters?: {
   countryOfBirth?: string;
   spokenLanguages?: string[];
   sortBy?: 'reviews' | 'rating' | null;
+  limit?: number;
+  offset?: number;
 }): Promise<ApiResponse<TutorWithStats[]>> => {
   try {
     let query = supabase
@@ -84,6 +86,14 @@ export const getTutorsWithFilters = async (filters?: {
     } else if (filters?.sortBy === 'reviews') {
       // We'll sort by tutor_stats.total_reviews in client-side since we can't easily order by joined table
       orderBy = 'created_at';
+    }
+
+    // Apply pagination
+    if (filters?.limit) {
+      query = query.limit(filters.limit);
+    }
+    if (filters?.offset) {
+      query = query.range(filters.offset, filters.offset + (filters.limit || 20) - 1);
     }
 
     const { data, error } = await query.order(orderBy, { ascending });
