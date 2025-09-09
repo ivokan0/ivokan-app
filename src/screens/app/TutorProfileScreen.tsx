@@ -17,7 +17,7 @@ import { useTheme } from 'react-native-paper';
 
 import ReviewCard from '../../components/ReviewCard';
 import BottomActionBar from '../../components/ui/BottomActionBar';
-import YouTubePlayer from '../../components/ui/YouTubePlayer';
+import { CustomVideoPlayer } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { getOrCreateConversation } from '../../services/messaging';
 import { getReviewsWithProfiles } from '../../services/reviews';
@@ -238,7 +238,7 @@ const TutorProfileScreen: React.FC<TutorProfileScreenProps> = ({ route }) => {
         {/* Presentation Video */}
         {tutor.presentation_video_url && (
           <View style={styles.videoContainer}>
-            <YouTubePlayer videoUrl={tutor.presentation_video_url} height={220} />
+            <CustomVideoPlayer videoUrl={tutor.presentation_video_url} height={220} />
           </View>
         )}
 

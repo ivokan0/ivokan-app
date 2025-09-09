@@ -6,6 +6,7 @@ export { default as CountryPickerModal } from './CountryPickerModal';
 export { default as StatsCard } from './StatsCard';
 export { default as UnreadBadge } from './UnreadBadge';
 export { default as YouTubePlayer } from './YouTubePlayer';
+export { default as CustomVideoPlayer } from './CustomVideoPlayer';
 export { default as Skeleton } from './Skeleton';
 export { default as HomeScreenSkeleton } from './HomeScreenSkeleton';
 export { default as TutorHomeScreenSkeleton } from './TutorHomeScreenSkeleton';

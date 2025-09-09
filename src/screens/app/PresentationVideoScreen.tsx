@@ -5,7 +5,7 @@ import { useTheme } from 'react-native-paper';
 
 import AppButton from '../../components/ui/AppButton';
 import AppTextInput from '../../components/ui/AppTextInput';
-import YouTubePlayer from '../../components/ui/YouTubePlayer';
+import { CustomVideoPlayer } from '../../components/ui';
 import { useAuth } from '../../hooks/useAuth';
 import { useProfile } from '../../hooks/useProfile';
 
@@ -110,7 +110,7 @@ const PresentationVideoScreen: React.FC = () => {
               <Text style={[styles.videoLabel, { color: theme.colors.onSurface }]}>
                 {t('profile.presentationVideoPreview')}
               </Text>
-              <YouTubePlayer videoUrl={videoUrl} height={220} />
+              <CustomVideoPlayer videoUrl={videoUrl} height={220} />
             </View>
           )}
 
